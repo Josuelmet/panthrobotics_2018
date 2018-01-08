@@ -1,0 +1,25 @@
+TODO:
+	PROGRAMMING:
+		Train rookies
+		Hook up gyros in program
+		Research color sensing
+		Get vision working
+		Motion Magic research for CAN Talons
+		Check for how input is sent and used in Java by randomized field components (switch and scale)
+		Start planning autonomous modes
+		Start compiling a book of mistakes, bugs, and their respective fixes
+		
+		
+	WIRING:
+		Confer with subteams about designs
+		Decide space needed for wiring and board (no stacking boards)
+		Inventory electrical components, check for toolbags and wire crate
+		Rewire Titan
+		Analyze previous electrical boards
+		Test gyros and check RoboRIOs
+		Check pneumatics systems
+		
+
+Monday (1/8):
+	Installing software
+	Starting programming drive train
