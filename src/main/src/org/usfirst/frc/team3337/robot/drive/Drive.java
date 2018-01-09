@@ -5,4 +5,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public abstract class Drive {
 
+	//Initializing Variables
+	double speedL, speedR;
+	
+	public Drive();
+	
 }
