@@ -24,4 +24,4 @@ Monday (1/8):
 	Installing software on Josue's computer
 	Download CANTalon libraries on Josue's computer
 	Download GRIP on Josue's computer
-	Get RoboRIO working?
+	Start programming drivetrain
