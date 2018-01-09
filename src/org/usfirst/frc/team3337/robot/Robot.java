@@ -22,8 +22,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //This is our class name. It is a child of IterativeRobot.
 public class Robot extends IterativeRobot {
 	
+	//Initializing variables
+	Joystick stick1, stick2;
+	TalonSRX leftFront, leftMiddle, leftBack, rightFront, RightMiddle, RightBack;
 	
-
+	
+	
     //IterativeRobot has functions like the one below, hence the @Override.
 	@Override
 	public void robotInit()
