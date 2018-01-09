@@ -9,5 +9,5 @@ public class RobotMap
 	 * and static (accessible without a RobotMap instance.
 	 */
 	
-	public final static int myInt = 0;
+	public final static int PIGEON_IMU_CAN_DEVICE_ID = 2; //Pigeon Gyro CAN ID.
 }

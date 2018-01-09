@@ -22,8 +22,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //This is our class name. It is a child of IterativeRobot.
 public class Robot extends IterativeRobot {
 	
-	//Initializing variables
+	//Declaring Variables
 	Joystick stick1, stick2;
+	PigeonIMU pigeonGyro;
 	TalonSRX leftFront, leftMiddle, leftBack, rightFront, RightMiddle, RightBack;
 	
 	
@@ -32,7 +33,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit()
 	{
-		
+		pigeonGyro = new PigeonIMU(RobotMap.PIGEON_IMU_CAN_DEVICE_ID);
 	}
 
 
@@ -45,7 +46,12 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic()
 	{
-		
+		/*
+		 * How to read from the Pigeon Gyro:
+		 * double [] yawPitchRoll = new double[3];
+		 * pigeonGyro.getYawPitchRoll(yawPitchRoll);
+		 * double yaw = yawPitchRoll[0];
+		 */
 	}
 
 
