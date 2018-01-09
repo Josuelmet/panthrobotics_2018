@@ -21,7 +21,8 @@ TODO:
 		
 
 Monday (1/8):
-	Installing software on Josue's computer
-	Download CANTalon libraries on Josue's computer
-	Download GRIP on Josue's computer
-	Start programming drivetrain
+	Installing software on Josue's computer; Drive Station and Mason's computers seem ready.
+	Download CANTalon libraries on Josue and Mason's computers
+	Download GRIP on Josue's computer.
+	Mason started programming drivetrain.
+	Josue added Pigeon gyro stuff.
