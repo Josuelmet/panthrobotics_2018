@@ -1,8 +1,13 @@
 //We're in the package below
 package org.usfirst.frc.team3337.robot;
 
-//We're using these other program files for their functions.
-import com.ctre.phoenix. motorcontrol.can.TalonSRX;
+//We're using these other program files below for their functions.
+
+//Cross the Road Electronics packages
+import com.ctre.phoenix. motorcontrol.can.TalonSRX; //CANTalon class
+import com.ctre.phoenix.sensors.PigeonIMU; //Pigeon gyro class
+
+//WPI Library packages
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
