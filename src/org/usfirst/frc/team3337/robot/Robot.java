@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import edu.wpi.cscore.UsbCamera;
+
 import org.usfirst.frc.team3337.controls.ToggleButton;
 import org.usfirst.frc.team3337.helper.Actuators;
 import org.usfirst.frc.team3337.helper.TCS34725ColorSensor;
@@ -20,8 +22,7 @@ import org.usfirst.frc.team3337.robot.drive.*;
 
 import com.kauailabs.nav6.frc.IMU;
 
-import edu.wpi.cscore.UsbCamera;
-
+import com.ctre.phoenix. motorcontrol.can.TalonSRX;
 
 //This is our class name. It is a child of IterativeRobot.
 public class Robot extends IterativeRobot {
