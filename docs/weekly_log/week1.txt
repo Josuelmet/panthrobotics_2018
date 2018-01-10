@@ -1,13 +1,13 @@
 TODO:
 	PROGRAMMING:
 		Train rookies
-		Hook up gyros in program
+		Hook up other gyro in programming?
 		Research color sensing
 		Get vision working
-		Motion Magic research for CAN Talons
+		Program GTA 5 drive
+		(once driving is established)Motion Magic research for CAN Talons
 		(later)Check for how input is sent and used in Java by randomized field components (switch and scale)
 		(later)Start planning autonomous modes
-		(done)Start compiling a book of mistakes, bugs, and their respective fixes
 		
 		
 	WIRING:
@@ -26,3 +26,4 @@ Monday (1/8):
 	Download GRIP on Josue's computer.
 	Mason started programming drivetrain.
 	Josue added Pigeon gyro stuff.
+	
