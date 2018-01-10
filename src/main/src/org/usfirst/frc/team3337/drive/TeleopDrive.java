@@ -10,7 +10,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public abstract class TeleopDrive
 {
-	double previousSpeed, previousTime, kAcceleration, kDeceleration;
+
+	Joystick stick1;
+
+	double previousSpeed, previousTime, kAcceleration, kDeceleration;	
+	
+	
+	void init()
+	{
+		
+	}
 	
 	public void periodic()
 	{
