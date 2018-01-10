@@ -1,4 +1,4 @@
-package main.src.org.usfirst.frc.team3337.robot.drive;
+package main.src.org.usfirst.frc.team3337.drive;
 
 //FIRST Library Packages
 import org.usfirst.frc.team3337.controls.Controls;
@@ -11,6 +11,6 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class TeleopDrive {
+public abstract class TeleopDrive {
 
 }
