@@ -12,6 +12,7 @@ The Build Settings have the superfolder of src/ as the folder where the packages
 
 Error: "Joystick cannot be resolved to a type" (TalonSRX as well)
 
+Error: "The import com.ctre cannot be resolved"
 
 Common Solutions:
 

@@ -4,7 +4,7 @@ package org.usfirst.frc.team3337.robot;
 //We're using these other program files below for their functions.
 
 //Cross the Road Electronics packages
-import com.ctre.phoenix. motorcontrol.can.TalonSRX; //CANTalon class
+import com.ctre.phoenix.motorcontrol.can.TalonSRX; //CANTalon class
 import com.ctre.phoenix.sensors.PigeonIMU; //Pigeon gyro class
 
 //WPI Library packages
