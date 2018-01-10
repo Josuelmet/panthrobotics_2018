@@ -9,6 +9,8 @@ public abstract class Drive {
 	//Initializing Variables
 	double speedL, speedR;
 	
-	public Drive(TalonSRX leftFront, TalonSRX leftMiddle, TalonSRX leftBack. TalonSRX rightFront, TalonSRX rightMiddle, TalonSRX rightBack, double robotLimit);
+	public Drive(TalonSRX leftFront, TalonSRX leftMiddle, TalonSRX leftBack, TalonSRX rightFront, TalonSRX rightMiddle, TalonSRX rightBack, double robotLimit) {
+		
+	}
 	
 }
