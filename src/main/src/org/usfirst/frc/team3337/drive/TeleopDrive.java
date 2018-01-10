@@ -10,6 +10,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public abstract class TeleopDrive
 {
-
+	double previousSpeed, previousTime, kAcceleration, kDeceleration;
+	
+	public void periodic()
+	{
+		
+	}
 	
 }
