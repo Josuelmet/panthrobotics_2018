@@ -24,7 +24,7 @@ public abstract class TeleopDrive
 	{
 		
 		accelerationTrigger = stick1.getRawAxis(3);
-		brakeTrigger = stick1.getRawAxis(3);
+		brakeTrigger = stick1.getRawAxis(2);
 		
 		if (accelerationTrigger > 0)
 		{
