@@ -1,5 +1,6 @@
 package main.src.org.usfirst.frc.team3337.drive;
 
+import org.usfirst.frc.team3337.robot.RobotMap;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.Joystick;
 
@@ -13,8 +14,8 @@ public class TeleopGameDrive extends TeleopDrive
 	
 	void triggers()
 	{
-		forwardTrigger = stick1.getRawAxis(3);
-		reverseTrigger = stick1.getRawAxis(2);
+		forwardTrigger = stick1.getRawAxis(RobotMap.FORWARD_TRIGGER_AXIS);
+		reverseTrigger = stick1.getRawAxis(RobotMap.REVERSE_TRIGGER_AXIS);
 	}
 		
 	
