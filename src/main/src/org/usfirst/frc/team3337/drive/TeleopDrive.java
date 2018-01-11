@@ -12,8 +12,7 @@ public abstract class TeleopDrive
 {
 
 	Joystick stick1;
-
-	double previousSpeed, previousTime, kAcceleration, kDeceleration;	
+	double previousSpeed, previousTime, kAcceleration, kDeceleration, accelerationTrigger, brakeTrigger;	
 	
 	
 	void init()
@@ -23,6 +22,9 @@ public abstract class TeleopDrive
 	
 	public void periodic()
 	{
+		
+		accelerationTrigger = stick1.getRawAxis(3);
+		brakeTrigger = stick1.getRawAxis(3);
 		
 	}
 	
