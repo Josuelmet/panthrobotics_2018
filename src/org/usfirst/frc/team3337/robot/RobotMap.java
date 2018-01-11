@@ -10,4 +10,7 @@ public class RobotMap
 	 */
 	
 	public final static int PIGEON_IMU_CAN_DEVICE_ID = 2; //Pigeon Gyro CAN ID.
+	
+	public final static int FORWARD_TRIGGER_AXIS = 3;
+	public final static int REVERSE_TRIGGER_AXIS = 2;
 }
