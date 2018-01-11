@@ -16,8 +16,7 @@ public abstract class TeleopDrive extends Drive
 {
 
 	Joystick stick1;
-
-	double previousSpeed, previousTime, kAcceleration, kDeceleration;	
+	double previousSpeed, previousTime, kAcceleration, kDeceleration, accelerationTrigger, brakeTrigger;	
 	
 	public TeleopDrive
 		(TalonSRX _leftFront, TalonSRX _leftBack, TalonSRX _rightFront, TalonSRX _rightBack,
@@ -34,8 +33,15 @@ public abstract class TeleopDrive extends Drive
 	
 	public void periodic()
 	{
-		
 		updateVelocities();
+		
+		accelerationTrigger = stick1.getRawAxis(3);
+		brakeTrigger = stick1.getRawAxis(3);
+		
+		if (accelerationTrigger > 0)
+		{
+			
+		}
 	}
 	
 }
