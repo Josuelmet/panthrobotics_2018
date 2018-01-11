@@ -11,7 +11,7 @@ public abstract class Drive
 {
 
 	//Declaring Variables
-	double speedL, speedR;
+	double vL, vR, velocity;
 	TalonSRX leftFront, leftBack, rightFront, rightBack, swerveWheel;
 	
 	//Constructor
@@ -23,14 +23,20 @@ public abstract class Drive
 		rightFront = _rightFront;
 		rightBack = _rightBack;
 		swerveWheel = _swerveWheel;
-		zeroSpeeds();
+		zeroVelocities();
 		
 	}
 	
-	void zeroSpeeds()
+	void zeroVelocities()
 	{
-		speedL = 0;
-		speedR = 0;
+		velocity = 0;
+		updateVelocities();
+	}
+	
+	void updateVelocities()
+	{
+		vL = velocity;
+		vR = velocity;
 	}
 	
 }
