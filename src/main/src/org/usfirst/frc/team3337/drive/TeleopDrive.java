@@ -53,17 +53,17 @@ public abstract class TeleopDrive extends Drive
 		forwardTrigger = deadZone(stick1.getRawAxis(3));
 		reverseTrigger = deadZone(stick1.getRawAxis(3));
 		
-		if (forwardTrigger > 0 & reverseTrigger == 0)
+		if (forwardTrigger > 0 & reverseTrigger == 0) //acceleration
 		{
 			velocity = previousVelocity + forwardTrigger * forwardAcceleration * deltaT;
 		}
 		
-		else if (reverseTrigger > 0 & forwardTrigger == 0)
+		else if (reverseTrigger > 0 & forwardTrigger == 0) //deceleration
 		{
 			velocity = previousVelocity - reverseTrigger * reverseAcceleration * deltaT;
 		}
 		
-		else
+		else //same velocity
 		{
 			velocity = previousVelocity;
 		}
