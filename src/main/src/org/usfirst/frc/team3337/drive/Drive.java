@@ -4,7 +4,10 @@ package main.src.org.usfirst.frc.team3337.drive;
 //We're using these other program files below for their functions.
 import org.usfirst.frc.team3337.robot.RobotMap;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.ControlMode;
 
 //This is our class name. Abstract means that it cannot be instantiated.
 public abstract class Drive
@@ -37,6 +40,11 @@ public abstract class Drive
 	{
 		vL = velocity;
 		vR = velocity;
+		
+		leftFront.set(ControlMode.PercentOutput, vL);
+		leftBack.set(ControlMode.PercentOutput, vL);
+		rightFront.set(ControlMode.PercentOutput, vR);
+		rightBack.set(ControlMode.PercentOutput, vR);
 	}
 	
 }
