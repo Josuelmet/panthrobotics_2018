@@ -27,7 +27,9 @@ Monday (1/8):
 	Mason started programming drivetrain.
 	Josue added Pigeon gyro stuff.
 	
-Tuesday (1/10):
+Wednesday (1/10):
 	Worked on Drive code
 	Finished organizing most of electrical inventory.
+	
+Friday (1/12):
 	

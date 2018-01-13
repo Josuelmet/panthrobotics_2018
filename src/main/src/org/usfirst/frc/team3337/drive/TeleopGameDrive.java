@@ -12,10 +12,10 @@ public class TeleopGameDrive extends TeleopDrive
 		super(_leftFront, _leftBack, _rightFront, _rightBack, _swerveWheel, _driveStick);
 	}
 	
-	void triggers()
+	void updateControls()
 	{
-		forwardTrigger = stick1.getRawAxis(RobotMap.FORWARD_TRIGGER_AXIS);
-		reverseTrigger = stick1.getRawAxis(RobotMap.REVERSE_TRIGGER_AXIS);
+		forwardTrigger = deadZone(stick1.getRawAxis(RobotMap.FORWARD_TRIGGER_AXIS));
+		reverseTrigger = deadZone(stick1.getRawAxis(RobotMap.REVERSE_TRIGGER_AXIS));
 	}
 		
 	

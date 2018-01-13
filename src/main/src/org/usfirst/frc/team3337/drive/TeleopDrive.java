@@ -35,6 +35,9 @@ public abstract class TeleopDrive extends Drive
 		//TODO: put up acceleration input to dashboard
 	}
 	
+	//This is a function that must be implemented by the child class.
+	abstract void updateControls();
+	
 	//Making function to be called during teleopInit().
 	public void init()
 	{
@@ -52,6 +55,8 @@ public abstract class TeleopDrive extends Drive
 		//TODO: THIS SHOUDL GO IN TELEOPGAMEDRIVE MASON
 		forwardTrigger = deadZone(stick1.getRawAxis(3));
 		reverseTrigger = deadZone(stick1.getRawAxis(3));
+		
+		updateControls();
 		
 		if (forwardTrigger > 0 & reverseTrigger == 0)
 		{
@@ -75,7 +80,7 @@ public abstract class TeleopDrive extends Drive
 		changeTimer.reset(); //Reset timer so that deltaT in next iteration of this loop is accurate.
 	}
 	
-	private double deadZone(double value)
+	double deadZone(double value)
 	{
 		if (value < 0.01)
 			return 0;
