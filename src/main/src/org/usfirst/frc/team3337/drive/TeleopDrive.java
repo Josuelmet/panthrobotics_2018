@@ -38,6 +38,46 @@ public abstract class TeleopDrive extends Drive
 		SmartDashboard.putNumber("a<-", 0.1);
 	}
 	
+	//Arcade Drive?
+	/*private void arcadeDrive(double joyLY, double joyLX)
+	{
+		if (reverse)
+		{
+			speedL -= joyLY;
+			speedR -= joyLY;
+		}
+		else
+		{
+			speedL += joyLY;
+			speedR += joyLY;
+		}
+		speedL = (speedL - joyLX/2) * speedLimit;
+		speedR = (speedR + joyLX/2) * speedLimit;
+		
+		if (!directSpeed)
+			slewRateDrive(speedL, speedR);
+	}*/
+	
+	//Tank Drive?
+	/*
+	private void tankDrive(double leftSpeed, double rightSpeed)
+	{
+		if (reverse)
+        {
+            leftSpeed = -leftSpeed;
+            rightSpeed = -rightSpeed;
+        }
+		
+		if (directSpeed)
+		{
+			speedL = leftSpeed;
+			speedR = rightSpeed;
+		}
+		else
+			slewRateDrive(leftSpeed, rightSpeed);
+	}
+	*/
+	
 	//This is a function that must be implemented by the child class.
 	abstract void updateControls();
 	
