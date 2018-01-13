@@ -32,7 +32,10 @@ public abstract class TeleopDrive extends Drive
 		super(_leftFront, _leftBack, _rightFront, _rightBack, _swerveWheel);
 		stick1 = _driveStick;
 		changeTimer = new Timer();
-		//TODO: put up acceleration input to dashboard
+		
+		//Put up acceleration input to dashboard
+		SmartDashboard.putNumber("a->", 0.1);
+		SmartDashboard.putNumber("a<-", 0.1);
 	}
 	
 	//This is a function that must be implemented by the child class.
@@ -42,17 +45,19 @@ public abstract class TeleopDrive extends Drive
 	public void init()
 	{
 		zeroVelocities();
-		previousVelocity = velocity;
-		//TODO: get acceleration values from dashboard
-		reverseAcceleration = Math.abs(reverseAcceleration); //This makes sure the value is positive.
+		previousVelocity = velocity; //Give previousVelocity a value for the first loop in periodic().
+		
+		//Get values from the SmartDashboard.
+		forwardAcceleration = SmartDashboard.getNumber("a->", 0.1);
+		reverseAcceleration = Math.abs(SmartDashboard.getNumber("a<-", 0.1)); //Make sure value is positive.
 	}
 	
 	//Making function to be called during teleopPeriodic().
 	public void periodic()
 	{
 		double deltaT = changeTimer.get(); //deltaT is the change in time since this function was called.
-
 		updateControls();
+		
 		if (forwardTrigger > 0 & reverseTrigger == 0) //acceleration
 		{
 			velocity = previousVelocity + forwardTrigger * forwardAcceleration * deltaT;
