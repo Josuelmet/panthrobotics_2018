@@ -19,13 +19,17 @@ import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+//3337 packages
+import main.src.org.usfirst.frc.team3337.drive.TeleopGameDrive;
+
 //This is our class name. It is a child of IterativeRobot.
 public class Robot extends IterativeRobot {
 	
 	//Declaring Variables
 	Joystick stick1, stick2;
 	PigeonIMU pigeonGyro;
-	TalonSRX leftFront, leftMiddle, leftBack, rightFront, RightMiddle, RightBack;
+	TalonSRX leftFront, leftBack, rightFront, rightBack, swerveWheel;
+	TeleopGameDrive teleopDrive;
 	
 	
 	
@@ -33,7 +37,16 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit()
 	{
+		//Initialize motors
+		leftFront = new TalonSRX(RobotMap.LEFT_FRONT_TALON_SRX_CAN_DEVICE_ID);
+		leftBack = new TalonSRX(RobotMap.lEFT_BACK_TALON_SRX_CAN_DEVICE_ID);
+		rightFront = new TalonSRX(RobotMap.RIGHT_FRONT_TALON_SRX_CAN_DEVICE_ID);
+		rightBack = new TalonSRX(RobotMap.RIGHT_BACK_TALON_SRX_CAN_DEVICE_ID);
+		swerveWheel = new TalonSRX(RobotMap.SWERVE_WHEEL_CAN_DEVICE_ID);
+		
+		//Give pigeonGyro value.
 		pigeonGyro = new PigeonIMU(RobotMap.PIGEON_IMU_CAN_DEVICE_ID);
+		teleopDrive = new TeleopGameDrive(leftFront, leftBack, rightFront, rightBack, swerveWheel, stick1);
 	}
 
 
@@ -54,11 +67,15 @@ public class Robot extends IterativeRobot {
 		 */
 	}
 
-
+	@Override
+	public void teleopInit()
+	{
+		teleopDrive.init();
+	}
 	@Override
 	public void teleopPeriodic()
 	{
-		
+		teleopDrive.periodic();
 	}
 
 	@Override
