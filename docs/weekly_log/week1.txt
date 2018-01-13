@@ -36,3 +36,7 @@ Friday (1/12):
 	Worked on Drive code
 	Installing software on driver station
 	
+Saturday (1/13):
+	Working on electrical board
+	Reset driver station
+	
