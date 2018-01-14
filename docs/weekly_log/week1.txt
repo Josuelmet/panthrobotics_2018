@@ -39,4 +39,5 @@ Friday (1/12):
 Saturday (1/13):
 	Working on electrical board
 	Reset driver station
+	Found out how data about alliance colors is communicated to robot.
 	
