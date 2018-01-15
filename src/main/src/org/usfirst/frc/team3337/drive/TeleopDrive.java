@@ -21,7 +21,9 @@ public abstract class TeleopDrive extends Drive
 	//Class variables
 	Joystick stick1;
 	Timer changeTimer;
-	double previousVelocity, forwardAcceleration, reverseAcceleration, forwardTrigger, reverseTrigger, reverse;	
+	double previousVelocity, forwardAcceleration, reverseAcceleration, reverse;	
+	double forwardTrigger, reverseTrigger, joyLY, joyLX, joyRY, joyRX;
+	DriveMode driveMode;
 	
 	//Constructor
 	public TeleopDrive
@@ -38,7 +40,8 @@ public abstract class TeleopDrive extends Drive
 		SmartDashboard.putNumber("a<-", 0.1);
 	}
 	
-	private void gtaDrive(double joyLX, double deltaT)
+	//TODO: add steering, swerve
+	private void gtaDrive(double deltaT)
 	{
 		if (forwardTrigger > 0 & reverseTrigger == 0) //acceleration
 		{
@@ -50,51 +53,25 @@ public abstract class TeleopDrive extends Drive
 			velocity = previousVelocity - reverseTrigger * reverseAcceleration * deltaT;
 		}
 		
-		else //same velocity
+		else //constant velocity
 		{
 			velocity = previousVelocity;
 		}
 	}
 	
-	//Arcade Drive?
-	/*private void arcadeDrive(double joyLY, double joyLX)
+	//Arcade Drive
+	private void arcadeDrive()
 	{
-		if (reverse)
-		{
-			speedL -= joyLY;
-			speedR -= joyLY;
-		}
-		else
-		{
-			speedL += joyLY;
-			speedR += joyLY;
-		}
-		speedL = (speedL - joyLX/2) * speedLimit;
-		speedR = (speedR + joyLX/2) * speedLimit;
-		
-		if (!directSpeed)
-			slewRateDrive(speedL, speedR);
-	}*/
-	
-	//Tank Drive?
-	/*
-	private void tankDrive(double leftSpeed, double rightSpeed)
-	{
-		if (reverse)
-        {
-            leftSpeed = -leftSpeed;
-            rightSpeed = -rightSpeed;
-        }
-		
-		if (directSpeed)
-		{
-			speedL = leftSpeed;
-			speedR = rightSpeed;
-		}
-		else
-			slewRateDrive(leftSpeed, rightSpeed);
+		vL = joyLY - joyLX/2;
+		vR = joyLY + joyLX/2;
 	}
-	*/
+	
+	//Tank Drive
+	private void tankDrive()
+	{
+		vL = joyLY;
+		vR = joyRY;
+	}
 	
 	//This is a function that must be implemented by the child class.
 	abstract void updateControls();
@@ -114,7 +91,22 @@ public abstract class TeleopDrive extends Drive
 	public void periodic()
 	{
 		double deltaT = changeTimer.get(); //deltaT is the change in time since this function was called.
-		updateControls();
+		updateControls(); //This gets the values for joystick inputs from the child class.
+		
+		swtich (driveMode)
+		{
+			case GTA:
+				gtaDrive(deltaT);
+				break;
+			
+			case ARCADE:
+				arcadeDrive();
+				break;
+				
+			case TANK:
+				tankDrive();
+				break;
+		}
 		
 		//The end of periodic()
 		updateVelocities(); //Set vL and vR equal to velocity.
