@@ -21,7 +21,7 @@ public abstract class TeleopDrive extends Drive
 	//Class variables
 	Joystick stick1;
 	Timer changeTimer;
-	double previousVelocity, forwardAcceleration, reverseAcceleration, forwardTrigger, reverseTrigger;	
+	double previousVelocity, forwardAcceleration, reverseAcceleration, forwardTrigger, reverseTrigger, reverse;	
 	
 	//Constructor
 	public TeleopDrive
@@ -36,6 +36,24 @@ public abstract class TeleopDrive extends Drive
 		//Put up acceleration input to dashboard
 		SmartDashboard.putNumber("a->", 0.1);
 		SmartDashboard.putNumber("a<-", 0.1);
+	}
+	
+	private void gtaDrive(double joyLX, double deltaT)
+	{
+		if (forwardTrigger > 0 & reverseTrigger == 0) //acceleration
+		{
+			velocity = previousVelocity + forwardTrigger * forwardAcceleration * deltaT;
+		}
+		
+		else if (reverseTrigger > 0 & forwardTrigger == 0) //deceleration
+		{
+			velocity = previousVelocity - reverseTrigger * reverseAcceleration * deltaT;
+		}
+		
+		else //same velocity
+		{
+			velocity = previousVelocity;
+		}
 	}
 	
 	//Arcade Drive?
@@ -97,22 +115,6 @@ public abstract class TeleopDrive extends Drive
 	{
 		double deltaT = changeTimer.get(); //deltaT is the change in time since this function was called.
 		updateControls();
-		
-		if (forwardTrigger > 0 & reverseTrigger == 0) //acceleration
-		{
-			velocity = previousVelocity + forwardTrigger * forwardAcceleration * deltaT;
-		}
-		
-		else if (reverseTrigger > 0 & forwardTrigger == 0) //deceleration
-		{
-			velocity = previousVelocity - reverseTrigger * reverseAcceleration * deltaT;
-		}
-		
-		else //same velocity
-		{
-			velocity = previousVelocity;
-		}
-		
 		
 		//The end of periodic()
 		updateVelocities(); //Set vL and vR equal to velocity.
