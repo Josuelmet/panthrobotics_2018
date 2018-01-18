@@ -93,7 +93,7 @@ public abstract class TeleopDrive extends Drive
 		double deltaT = changeTimer.get(); //deltaT is the change in time since this function was called.
 		updateControls(); //This gets the values for joystick inputs from the child class.
 		
-		swtich (driveMode)
+		/*switch (driveMode)
 		{
 			case GTA:
 				gtaDrive(deltaT);
@@ -106,7 +106,7 @@ public abstract class TeleopDrive extends Drive
 			case TANK:
 				tankDrive();
 				break;
-		}
+		}*/
 		
 		//The end of periodic()
 		updateVelocities(); //Set vL and vR equal to velocity.
