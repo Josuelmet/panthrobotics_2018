@@ -60,6 +60,7 @@ public abstract class TeleopDrive extends Drive
 	}
 	
 	//Arcade Drive
+	//TODO: fix variables to be current
 	private void arcadeDrive()
 	{
 		vL = joyLY - joyLX/2;

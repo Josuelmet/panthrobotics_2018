@@ -4,6 +4,4 @@ public enum DriveMode {
 
 	GTA, ARCADE, TANK;
 	
-	
-	
 }
