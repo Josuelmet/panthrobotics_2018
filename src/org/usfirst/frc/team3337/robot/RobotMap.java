@@ -19,6 +19,5 @@ public class RobotMap
 	
 	public final static int DRIVE_STICK_PORT = 0;
 	
-	public final static int FORWARD_TRIGGER_AXIS = 3;
-	public final static int REVERSE_TRIGGER_AXIS = 2;
+	
 }

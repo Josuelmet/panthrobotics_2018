@@ -22,8 +22,7 @@ public abstract class TeleopDrive extends Drive
 	Joystick stick1;
 	Timer changeTimer;
 	double previousVelocity, forwardAcceleration, reverseAcceleration, reverse;	
-	double forwardTrigger, reverseTrigger, joyLY, joyLX, joyRY, joyRX;
-	DriveMode driveMode;
+	double joyLY, joyLX, joyRY, joyRX;
 	
 	//Constructor
 	public TeleopDrive
