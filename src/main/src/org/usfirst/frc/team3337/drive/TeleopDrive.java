@@ -40,27 +40,8 @@ public abstract class TeleopDrive extends Drive
 		SmartDashboard.putNumber("a<-", 0.1);
 	}
 	
-	//TODO: add steering, swerve
-	private void gtaDrive(double deltaT)
-	{
-		if (forwardTrigger > 0 & reverseTrigger == 0) //acceleration
-		{
-			velocity = previousVelocity + forwardTrigger * forwardAcceleration * deltaT;
-		}
-		
-		else if (reverseTrigger > 0 & forwardTrigger == 0) //deceleration
-		{
-			velocity = previousVelocity - reverseTrigger * reverseAcceleration * deltaT;
-		}
-		
-		else //constant velocity
-		{
-			velocity = previousVelocity;
-		}
-	}
-	
 	//Arcade Drive
-	//TODO: fix variables to be current
+	//TODO: fix variables to be current (joyLX and joyLY)
 	private void arcadeDrive()
 	{
 		vL = joyLY - joyLX/2;
@@ -93,21 +74,6 @@ public abstract class TeleopDrive extends Drive
 	{
 		double deltaT = changeTimer.get(); //deltaT is the change in time since this function was called.
 		updateControls(); //This gets the values for joystick inputs from the child class.
-		
-		/*switch (driveMode)
-		{
-			case GTA:
-				gtaDrive(deltaT);
-				break;
-			
-			case ARCADE:
-				arcadeDrive();
-				break;
-				
-			case TANK:
-				tankDrive();
-				break;
-		}*/
 		
 		//The end of periodic()
 		updateVelocities(); //Set vL and vR equal to velocity.
