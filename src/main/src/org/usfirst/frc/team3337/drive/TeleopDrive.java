@@ -19,7 +19,7 @@ public abstract class TeleopDrive extends Drive
 {
 
 	//Class variables
-	Joystick stick1;
+	Joystick driveController;
 	Timer changeTimer;
 	double previousVelocity, forwardAcceleration, reverseAcceleration, reverse;	
 	double joyLY, joyLX, joyRY, joyRX;
@@ -31,7 +31,7 @@ public abstract class TeleopDrive extends Drive
 	{
 		//Calling Drive's constructor
 		super(_leftFront, _leftBack, _rightFront, _rightBack, _swerveWheel);
-		stick1 = _driveStick;
+		driveController = _driveStick;
 		changeTimer = new Timer();
 		
 		//Put up acceleration input to dashboard
@@ -40,7 +40,7 @@ public abstract class TeleopDrive extends Drive
 	}
 	
 	//Using this to switch between drive modes
-	//TODO: driveSwitchButton = new ToggleButton(new JoystickButton(stick1, driveSwitchPort));
+	//TODO: driveSwitchButton = new ToggleButton(new JoystickButton(driveController, driveSwitchPort));
 	
 	//Arcade Drive
 	//TODO: fix variables to be current (joyLX and joyLY)
