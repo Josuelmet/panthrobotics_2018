@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import main.src.org.usfirst.frc.team3337.robot.drive.ToggleButton;
 import edu.wpi.first.wpilibj.Timer;
 
 //This is the class TeleopDrive. It is a child of Drive. It is abstract.
@@ -28,7 +27,7 @@ public abstract class TeleopDrive extends Drive
 	//Constructor
 	public TeleopDrive
 		(TalonSRX _leftFront, TalonSRX _leftBack, TalonSRX _rightFront, TalonSRX _rightBack,
-		 TalonSRX _swerveWheel, Joystick _driveStick, int driveSwitchPort)
+		 TalonSRX _swerveWheel, Joystick _driveStick)
 	{
 		//Calling Drive's constructor
 		super(_leftFront, _leftBack, _rightFront, _rightBack, _swerveWheel);
