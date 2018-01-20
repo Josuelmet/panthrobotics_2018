@@ -30,6 +30,18 @@ public abstract class Drive
 		
 	}
 	
+	void driveLeft(double leftInput) 
+	{
+		leftFront.set(ControlMode.PercentOutput, leftInput);
+		leftBack.set(ControlMode.PercentOutput, leftInput);
+	}
+	
+	void driveRight(double rightInput) 
+	{
+		rightFront.set(ControlMode.PercentOutput, rightInput);
+		rightBack.set(ControlMode.PercentOutput, rightInput);
+	}
+	
 	void zeroVelocities()
 	{
 		velocity = 0;
