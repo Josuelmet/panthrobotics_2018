@@ -54,8 +54,8 @@ public abstract class TeleopDrive extends Drive
 	//Tank Drive
 	private void tankDrive()
 	{
-		vL = joyLY;
-		vR = joyRY;
+		driveLeft(driveController.getRawAxis(1)*speedLimit*-1);
+		driveRight(driveController.getRawAxis(5)*speedLimit*-1);
 	}
 	
 	//This is a function that must be implemented by the child class.
@@ -72,13 +72,14 @@ public abstract class TeleopDrive extends Drive
 	//Making function to be called during teleopPeriodic().
 	public void periodic()
 	{
-		driveLeft(vL);
-		driveRight(vR);
+
+		
 		
 		double deltaT = changeTimer.get(); //deltaT is the change in time since this function was called.
 		updateControls(); //This gets the values for joystick inputs from the child class.
 		
-		arcadeDrive();
+		//arcadeDrive();
+		tankDrive();
 		
 		//The end of periodic()
 		//updateVelocities(); //Set vL and vR equal to velocity.
