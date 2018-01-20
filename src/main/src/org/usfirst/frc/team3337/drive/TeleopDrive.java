@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 //Cross the Road Electronics packages
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.buttons.Button;
 //WPI Library packages
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.Encoder;
@@ -22,10 +23,12 @@ public abstract class TeleopDrive extends Drive
 
 	//Class variables
 	Joystick driveController;
-	ToggleButton driveSwitchButton;
+	ToggleButton driveSwitchButton, speedDecrease;
 	Timer changeTimer;
 	double previousVelocity, reverse;	
 	double joyLY, joyLX, joyRY, joyRX;
+	
+	public static final double SLOW_SPEED = 0.5;
 	
 	//Constructor
 	public TeleopDrive
@@ -36,12 +39,15 @@ public abstract class TeleopDrive extends Drive
 		super(_leftFront, _leftBack, _rightFront, _rightBack);
 		driveController = _driveStick;
 		changeTimer = new Timer();
-		driveSwitchButton = new ToggleButton(new JoystickButton(driveController, RobotMap.DRIVE_STICK_PORT));
+		driveSwitchButton = new ToggleButton(new JoystickButton(driveController, RobotMap.DRIVE_SWITCH_TOGGLE));
+		speedDecrease = new ToggleButton(new JoystickButton(driveController, RobotMap.SPEED_DECREASE));
 		
 		//Put up acceleration input to dashboard
 		SmartDashboard.putNumber("a->", 0.1);
 		SmartDashboard.putNumber("a<-", 0.1);
 	}
+	
+	
 	
 	//Arcade Drive
 	private void arcadeDrive()
@@ -73,6 +79,12 @@ public abstract class TeleopDrive extends Drive
 	{
 		double deltaT = changeTimer.get(); //deltaT is the change in time since this function was called.
 		updateControls(); //This gets the values for joystick inputs from the child class.
+		
+		if (speedDecrease.get())
+    	{
+    		vL *= SLOW_SPEED;
+    		vR *= SLOW_SPEED;
+    	}
 		
 		//arcadeDrive();
 		tankDrive();

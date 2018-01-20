@@ -19,5 +19,8 @@ public class RobotMap
 	
 	public final static int DRIVE_STICK_PORT = 0;
 	
+	public final static int DRIVE_SWITCH_TOGGLE = 3;
+	
+	public final static int SPEED_DECREASE = 5;
 	
 }
