@@ -26,7 +26,7 @@ public abstract class Drive
 		rightFront = _rightFront;
 		rightBack = _rightBack;
 		swerveWheel = _swerveWheel;
-		zeroVelocities();
+		zeroSpeed();
 		
 	}
 	
@@ -42,7 +42,12 @@ public abstract class Drive
 		rightBack.set(ControlMode.PercentOutput, rightInput);
 	}
 	
-	void zeroVelocities()
+	void zeroSpeed()
+	{
+		driveLeft(0);
+		driveRight(0);
+	}
+/*	void zeroVelocities()
 	{
 		velocity = 0;
 		updateVelocities();
@@ -58,5 +63,5 @@ public abstract class Drive
 		rightFront.set(ControlMode.PercentOutput, vR);
 		rightBack.set(ControlMode.PercentOutput, vR);
 	}
-	
+*/	
 }

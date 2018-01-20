@@ -4,6 +4,7 @@ package main.src.org.usfirst.frc.team3337.drive;
 //Our other classes
 import org.usfirst.frc.team3337.robot.RobotMap;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 //Cross the Road Electronics packages
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
@@ -63,7 +64,7 @@ public abstract class TeleopDrive extends Drive
 	//Making function to be called during teleopInit().
 	public void init()
 	{
-		zeroVelocities();
+		zeroSpeed();
 		previousVelocity = velocity; //Give previousVelocity a value for the first loop in periodic().
 		
 	}
@@ -71,15 +72,20 @@ public abstract class TeleopDrive extends Drive
 	//Making function to be called during teleopPeriodic().
 	public void periodic()
 	{
+		driveLeft(vL);
+		driveRight(vR);
+		
 		double deltaT = changeTimer.get(); //deltaT is the change in time since this function was called.
 		updateControls(); //This gets the values for joystick inputs from the child class.
 		
 		arcadeDrive();
 		
 		//The end of periodic()
-		updateVelocities(); //Set vL and vR equal to velocity.
-		previousVelocity = velocity; //Record current velocity for next iteration of this loop.
+		//updateVelocities(); //Set vL and vR equal to velocity.
+		//previousVelocity = velocity; //Record current velocity for next iteration of this loop.
 		changeTimer.reset(); //Reset timer so that deltaT in next iteration of this loop is accurate.
+		
+		//System.out.println("HELP");
 	}
 	
 	double deadZone(double value)
