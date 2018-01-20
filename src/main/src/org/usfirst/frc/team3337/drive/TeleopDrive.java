@@ -41,10 +41,12 @@ public abstract class TeleopDrive extends Drive
 	}
 	
 	//Using this to switch between drive modes
-	//TODO: driveSwitchButton = new ToggleButton(new JoystickButton(driveController, driveSwitchPort));
+	private void driveSwitch()
+	{
+		
+	}
 	
 	//Arcade Drive
-	//TODO: fix variables to be current (joyLX and joyLY)
 	private void arcadeDrive()
 	{
 		vL = joyLY - joyLX/2;
@@ -72,14 +74,11 @@ public abstract class TeleopDrive extends Drive
 	//Making function to be called during teleopPeriodic().
 	public void periodic()
 	{
-
-		
-		
 		double deltaT = changeTimer.get(); //deltaT is the change in time since this function was called.
 		updateControls(); //This gets the values for joystick inputs from the child class.
 		
-		//arcadeDrive();
-		tankDrive();
+		arcadeDrive();
+		//tankDrive();
 		
 		//The end of periodic()
 		//updateVelocities(); //Set vL and vR equal to velocity.
