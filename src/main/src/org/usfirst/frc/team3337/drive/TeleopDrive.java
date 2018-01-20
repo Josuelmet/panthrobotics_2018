@@ -21,7 +21,7 @@ public abstract class TeleopDrive extends Drive
 	//Class variables
 	Joystick driveController;
 	Timer changeTimer;
-	double previousVelocity, forwardAcceleration, reverseAcceleration, reverse;	
+	double previousVelocity, reverse;	
 	double joyLY, joyLX, joyRY, joyRX;
 	
 	//Constructor
@@ -66,9 +66,6 @@ public abstract class TeleopDrive extends Drive
 		zeroVelocities();
 		previousVelocity = velocity; //Give previousVelocity a value for the first loop in periodic().
 		
-		//Get values from the SmartDashboard.
-		forwardAcceleration = SmartDashboard.getNumber("a->", 0.1);
-		reverseAcceleration = Math.abs(SmartDashboard.getNumber("a<-", 0.1)); //Make sure value is positive.
 	}
 	
 	//Making function to be called during teleopPeriodic().
@@ -76,6 +73,8 @@ public abstract class TeleopDrive extends Drive
 	{
 		double deltaT = changeTimer.get(); //deltaT is the change in time since this function was called.
 		updateControls(); //This gets the values for joystick inputs from the child class.
+		
+		arcadeDrive();
 		
 		//The end of periodic()
 		updateVelocities(); //Set vL and vR equal to velocity.
