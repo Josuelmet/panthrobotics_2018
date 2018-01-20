@@ -15,17 +15,16 @@ public abstract class Drive
 
 	//Declaring Variables
 	double vL, vR, velocity;
-	TalonSRX leftFront, leftBack, rightFront, rightBack, swerveWheel;
+	TalonSRX leftFront, leftBack, rightFront, rightBack;
 	
 	//Constructor
-	public Drive(TalonSRX _leftFront, TalonSRX _leftBack, TalonSRX _rightFront, TalonSRX _rightBack, TalonSRX _swerveWheel)
+	public Drive(TalonSRX _leftFront, TalonSRX _leftBack, TalonSRX _rightFront, TalonSRX _rightBack)
 	{
 		
 		leftFront = _leftFront;
 		leftBack = _leftBack;
 		rightFront = _rightFront;
 		rightBack = _rightBack;
-		swerveWheel = _swerveWheel;
 		zeroSpeed();
 		
 	}

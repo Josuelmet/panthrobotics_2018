@@ -3,6 +3,7 @@ package main.src.org.usfirst.frc.team3337.drive;
 
 //Our other classes
 import org.usfirst.frc.team3337.robot.RobotMap;
+import main.src.org.usfirst.frc.team3337.drive.ToggleButton;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 //Cross the Road Electronics packages
@@ -21,6 +22,7 @@ public abstract class TeleopDrive extends Drive
 
 	//Class variables
 	Joystick driveController;
+	ToggleButton driveSwitchButton;
 	Timer changeTimer;
 	double previousVelocity, reverse;	
 	double joyLY, joyLX, joyRY, joyRX;
@@ -31,19 +33,14 @@ public abstract class TeleopDrive extends Drive
 		 TalonSRX _swerveWheel, Joystick _driveStick)
 	{
 		//Calling Drive's constructor
-		super(_leftFront, _leftBack, _rightFront, _rightBack, _swerveWheel);
+		super(_leftFront, _leftBack, _rightFront, _rightBack);
 		driveController = _driveStick;
 		changeTimer = new Timer();
+		driveSwitchButton = new ToggleButton(new JoystickButton(driveController, RobotMap.DRIVE_STICK_PORT));
 		
 		//Put up acceleration input to dashboard
 		SmartDashboard.putNumber("a->", 0.1);
 		SmartDashboard.putNumber("a<-", 0.1);
-	}
-	
-	//Using this to switch between drive modes
-	private void driveSwitch()
-	{
-		
 	}
 	
 	//Arcade Drive
@@ -77,8 +74,8 @@ public abstract class TeleopDrive extends Drive
 		double deltaT = changeTimer.get(); //deltaT is the change in time since this function was called.
 		updateControls(); //This gets the values for joystick inputs from the child class.
 		
-		arcadeDrive();
-		//tankDrive();
+		//arcadeDrive();
+		tankDrive();
 		
 		//The end of periodic()
 		//updateVelocities(); //Set vL and vR equal to velocity.

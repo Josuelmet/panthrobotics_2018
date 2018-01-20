@@ -13,7 +13,7 @@ public class AutoDrive extends Drive
 	//Constructor for AutoDrive.
 	public AutoDrive(TalonSRX _leftFront, TalonSRX _leftBack, TalonSRX _rightFront, TalonSRX _rightBack, TalonSRX _swerveWheel)
 	{
-		super(_leftFront, _leftBack, _rightFront, _rightBack, _swerveWheel);
+		super(_leftFront, _leftBack, _rightFront, _rightBack);
 	}
 	
 	//Method to be run in autonomousInit() in Robot.java
