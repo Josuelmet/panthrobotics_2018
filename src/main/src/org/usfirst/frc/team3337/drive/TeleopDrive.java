@@ -47,8 +47,6 @@ public abstract class TeleopDrive extends Drive
 		SmartDashboard.putNumber("a<-", 0.1);
 	}
 	
-	
-	
 	//Arcade Drive
 	private void arcadeDrive()
 	{
@@ -61,6 +59,27 @@ public abstract class TeleopDrive extends Drive
 	{
 		driveLeft(driveController.getRawAxis(1)*speedLimit*-1);
 		driveRight(driveController.getRawAxis(5)*speedLimit*-1);
+	}
+	
+	private void checkDrive()
+	{
+		if (driveSwitchButton.get())
+			arcadeDrive();
+		else
+			tankDrive();
+	}
+	
+	private void decreaseSpeed()
+	{
+		if (speedDecrease.get())
+		{
+			vL = vL/2;
+			vR = vR/2;
+		}
+		else
+		{
+			checkDrive();
+		}	
 	}
 	
 	//This is a function that must be implemented by the child class.
@@ -86,8 +105,7 @@ public abstract class TeleopDrive extends Drive
     		vR *= SLOW_SPEED;
     	}
 		
-		//arcadeDrive();
-		tankDrive();
+		decreaseSpeed();
 		
 		//The end of periodic()
 		//updateVelocities(); //Set vL and vR equal to velocity.
