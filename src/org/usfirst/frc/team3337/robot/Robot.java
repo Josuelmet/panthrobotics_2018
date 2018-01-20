@@ -28,7 +28,7 @@ import main.src.org.usfirst.frc.team3337.drive.TeleopGameDrive;
 public class Robot extends IterativeRobot {
 	
 	//Declaring Variables
-	Joystick driveController, stick2;
+	Joystick driveController, auxController;
 	PigeonIMU pigeonGyro;
 	TalonSRX leftFront, leftBack, rightFront, rightBack, swerveWheel;
 	TeleopGameDrive teleopDrive;
