@@ -44,6 +44,9 @@ public class Robot extends IterativeRobot {
 		rightBack = new TalonSRX(RobotMap.RIGHT_BACK_TALON_SRX_CAN_DEVICE_ID);
 		swerveWheel = new TalonSRX(RobotMap.SWERVE_WHEEL_CAN_DEVICE_ID);
 		
+		//Initializing joystick
+		driveController = new Joystick(RobotMap.DRIVE_STICK_PORT);
+		
 		//Give pigeonGyro value.
 		pigeonGyro = new PigeonIMU(RobotMap.PIGEON_IMU_CAN_DEVICE_ID);
 		teleopDrive = new TeleopGameDrive(leftFront, leftBack, rightFront, rightBack, swerveWheel, driveController);
