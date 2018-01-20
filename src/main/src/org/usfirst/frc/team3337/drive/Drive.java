@@ -28,19 +28,23 @@ public abstract class Drive
 		swerveWheel = _swerveWheel;
 		zeroSpeed();
 		
+		
 	}
+	
+	double speedLimit = 0.75;
 	
 	void driveLeft(double leftInput) 
 	{
-		leftFront.set(ControlMode.PercentOutput, leftInput);
-		leftBack.set(ControlMode.PercentOutput, leftInput);
+		leftFront.set(ControlMode.PercentOutput, leftInput*speedLimit);
+		leftBack.set(ControlMode.PercentOutput, leftInput*speedLimit);
 	}
 	
 	void driveRight(double rightInput) 
 	{
-		rightFront.set(ControlMode.PercentOutput, rightInput);
-		rightBack.set(ControlMode.PercentOutput, rightInput);
+		rightFront.set(ControlMode.PercentOutput, -1*rightInput*speedLimit);
+		rightBack.set(ControlMode.PercentOutput, -1*rightInput*speedLimit);
 	}
+	
 	
 	void zeroSpeed()
 	{
