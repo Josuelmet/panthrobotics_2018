@@ -26,7 +26,7 @@ import main.src.org.usfirst.frc.team3337.drive.TeleopGameDrive;
 public class Robot extends IterativeRobot {
 	
 	//Declaring Variables
-	Joystick stick1, stick2;
+	Joystick driveController, stick2;
 	PigeonIMU pigeonGyro;
 	TalonSRX leftFront, leftBack, rightFront, rightBack, swerveWheel;
 	TeleopGameDrive teleopDrive;
@@ -46,7 +46,7 @@ public class Robot extends IterativeRobot {
 		
 		//Give pigeonGyro value.
 		pigeonGyro = new PigeonIMU(RobotMap.PIGEON_IMU_CAN_DEVICE_ID);
-		teleopDrive = new TeleopGameDrive(leftFront, leftBack, rightFront, rightBack, swerveWheel, stick1);
+		teleopDrive = new TeleopGameDrive(leftFront, leftBack, rightFront, rightBack, swerveWheel, driveController);
 	}
 
 

@@ -14,6 +14,11 @@ public class TeleopGameDrive extends TeleopDrive
 	
 	void updateControls()
 	{
+		
+		joyLY = -deadZone(driveController.getRawAxis(1));
+		joyRY = -deadZone(driveController.getRawAxis(5));
+		joyLX = deadZone(driveController.getRawAxis(0));
+		joyRX = deadZone(driveController.getRawAxis(4));
 	}
 		
 	
