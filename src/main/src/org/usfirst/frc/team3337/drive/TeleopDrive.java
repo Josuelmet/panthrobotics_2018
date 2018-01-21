@@ -61,27 +61,6 @@ public abstract class TeleopDrive extends Drive
 		driveRight(driveController.getRawAxis(5)*speedLimit*-1);
 	}
 	
-	private void checkDrive()
-	{
-		if (driveSwitchButton.get())
-			arcadeDrive();
-		else
-			tankDrive();
-	}
-	
-	private void decreaseSpeed()
-	{
-		if (speedDecrease.get())
-		{
-			vL = vL/2;
-			vR = vR/2;
-		}
-		else
-		{
-			checkDrive();
-		}	
-	}
-	
 	//This is a function that must be implemented by the child class.
 	abstract void updateControls();
 	
@@ -96,16 +75,26 @@ public abstract class TeleopDrive extends Drive
 	//Making function to be called during teleopPeriodic().
 	public void periodic()
 	{
+		ToggleButton.updateToggleButtons();
+		
 		double deltaT = changeTimer.get(); //deltaT is the change in time since this function was called.
 		updateControls(); //This gets the values for joystick inputs from the child class.
 		
+		System.out.println("speedDecrease = " + speedDecrease.get());
+		System.out.println("driveSwitch = " + driveSwitchButton.get());
 		if (speedDecrease.get())
     	{
     		vL *= SLOW_SPEED;
     		vR *= SLOW_SPEED;
+    		System.out.println("speed");
     	}
-		
-		decreaseSpeed();
+		if (driveSwitchButton.get())
+		{
+			arcadeDrive();
+			System.out.println("drive");
+		}	
+		else
+			tankDrive();
 		
 		//The end of periodic()
 		//updateVelocities(); //Set vL and vR equal to velocity.
