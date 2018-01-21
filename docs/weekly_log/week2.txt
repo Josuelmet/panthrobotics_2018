@@ -1,0 +1,14 @@
+Monday (1/15):
+	Working on drive code.
+
+Thursday (1/18):
+	Working on drive code.
+	
+Friday (1/19):
+	Figured out why motors would not activate.
+	Finished uploading drive code.
+	
+Saturday (1/20);
+	Configured RoboRIO.
+	Noticed connection problems with RoboRIO.
+	Worked on drive code.
