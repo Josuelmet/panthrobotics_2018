@@ -88,6 +88,7 @@ public abstract class TeleopDrive extends Drive
     		vR *= SLOW_SPEED;
     		System.out.println("speed");
     	}
+		
 		if (driveSwitchButton.get())
 		{
 			arcadeDrive();
