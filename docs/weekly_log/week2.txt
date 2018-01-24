@@ -1,4 +1,5 @@
 Monday (1/15):
+<<<<<<< HEAD
 	Finish setting up driver station.
 	Organize electrical.
 	
@@ -11,3 +12,18 @@ Friday (1/16):
 Saturday (1/17):
 	Waiting for drive train.
 	Noticed error in communication.
+=======
+	Working on drive code.
+
+Thursday (1/18):
+	Working on drive code.
+	
+Friday (1/19):
+	Figured out why motors would not activate.
+	Finished uploading drive code.
+	
+Saturday (1/20);
+	Configured RoboRIO.
+	Noticed connection problems with RoboRIO.
+	Worked on drive code.
+>>>>>>> a907f739a00c8b0eae38ad69684c67d13a265023

@@ -15,22 +15,40 @@ public abstract class Drive
 
 	//Declaring Variables
 	double vL, vR, velocity;
-	TalonSRX leftFront, leftBack, rightFront, rightBack, swerveWheel;
+	TalonSRX leftFront, leftBack, rightFront, rightBack;
 	
 	//Constructor
-	public Drive(TalonSRX _leftFront, TalonSRX _leftBack, TalonSRX _rightFront, TalonSRX _rightBack, TalonSRX _swerveWheel)
+	public Drive(TalonSRX _leftFront, TalonSRX _leftBack, TalonSRX _rightFront, TalonSRX _rightBack)
 	{
 		
 		leftFront = _leftFront;
 		leftBack = _leftBack;
 		rightFront = _rightFront;
 		rightBack = _rightBack;
-		swerveWheel = _swerveWheel;
-		zeroVelocities();
+		zeroSpeed();
 		
 	}
 	
-	void zeroVelocities()
+	double speedLimit = 0.75;
+	
+	void driveLeft(double leftInput) 
+	{
+		leftFront.set(ControlMode.PercentOutput, leftInput*speedLimit);
+		leftBack.set(ControlMode.PercentOutput, leftInput*speedLimit);
+	}
+	
+	void driveRight(double rightInput) 
+	{
+		rightFront.set(ControlMode.PercentOutput, -rightInput*speedLimit);
+		rightBack.set(ControlMode.PercentOutput, -rightInput*speedLimit);
+	}
+
+	void zeroSpeed()
+	{
+		driveLeft(0);
+		driveRight(0);
+	}
+/*	void zeroVelocities()
 	{
 		velocity = 0;
 		updateVelocities();
@@ -46,5 +64,5 @@ public abstract class Drive
 		rightFront.set(ControlMode.PercentOutput, vR);
 		rightBack.set(ControlMode.PercentOutput, vR);
 	}
-	
+*/	
 }

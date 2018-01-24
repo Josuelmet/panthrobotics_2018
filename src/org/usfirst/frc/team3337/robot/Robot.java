@@ -1,6 +1,8 @@
 //We're in the package below
 package org.usfirst.frc.team3337.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 //We're using these other program files below for their functions.
 
 //Cross the Road Electronics packages
@@ -26,7 +28,7 @@ import main.src.org.usfirst.frc.team3337.drive.TeleopGameDrive;
 public class Robot extends IterativeRobot {
 	
 	//Declaring Variables
-	Joystick stick1, stick2;
+	Joystick driveController, auxController;
 	PigeonIMU pigeonGyro;
 	TalonSRX leftFront, leftBack, rightFront, rightBack, swerveWheel;
 	TeleopGameDrive teleopDrive;
@@ -44,9 +46,12 @@ public class Robot extends IterativeRobot {
 		rightBack = new TalonSRX(RobotMap.RIGHT_BACK_TALON_SRX_CAN_DEVICE_ID);
 		swerveWheel = new TalonSRX(RobotMap.SWERVE_WHEEL_CAN_DEVICE_ID);
 		
+		//Initializing joystick
+		driveController = new Joystick(RobotMap.DRIVE_STICK_PORT);
+		
 		//Give pigeonGyro value.
 		pigeonGyro = new PigeonIMU(RobotMap.PIGEON_IMU_CAN_DEVICE_ID);
-		teleopDrive = new TeleopGameDrive(leftFront, leftBack, rightFront, rightBack, swerveWheel, stick1);
+		teleopDrive = new TeleopGameDrive(leftFront, leftBack, rightFront, rightBack, swerveWheel, driveController);
 	}
 
 
@@ -76,7 +81,9 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic()
 	{
+		
 		teleopDrive.periodic();
+
 	}
 
 	@Override
