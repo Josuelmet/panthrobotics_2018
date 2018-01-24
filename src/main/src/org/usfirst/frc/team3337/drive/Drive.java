@@ -29,7 +29,7 @@ public abstract class Drive
 		
 	}
 	
-	double speedLimit = 0.75;
+	double speedLimit = 0.9;
 	
 	void driveLeft(double leftInput) 
 	{
