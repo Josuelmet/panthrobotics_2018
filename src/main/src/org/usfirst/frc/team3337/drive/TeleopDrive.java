@@ -61,6 +61,20 @@ public abstract class TeleopDrive extends Drive
 		driveRight(driveController.getRawAxis(5)*speedLimit*-1);
 	}
 	
+	//GTA Forwards Drive
+	private void gtaDriveForwards()
+		{
+			driveLeft(driveController.getRawAxis(3)*speedLimit*-1);
+			driveRight(driveController.getRawAxis(3)*speedLimit*-1);
+		}
+	
+	//GTA sdrawkcaB Drive
+	private void gtaDriveBackwards()
+		{
+			driveLeft(driveController.getRawAxis(2)*speedLimit*1);
+			driveRight(driveController.getRawAxis(2)*speedLimit*1);
+		}
+	
 	//This is a function that must be implemented by the child class.
 	abstract void updateControls();
 	
@@ -89,14 +103,27 @@ public abstract class TeleopDrive extends Drive
     		System.out.println("speed");
     	}
 		
-		if (driveSwitchButton.get())
+		/*if (driveSwitchButton.get())
 		{
-			arcadeDrive();
-			System.out.println("drive");
+			if (driveController.getRawAxis(3) > 0)
+				gtaDriveForwards();
+			else
+				gtaDriveBackwards();
+			
+				System.out.println("drive");
 		}	
 		else
-			tankDrive();
+			tankDrive();*/
 		
+		if ((driveController.getRawAxis(3) > 0) || (driveController.getRawAxis(2) > 0))
+		{
+			if (driveController.getRawAxis(3) > 0)
+				gtaDriveForwards();
+			else
+				gtaDriveBackwards();
+		}
+		else
+			tankDrive();
 		//The end of periodic()
 		//updateVelocities(); //Set vL and vR equal to velocity.
 		//previousVelocity = velocity; //Record current velocity for next iteration of this loop.
