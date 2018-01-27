@@ -48,7 +48,8 @@ public abstract class Drive
 		driveLeft(0);
 		driveRight(0);
 	}
-/*	void zeroVelocities()
+	
+	void zeroVelocities()
 	{
 		velocity = 0;
 		updateVelocities();
@@ -56,13 +57,9 @@ public abstract class Drive
 	
 	void updateVelocities()
 	{
-		vL = velocity;
-		vR = velocity;
-		
 		leftFront.set(ControlMode.PercentOutput, vL);
 		leftBack.set(ControlMode.PercentOutput, vL);
 		rightFront.set(ControlMode.PercentOutput, vR);
 		rightBack.set(ControlMode.PercentOutput, vR);
-	}
-*/	
+	}	
 }

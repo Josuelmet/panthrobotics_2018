@@ -24,9 +24,9 @@ public abstract class TeleopDrive extends Drive
 	//Class variables
 	Joystick driveController;
 	ToggleButton driveSwitchButton, speedDecrease;
-	Timer changeTimer;
+	//Timer changeTimer;
 	double previousVelocity, reverse;	
-	double joyLY, joyLX, joyRY, joyRX;
+	double joyLY, joyLX, joyRY, joyRX, gtaForwardTrigger, gtaBackwardTrigger;
 	
 	public static final double SLOW_SPEED = 0.5;
 	
@@ -38,7 +38,7 @@ public abstract class TeleopDrive extends Drive
 		//Calling Drive's constructor
 		super(_leftFront, _leftBack, _rightFront, _rightBack);
 		driveController = _driveStick;
-		changeTimer = new Timer();
+		//changeTimer = new Timer();
 		driveSwitchButton = new ToggleButton(new JoystickButton(driveController, RobotMap.DRIVE_SWITCH_TOGGLE));
 		speedDecrease = new ToggleButton(new JoystickButton(driveController, RobotMap.SPEED_DECREASE));
 		
@@ -57,23 +57,23 @@ public abstract class TeleopDrive extends Drive
 	//Tank Drive
 	private void tankDrive()
 	{
-		driveLeft(driveController.getRawAxis(1)*speedLimit*-1);
-		driveRight(driveController.getRawAxis(5)*speedLimit*-1);
+		vL = speedLimit * joyLY;
+		vR = speedLimit * joyRY;
 	}
 	
 	//GTA Forwards Drive
 	private void gtaDriveForwards()
-		{
-			driveLeft(driveController.getRawAxis(3)*speedLimit*-1);
-			driveRight(driveController.getRawAxis(3)*speedLimit*-1);
-		}
+	{
+		driveLeft(gtaForwardTrigger * speedLimit * -1);
+		driveRight(gtaForwardTrigger * speedLimit * -1);
+	}
 	
 	//GTA sdrawkcaB Drive
 	private void gtaDriveBackwards()
-		{
-			driveLeft(driveController.getRawAxis(2)*speedLimit*1);
-			driveRight(driveController.getRawAxis(2)*speedLimit*1);
-		}
+	{
+		driveLeft(gtaBackwardTrigger * speedLimit);
+		driveRight(gtaBackwardTrigger * speedLimit);
+	}
 	
 	//This is a function that must be implemented by the child class.
 	abstract void updateControls();
@@ -91,45 +91,32 @@ public abstract class TeleopDrive extends Drive
 	{
 		ToggleButton.updateToggleButtons();
 		
-		double deltaT = changeTimer.get(); //deltaT is the change in time since this function was called.
+		//double deltaT = changeTimer.get(); //deltaT is the change in time since this function was called.
 		updateControls(); //This gets the values for joystick inputs from the child class.
 		
-		System.out.println("speedDecrease = " + speedDecrease.get());
-		System.out.println("driveSwitch = " + driveSwitchButton.get());
+		/*
+		 * Priority of drive modes:
+		 * 1) GTA Forward
+		 * 2) GTA Backward
+		 * 3) Arcade and Tank
+		 */
+		if (gtaForwardTrigger > 0) 
+			gtaDriveForwards();
+		else if (gtaBackwardTrigger > 0)
+			gtaDriveBackwards();
+		else if (driveSwitchButton.get())
+			arcadeDrive();
+		else
+			tankDrive();
+		
 		if (speedDecrease.get())
     	{
     		vL *= SLOW_SPEED;
     		vR *= SLOW_SPEED;
-    		System.out.println("speed");
     	}
 		
-		/*if (driveSwitchButton.get())
-		{
-			if (driveController.getRawAxis(3) > 0)
-				gtaDriveForwards();
-			else
-				gtaDriveBackwards();
-			
-				System.out.println("drive");
-		}	
-		else
-			tankDrive();*/
-		
-		if ((driveController.getRawAxis(3) > 0) || (driveController.getRawAxis(2) > 0))
-		{
-			if (driveController.getRawAxis(3) > 0)
-				gtaDriveForwards();
-			else
-				gtaDriveBackwards();
-		}
-		else
-			tankDrive();
 		//The end of periodic()
-		//updateVelocities(); //Set vL and vR equal to velocity.
-		//previousVelocity = velocity; //Record current velocity for next iteration of this loop.
-		changeTimer.reset(); //Reset timer so that deltaT in next iteration of this loop is accurate.
-		
-		//System.out.println("HELP");
+		updateVelocities();
 	}
 	
 	double deadZone(double value)
