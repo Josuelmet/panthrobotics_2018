@@ -32,8 +32,7 @@ public abstract class TeleopDrive extends Drive
 	
 	//Constructor
 	public TeleopDrive
-		(TalonSRX _leftFront, TalonSRX _leftBack, TalonSRX _rightFront, TalonSRX _rightBack,
-		 TalonSRX _swerveWheel, Joystick _driveStick)
+		(TalonSRX _leftFront, TalonSRX _leftBack, TalonSRX _rightFront, TalonSRX _rightBack, Joystick _driveStick)
 	{
 		//Calling Drive's constructor
 		super(_leftFront, _leftBack, _rightFront, _rightBack);
@@ -57,8 +56,8 @@ public abstract class TeleopDrive extends Drive
 	//Tank Drive
 	private void tankDrive()
 	{
-		vL = speedLimit * joyLY;
-		vR = speedLimit * joyRY;
+		driveLeft(speedLimit * joyLY);
+		driveRight(speedLimit * joyRY);
 	}
 	
 	//GTA Forwards Drive
@@ -114,14 +113,11 @@ public abstract class TeleopDrive extends Drive
     		vL *= SLOW_SPEED;
     		vR *= SLOW_SPEED;
     	}
-		
-		//The end of periodic()
-		updateVelocities();
 	}
 	
 	double deadZone(double value)
 	{
-		if (value < 0.01)
+		if (Math.abs(value) < 0.01)
 			return 0;
 		return value;
 	}
