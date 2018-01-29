@@ -17,6 +17,7 @@ public class RobotMap
 	public final static int RIGHT_BACK_TALON_SRX_CAN_DEVICE_ID = 7;
 	
 	public final static int DRIVE_STICK_PORT = 0;
+	public final static int AUX_STICK_PORT = 1;
 	
 	//Buttons on Controller
 	public final static int DRIVE_SWITCH_TOGGLE = 4; //Y Button

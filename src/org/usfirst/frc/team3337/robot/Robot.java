@@ -47,6 +47,7 @@ public class Robot extends IterativeRobot {
 		
 		//Initializing joystick
 		driveController = new Joystick(RobotMap.DRIVE_STICK_PORT);
+		auxController = new Joystick(RobotMap.AUX_STICK_PORT);
 		
 		//Give pigeonGyro value.
 		pigeonGyro = new PigeonIMU(RobotMap.PIGEON_IMU_CAN_DEVICE_ID);
