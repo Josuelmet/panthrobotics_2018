@@ -22,7 +22,7 @@ public abstract class TeleopDrive extends Drive
 {
 
 	//Class variables
-	Joystick driveController;
+	Joystick driveController, auxController;
 	ToggleButton driveSwitchButton, speedDecrease;
 	//make a RobotMap value for bumpers for auto buttons and triggers for manual buttons
 	Button autoRaiseElevator, autoLowerElevator, switchButton, manualRaiseElevator, manualLowerElevator;
@@ -34,15 +34,19 @@ public abstract class TeleopDrive extends Drive
 	
 	//Constructor
 	public TeleopDrive
-		(TalonSRX _leftFront, TalonSRX _leftBack, TalonSRX _rightFront, TalonSRX _rightBack, Joystick _driveStick)
+		(TalonSRX _leftFront, TalonSRX _leftBack, TalonSRX _rightFront, TalonSRX _rightBack, Joystick _driveStick, Joystick _auxStick)
 	{
 		//Calling Drive's constructor
 		super(_leftFront, _leftBack, _rightFront, _rightBack);
 		driveController = _driveStick;
+		auxController = _auxStick;
 		//changeTimer = new Timer();
 		driveSwitchButton = new ToggleButton(new JoystickButton(driveController, RobotMap.DRIVE_SWITCH_TOGGLE));
 		speedDecrease = new ToggleButton(new JoystickButton(driveController, RobotMap.SPEED_DECREASE));
-		autoRaiseElevator = new Button();
+		autoRaiseElevator = new JoystickButton(auxController, RobotMap.RAISE_ELEVATOR_AUTO);
+		autoLowerElevator = new JoystickButton(auxController, RobotMap.LOWER_ELEVATOR_AUTO);
+		manualRaiseElevator = new JoystickButton(auxController, RobotMap.RAISE_ELEVATOR_MANUAL);//unsure atm how to key in triggers, just basis stuff
+		manualLowerElevator = new JoystickButton(auxController, RobotMap.LOWER_ELEVATOR_MANUAL);//unsure atm how to key in triggers, just basis stuff
 		
 		//Put up acceleration input to dashboard
 		SmartDashboard.putNumber("a->", 0.1);

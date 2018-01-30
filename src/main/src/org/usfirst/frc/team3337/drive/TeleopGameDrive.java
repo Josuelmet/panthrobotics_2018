@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.Joystick;
 public class TeleopGameDrive extends TeleopDrive
 {
 	
-	public TeleopGameDrive(TalonSRX _leftFront, TalonSRX _leftBack, TalonSRX _rightFront, TalonSRX _rightBack, Joystick _driveStick)
+	public TeleopGameDrive(TalonSRX _leftFront, TalonSRX _leftBack, TalonSRX _rightFront, TalonSRX _rightBack, Joystick _driveStick, Joystick _auxStick)
 	{
-		super(_leftFront, _leftBack, _rightFront, _rightBack, _driveStick);
+		super(_leftFront, _leftBack, _rightFront, _rightBack, _driveStick, _auxStick);
 	}
 	
 	void updateControls()
