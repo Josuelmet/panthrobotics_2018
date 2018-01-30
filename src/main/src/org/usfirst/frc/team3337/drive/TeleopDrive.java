@@ -24,6 +24,8 @@ public abstract class TeleopDrive extends Drive
 	//Class variables
 	Joystick driveController;
 	ToggleButton driveSwitchButton, speedDecrease;
+	//make a RobotMap value for bumpers for auto buttons and triggers for manual buttons
+	Button autoRaiseElevator, autoLowerElevator, switchButton, manualRaiseElevator, manualLowerElevator;
 	//Timer changeTimer;
 	double previousVelocity, reverse;	
 	double joyLY, joyLX, joyRY, joyRX, gtaForwardTrigger, gtaBackwardTrigger;
@@ -40,6 +42,7 @@ public abstract class TeleopDrive extends Drive
 		//changeTimer = new Timer();
 		driveSwitchButton = new ToggleButton(new JoystickButton(driveController, RobotMap.DRIVE_SWITCH_TOGGLE));
 		speedDecrease = new ToggleButton(new JoystickButton(driveController, RobotMap.SPEED_DECREASE));
+		autoRaiseElevator = new Button();
 		
 		//Put up acceleration input to dashboard
 		SmartDashboard.putNumber("a->", 0.1);

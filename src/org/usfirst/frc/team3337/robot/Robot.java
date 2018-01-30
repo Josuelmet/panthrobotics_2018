@@ -30,7 +30,7 @@ public class Robot extends IterativeRobot {
 	//Declaring Variables
 	Joystick driveController, auxController;
 	PigeonIMU pigeonGyro;
-	TalonSRX leftFront, leftBack, rightFront, rightBack;
+	TalonSRX leftFront, leftBack, rightFront, rightBack, elevatorMotor;
 	TeleopGameDrive teleopDrive;
 	
 	
@@ -44,6 +44,7 @@ public class Robot extends IterativeRobot {
 		leftBack = new TalonSRX(RobotMap.lEFT_BACK_TALON_SRX_CAN_DEVICE_ID);
 		rightFront = new TalonSRX(RobotMap.RIGHT_FRONT_TALON_SRX_CAN_DEVICE_ID);
 		rightBack = new TalonSRX(RobotMap.RIGHT_BACK_TALON_SRX_CAN_DEVICE_ID);
+		elevatorMotor = new TalonSRX(RobotMap.ELEVATOR_MOTOR);
 		
 		//Initializing joystick
 		driveController = new Joystick(RobotMap.DRIVE_STICK_PORT);

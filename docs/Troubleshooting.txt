@@ -19,6 +19,8 @@ Error: Shows JRE instead of JDK in the workspace default
 2) Add > Standard VM > Directory > Find JDK in the file system and select it
 3) Select the JDK > Apply and Close
 
+CAN Talon SRX Not Communicating With RoboRIO/NI Web-Based Configuration Tool
+
 Common Solutions:
 
 Check that port numbers are correct.
