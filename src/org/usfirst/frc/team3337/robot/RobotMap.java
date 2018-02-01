@@ -11,11 +11,24 @@ public class RobotMap
 	
 	public final static int PIGEON_IMU_CAN_DEVICE_ID = 2; //Pigeon Gyro CAN ID.
 	
-	public final static int LEFT_FRONT_TALON_SRX_CAN_DEVICE_ID = 5;
-	public final static int lEFT_BACK_TALON_SRX_CAN_DEVICE_ID = 4;
-	public final static int RIGHT_FRONT_TALON_SRX_CAN_DEVICE_ID = 2;
-	public final static int RIGHT_BACK_TALON_SRX_CAN_DEVICE_ID = 7;
-	public final static int ELEVATOR_MOTOR = 3;//temp number for lift mechanism
+	//Motors
+	public final static int LEFT_FRONT_TALON_SRX_CAN_DEVICE_ID = 1;
+	public final static int lEFT_BACK_TALON_SRX_CAN_DEVICE_ID = 2;
+	public final static int RIGHT_FRONT_TALON_SRX_CAN_DEVICE_ID = 3;
+	public final static int RIGHT_BACK_TALON_SRX_CAN_DEVICE_ID = 4;
+	
+	public final static int LIFT_MOTOR_1 = 5;//temp number for lift mechanism
+	public final static int LIFT_MOTOR_2 = 6;
+	
+	public final static int INTAKE_MOTOR_1 = 7;
+	public final static int INTAKE_MOTOR_2 = 8;
+	
+	public final static int CLIMB_MOTOR_1 = 9;
+	public final static int CLIMB_MOTOR_2 = 10;
+	
+	//Pneumatics Components
+	public final static int CLIMBER_SOLENOID = 0;
+	public final static int INTAKE_SOLENOID = 1;
 	
 	public final static int DRIVE_STICK_PORT = 0;
 	public final static int AUX_STICK_PORT = 1;

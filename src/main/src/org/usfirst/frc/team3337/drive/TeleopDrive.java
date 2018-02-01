@@ -26,7 +26,8 @@ public abstract class TeleopDrive extends Drive
 	ToggleButton driveSwitchButton, speedDecrease;
 	//make a RobotMap value for bumpers for auto buttons and triggers for manual buttons
 	Button autoRaiseElevator, autoLowerElevator, switchButton, manualRaiseElevator, manualLowerElevator;
-	//Timer changeTimer;
+	Timer tempTimer;
+	
 	double previousVelocity, reverse;	
 	double joyLY, joyLX, joyRY, joyRX, gtaForwardTrigger, gtaBackwardTrigger;
 	
@@ -40,7 +41,8 @@ public abstract class TeleopDrive extends Drive
 		super(_leftFront, _leftBack, _rightFront, _rightBack);
 		driveController = _driveStick;
 		auxController = _auxStick;
-		//changeTimer = new Timer();
+		tempTimer = new Timer();
+		
 		driveSwitchButton = new ToggleButton(new JoystickButton(driveController, RobotMap.DRIVE_SWITCH_TOGGLE));
 		speedDecrease = new ToggleButton(new JoystickButton(driveController, RobotMap.SPEED_DECREASE));
 		autoRaiseElevator = new JoystickButton(auxController, RobotMap.RAISE_ELEVATOR_AUTO);
@@ -56,8 +58,10 @@ public abstract class TeleopDrive extends Drive
 	//Arcade Drive
 	private void arcadeDrive()
 	{
-		vL = joyLY - joyLX/2;
-		vR = joyLY + joyLX/2;
+		vL = joyLY + joyLX/2;
+		vR = joyLY - joyLX/2;
+		driveLeft(vL * speedLimit);
+		driveRight(vR * speedLimit);
 	}
 	
 	//Tank Drive
@@ -89,7 +93,7 @@ public abstract class TeleopDrive extends Drive
 	{
 		zeroSpeed();
 		previousVelocity = velocity; //Give previousVelocity a value for the first loop in periodic().
-		
+		tempTimer.start();
 	}
 	
 	//Making function to be called during teleopPeriodic().
@@ -114,7 +118,6 @@ public abstract class TeleopDrive extends Drive
 			arcadeDrive();
 		else
 			tankDrive();
-		
 		if (speedDecrease.get())
     	{
     		vL *= SLOW_SPEED;
