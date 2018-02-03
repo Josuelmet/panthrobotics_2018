@@ -10,6 +10,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX; //CANTalon class
 import com.ctre.phoenix.sensors.PigeonIMU; //Pigeon gyro class
 
 //WPI Library packages
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -20,9 +21,11 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.cscore.UsbCamera;
 
 //3337 packages
 import main.src.org.usfirst.frc.team3337.drive.TeleopGameDrive;
+
 
 //This is our class name. It is a child of IterativeRobot.
 public class Robot extends IterativeRobot {
@@ -53,6 +56,9 @@ public class Robot extends IterativeRobot {
 		//Give pigeonGyro value.
 		pigeonGyro = new PigeonIMU(RobotMap.PIGEON_IMU_CAN_DEVICE_ID);
 		teleopDrive = new TeleopGameDrive(leftFront, leftBack, rightFront, rightBack, driveController, auxController);
+		
+		UsbCamera frontCamera = CameraServer.getInstance().startAutomaticCapture(0);
+		frontCamera.setResolution(640, 480);
 	}
 
 
