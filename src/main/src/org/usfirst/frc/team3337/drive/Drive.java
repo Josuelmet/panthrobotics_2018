@@ -22,13 +22,11 @@ public abstract class Drive
 	//Constructor
 	public Drive(TalonSRX _leftFront, TalonSRX _leftBack, TalonSRX _rightFront, TalonSRX _rightBack)
 	{
-		
 		leftFront = _leftFront;
 		leftBack = _leftBack;
 		rightFront = _rightFront;
 		rightBack = _rightBack;
 		zeroSpeed();
-		
 	}
 	
 	double speedLimit = 0.75;
