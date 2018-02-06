@@ -26,7 +26,6 @@ import edu.wpi.cscore.UsbCamera;
 //3337 packages
 import main.src.org.usfirst.frc.team3337.drive.TeleopGameDrive;
 
-
 //This is our class name. It is a child of IterativeRobot.
 public class Robot extends IterativeRobot {
 	
@@ -35,8 +34,6 @@ public class Robot extends IterativeRobot {
 	PigeonIMU pigeonGyro;
 	TalonSRX leftFront, leftBack, rightFront, rightBack, elevatorMotor;
 	TeleopGameDrive teleopDrive;
-	
-	
 	
     //IterativeRobot has functions like the one below, hence the @Override.
 	@Override
@@ -57,10 +54,11 @@ public class Robot extends IterativeRobot {
 		pigeonGyro = new PigeonIMU(RobotMap.PIGEON_IMU_CAN_DEVICE_ID);
 		teleopDrive = new TeleopGameDrive(leftFront, leftBack, rightFront, rightBack, driveController, auxController);
 		
+		@SuppressWarnings("unused")
 		UsbCamera frontCamera = CameraServer.getInstance().startAutomaticCapture(0);
+		@SuppressWarnings("unused")
 		UsbCamera backCamera = CameraServer.getInstance().startAutomaticCapture(1);
 	}
-
 
 	@Override
 	public void autonomousInit()
