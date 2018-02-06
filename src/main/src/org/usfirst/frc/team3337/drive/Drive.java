@@ -4,6 +4,7 @@ package main.src.org.usfirst.frc.team3337.drive;
 //We're using these other program files below for their functions.
 import org.usfirst.frc.team3337.robot.RobotMap;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Encoder;
 
 import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -16,6 +17,7 @@ public abstract class Drive
 	//Declaring Variables
 	double vL, vR, velocity;
 	TalonSRX leftFront, leftBack, rightFront, rightBack;
+	Encoder oneEncoder, twoEncoder;
 	
 	//Constructor
 	public Drive(TalonSRX _leftFront, TalonSRX _leftBack, TalonSRX _rightFront, TalonSRX _rightBack)
@@ -30,6 +32,8 @@ public abstract class Drive
 	}
 	
 	double speedLimit = 0.75;
+	//oneEncoder = new Encoder(int channelA, int channelB, boolean reverseDirection);
+	//oneEncoder = new Encoder(int channelA, int channelB, boolean reverseDirection);
 	
 	void driveLeft(double leftInput) 
 	{
