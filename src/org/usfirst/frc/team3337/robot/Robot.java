@@ -58,7 +58,7 @@ public class Robot extends IterativeRobot {
 		teleopDrive = new TeleopGameDrive(leftFront, leftBack, rightFront, rightBack, driveController, auxController);
 		
 		UsbCamera frontCamera = CameraServer.getInstance().startAutomaticCapture(0);
-		frontCamera.setResolution(640, 480);
+		UsbCamera backCamera = CameraServer.getInstance().startAutomaticCapture(1);
 	}
 
 
