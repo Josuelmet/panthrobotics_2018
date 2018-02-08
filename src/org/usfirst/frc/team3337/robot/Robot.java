@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 //Cross the Road Electronics packages
 import com.ctre.phoenix.motorcontrol.can.TalonSRX; //CANTalon class
 import com.ctre.phoenix.sensors.PigeonIMU; //Pigeon gyro class
+import com.kauailabs.navx.frc.AHRS;
 
 //WPI Library packages
 import edu.wpi.cscore.UsbCamera;
@@ -30,6 +31,7 @@ import main.src.org.usfirst.frc.team3337.drive.TeleopGameDrive;
 public class Robot extends IterativeRobot {
 	
 	//Declaring Variables
+	AHRS gyro; //Example code for the gyro is at C:\Users\Panthrobotics\navx-mxp\java\examples
 	Joystick driveController, auxController;
 	PigeonIMU pigeonGyro;
 	TalonSRX leftFront, leftBack, rightFront, rightBack, elevatorMotor;
@@ -50,9 +52,12 @@ public class Robot extends IterativeRobot {
 		driveController = new Joystick(RobotMap.DRIVE_STICK_PORT);
 		auxController = new Joystick(RobotMap.AUX_STICK_PORT);
 		
-		//Give pigeonGyro value.
+		/*Give pigeonGyro value.
 		pigeonGyro = new PigeonIMU(RobotMap.PIGEON_IMU_CAN_DEVICE_ID);
-		teleopDrive = new TeleopGameDrive(leftFront, leftBack, rightFront, rightBack, driveController, auxController);
+		teleopDrive = new TeleopGameDrive(leftFront, leftBack, rightFront, rightBack, driveController, auxController);*/
+		
+		//Initializing NavX gyro.
+		gyro = new AHRS(SerialPort.Port.kMXP);
 		
 		@SuppressWarnings("unused")
 		UsbCamera frontCamera = CameraServer.getInstance().startAutomaticCapture(0);
@@ -85,7 +90,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic()
 	{
-		
+		SmartDashboard.putNumber("getYaw", gyro.getYaw());
 		teleopDrive.periodic();
 
 	}
