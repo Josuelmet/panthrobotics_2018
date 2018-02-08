@@ -2,13 +2,18 @@
 package main.src.org.usfirst.frc.team3337.drive;
 
 //We're using these other program files below for their functions.
+//WPILib imports
 import org.usfirst.frc.team3337.robot.RobotMap;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Encoder;
 
+//CANTalon imports
 import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+
+//NavX gyro imports
+import com.kauailabs.navx.frc.AHRS;
 
 //This is our class name. Abstract means that it cannot be instantiated.
 public abstract class Drive
@@ -16,8 +21,10 @@ public abstract class Drive
 
 	//Declaring Variables
 	double vL, vR, velocity;
-	TalonSRX leftFront, leftBack, rightFront, rightBack;
+	
+	AHRS gyro = new AHRS(SerialPort.Port.kMXP);
 	Encoder oneEncoder, twoEncoder;
+	TalonSRX leftFront, leftBack, rightFront, rightBack;
 	
 	//Constructor
 	public Drive(TalonSRX _leftFront, TalonSRX _leftBack, TalonSRX _rightFront, TalonSRX _rightBack)

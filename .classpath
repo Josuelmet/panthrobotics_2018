@@ -20,6 +20,6 @@
 	<classpathentry kind="lib" path="C:/Users/owner/wpilib/user/java/lib/CTRE_Phoenix.jar"/>
 	<classpathentry kind="lib" path="C:/Users/owner/wpilib/user/java/lib/CTRE_Phoenix-sources.jar"/>
 	<classpathentry kind="lib" path="C:/Users/owner/wpilib/user/java/lib/CTRLib.jar"/>
-	<classpathentry kind="var" path="USERLIBS_DIR/CTRLib.jar"/>
+	<classpathentry kind="var" path="navx-mxp"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
