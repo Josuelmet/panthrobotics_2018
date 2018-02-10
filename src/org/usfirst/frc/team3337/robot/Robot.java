@@ -22,8 +22,6 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.cscore.UsbCamera;
-
 //3337 packages
 import main.src.org.usfirst.frc.team3337.drive.TeleopGameDrive;
 
@@ -34,7 +32,7 @@ public class Robot extends IterativeRobot {
 	AHRS gyro; //Example code for the gyro is at C:\Users\Panthrobotics\navx-mxp\java\examples
 	Joystick driveController, auxController;
 	PigeonIMU pigeonGyro;
-	TalonSRX leftFront, leftBack, rightFront, rightBack, elevatorMotor;
+	TalonSRX leftFront, leftBack, rightFront, rightBack, elevatorMotor, rightArm, leftArm;
 	Encoder leftEncoder, rightEncoder;
 	TeleopGameDrive teleopDrive;
 	
@@ -48,6 +46,8 @@ public class Robot extends IterativeRobot {
 		rightFront = new TalonSRX(RobotMap.RIGHT_FRONT_TALON_SRX_CAN_DEVICE_ID);
 		rightBack = new TalonSRX(RobotMap.RIGHT_BACK_TALON_SRX_CAN_DEVICE_ID);
 		elevatorMotor = new TalonSRX(RobotMap.LIFT_MOTOR_1);
+		rightArm = new TalonSRX(RobotMap.RIGHT_ARM);
+		leftArm = new TalonSRX(RobotMap.LEFT_ARM);
 		
 		//Initializing joystick
 		driveController = new Joystick(RobotMap.DRIVE_STICK_PORT);
