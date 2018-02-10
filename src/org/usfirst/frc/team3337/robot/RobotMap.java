@@ -52,4 +52,7 @@ public class RobotMap
 	public final static int GTA_FORWARD = 2; //Left Trigger
 	public final static int GTA_BACKWARD = 3; //Right Trigger
 	
+	//Encoder 
+	public final static int LEFT_ENCODER = 1;
+	public final static int RIGHT_ENCODER = 2; 
 }

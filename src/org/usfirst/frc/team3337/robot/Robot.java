@@ -35,6 +35,7 @@ public class Robot extends IterativeRobot {
 	Joystick driveController, auxController;
 	PigeonIMU pigeonGyro;
 	TalonSRX leftFront, leftBack, rightFront, rightBack, elevatorMotor;
+	Encoder leftEncoder, rightEncoder;
 	TeleopGameDrive teleopDrive;
 	
     //IterativeRobot has functions like the one below, hence the @Override.
@@ -63,6 +64,10 @@ public class Robot extends IterativeRobot {
 		UsbCamera frontCamera = CameraServer.getInstance().startAutomaticCapture(0);
 		@SuppressWarnings("unused")
 		UsbCamera backCamera = CameraServer.getInstance().startAutomaticCapture(1);
+
+		//Intializing Encoders
+		//leftEncoder = new Encoder(RobotMap.LEFT_ENCODER);
+		//rightEncoder= new Encoder(RobotMap.RIGHT_ENCODER);
 	}
 
 	@Override
