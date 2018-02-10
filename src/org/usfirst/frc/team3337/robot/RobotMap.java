@@ -20,6 +20,9 @@ public class RobotMap
 	public final static int LIFT_MOTOR_1 = 5;//temp number for lift mechanism
 	public final static int LIFT_MOTOR_2 = 6;
 	
+	public final static int LEFT_ARM = 1;
+	public final static int RIGHT_ARM = 2;
+	
 	public final static int INTAKE_MOTOR_1 = 7;
 	public final static int INTAKE_MOTOR_2 = 8;
 	
