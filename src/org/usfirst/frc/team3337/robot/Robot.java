@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX; //CANTalon class
 import com.ctre.phoenix.sensors.PigeonIMU; //Pigeon gyro class
 import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.AnalogGyro;
 
 //WPI Library packages
 import edu.wpi.cscore.UsbCamera;
@@ -35,6 +36,7 @@ public class Robot extends IterativeRobot {
 	TalonSRX leftFront, leftBack, rightFront, rightBack, elevatorMotor, rightArm, leftArm;
 	Encoder leftEncoder, rightEncoder;
 	TeleopGameDrive teleopDrive;
+	private AnalogGyro testGyro;
 	
     //IterativeRobot has functions like the one below, hence the @Override.
 	@Override
@@ -48,6 +50,9 @@ public class Robot extends IterativeRobot {
 		elevatorMotor = new TalonSRX(RobotMap.LIFT_MOTOR_1);
 		rightArm = new TalonSRX(RobotMap.RIGHT_ARM);
 		leftArm = new TalonSRX(RobotMap.LEFT_ARM);
+		
+		//Initialize Gyro
+		testGyro = new AnalogGyro(1);
 		
 		//Initializing joystick
 		driveController = new Joystick(RobotMap.DRIVE_STICK_PORT);
