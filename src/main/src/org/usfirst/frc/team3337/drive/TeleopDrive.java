@@ -28,7 +28,7 @@ public abstract class TeleopDrive extends Drive
 	Button autoRaiseElevator, autoLowerElevator, switchButton, manualRaiseElevator, manualLowerElevator;
 	Timer tempTimer;
 	
-	double previousVelocity, reverse;	
+	double previousVelocity, reverse, velocity;	
 	double joyLY, joyLX, joyRY, joyRX, gtaForwardTrigger, gtaBackwardTrigger;
 	
 	public static final double SLOW_SPEED = 0.5;
@@ -91,9 +91,9 @@ public abstract class TeleopDrive extends Drive
 	//Making function to be called during teleopInit().
 	public void init()
 	{
-		zeroSpeed();
-		previousVelocity = velocity; //Give previousVelocity a value for the first loop in periodic().
-		tempTimer.start();
+		//zeroSpeed();
+		//previousVelocity = velocity; //Give previousVelocity a value for the first loop in periodic().
+		//tempTimer.start();
 	}
 	
 	//Making function to be called during teleopPeriodic().

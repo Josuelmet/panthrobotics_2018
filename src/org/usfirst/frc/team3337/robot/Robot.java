@@ -30,13 +30,13 @@ import main.src.org.usfirst.frc.team3337.drive.TeleopGameDrive;
 public class Robot extends IterativeRobot {
 	
 	//Declaring Variables
-	AHRS gyro; //Example code for the gyro is at C:\Users\Panthrobotics\navx-mxp\java\examples
+	//AHRS gyro; //Example code for the gyro is at C:\Users\Panthrobotics\navx-mxp\java\examples
 	Joystick driveController, auxController;
 	PigeonIMU pigeonGyro;
 	TalonSRX leftFront, leftBack, rightFront, rightBack, elevatorMotor, rightArm, leftArm;
 	Encoder leftEncoder, rightEncoder;
 	TeleopGameDrive teleopDrive;
-	private AnalogGyro testGyro;
+	//private AnalogGyro testGyro;
 	
     //IterativeRobot has functions like the one below, hence the @Override.
 	@Override
@@ -52,7 +52,7 @@ public class Robot extends IterativeRobot {
 		leftArm = new TalonSRX(RobotMap.LEFT_ARM);
 		
 		//Initialize Gyro
-		testGyro = new AnalogGyro(1);
+		//testGyro = new AnalogGyro(1);
 		
 		//Initializing joystick
 		driveController = new Joystick(RobotMap.DRIVE_STICK_PORT);
@@ -63,11 +63,9 @@ public class Robot extends IterativeRobot {
 		teleopDrive = new TeleopGameDrive(leftFront, leftBack, rightFront, rightBack, driveController, auxController);*/
 		
 		//Initializing NavX gyro.
-		gyro = new AHRS(SerialPort.Port.kMXP);
+		//gyro = new AHRS(SerialPort.Port.kMXP);
 		
-		@SuppressWarnings("unused")
 		UsbCamera frontCamera = CameraServer.getInstance().startAutomaticCapture(0);
-		@SuppressWarnings("unused")
 		UsbCamera backCamera = CameraServer.getInstance().startAutomaticCapture(1);
 
 		//Intializing Encoders
@@ -100,8 +98,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic()
 	{
-		SmartDashboard.putNumber("getYaw", gyro.getYaw());
-		teleopDrive.periodic();
+		//SmartDashboard.putNumber("getYaw", gyro.getYaw());
+		//teleopDrive.periodic();
 
 	}
 
