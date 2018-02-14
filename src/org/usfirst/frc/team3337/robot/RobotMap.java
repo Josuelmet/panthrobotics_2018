@@ -11,23 +11,24 @@ public class RobotMap
 	
 	public final static int PIGEON_IMU_CAN_DEVICE_ID = 2; //Pigeon Gyro CAN ID.
 	
-	//Motors
-	public final static int LEFT_FRONT_TALON_SRX_CAN_DEVICE_ID = 1;
-	public final static int lEFT_BACK_TALON_SRX_CAN_DEVICE_ID = 2;
-	public final static int RIGHT_FRONT_TALON_SRX_CAN_DEVICE_ID = 3;
-	public final static int RIGHT_BACK_TALON_SRX_CAN_DEVICE_ID = 4;
+	//CAN Motors
+	public final static int LEFT_FRONT_TALON_SRX_CAN_DEVICE_ID = 1; //Yellow
+	public final static int lEFT_BACK_TALON_SRX_CAN_DEVICE_ID = 2; //Purple
+	public final static int RIGHT_FRONT_TALON_SRX_CAN_DEVICE_ID = 3; //Orange
+	public final static int RIGHT_BACK_TALON_SRX_CAN_DEVICE_ID = 4; //Blue
 	
 	public final static int LIFT_MOTOR_1 = 5;//temp number for lift mechanism
 	public final static int LIFT_MOTOR_2 = 6;
 	
+	//public final static int CLIMB_MOTOR_1 = 7;
+	//public final static int CLIMB_MOTOR_2 = 8;
+	
+	//PWM Motors
 	public final static int LEFT_ARM = 1;
 	public final static int RIGHT_ARM = 2;
 	
-	public final static int INTAKE_MOTOR_1 = 7;
-	public final static int INTAKE_MOTOR_2 = 8;
-	
-	public final static int CLIMB_MOTOR_1 = 9;
-	public final static int CLIMB_MOTOR_2 = 10;
+	//public final static int INTAKE_MOTOR_1 = 3;
+	//public final static int INTAKE_MOTOR_2 = 4;
 	
 	//Pneumatics Components
 	public final static int CLIMBER_SOLENOID = 0;

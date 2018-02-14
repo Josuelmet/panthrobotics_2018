@@ -40,13 +40,13 @@ public abstract class Drive
 	void driveLeft(double leftInput) 
 	{
 		leftFront.set(ControlMode.PercentOutput, leftInput*speedLimit);
-		leftBack.set(ControlMode.PercentOutput, leftInput*speedLimit);
+		//leftBack.set(ControlMode.PercentOutput, leftInput*speedLimit);
 	}
 	
 	void driveRight(double rightInput) 
 	{
 		rightFront.set(ControlMode.PercentOutput, -rightInput*speedLimit);
-		rightBack.set(ControlMode.PercentOutput, -rightInput*speedLimit);
+		//rightBack.set(ControlMode.PercentOutput, -rightInput*speedLimit);
 	}
 
 	void zeroSpeed()
@@ -64,8 +64,8 @@ public abstract class Drive
 	void updateVelocities()
 	{
 		leftFront.set(ControlMode.PercentOutput, vL);
-		leftBack.set(ControlMode.PercentOutput, vL);
+		//leftBack.set(ControlMode.PercentOutput, vL);
 		rightFront.set(ControlMode.PercentOutput, vR);
-		rightBack.set(ControlMode.PercentOutput, vR);
+		//rightBack.set(ControlMode.PercentOutput, vR);
 	}	
 }

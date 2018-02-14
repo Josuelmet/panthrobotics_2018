@@ -45,8 +45,12 @@ public class Robot extends IterativeRobot {
 		//Initialize motors
 		leftFront = new TalonSRX(RobotMap.LEFT_FRONT_TALON_SRX_CAN_DEVICE_ID);
 		leftBack = new TalonSRX(RobotMap.lEFT_BACK_TALON_SRX_CAN_DEVICE_ID);
+		leftBack.follow(leftFront);
+		
 		rightFront = new TalonSRX(RobotMap.RIGHT_FRONT_TALON_SRX_CAN_DEVICE_ID);
 		rightBack = new TalonSRX(RobotMap.RIGHT_BACK_TALON_SRX_CAN_DEVICE_ID);
+		rightBack.follow(rightFront);
+		
 		elevatorMotor = new TalonSRX(RobotMap.LIFT_MOTOR_1);
 		rightArm = new TalonSRX(RobotMap.RIGHT_ARM);
 		leftArm = new TalonSRX(RobotMap.LEFT_ARM);
@@ -59,8 +63,8 @@ public class Robot extends IterativeRobot {
 		auxController = new Joystick(RobotMap.AUX_STICK_PORT);
 		
 		/*Give pigeonGyro value.
-		pigeonGyro = new PigeonIMU(RobotMap.PIGEON_IMU_CAN_DEVICE_ID);
-		teleopDrive = new TeleopGameDrive(leftFront, leftBack, rightFront, rightBack, driveController, auxController);*/
+		pigeonGyro = new PigeonIMU(RobotMap.PIGEON_IMU_CAN_DEVICE_ID);*/
+		teleopDrive = new TeleopGameDrive(leftFront, leftBack, rightFront, rightBack, driveController, auxController);
 		
 		//Initializing NavX gyro.
 		//gyro = new AHRS(SerialPort.Port.kMXP);
