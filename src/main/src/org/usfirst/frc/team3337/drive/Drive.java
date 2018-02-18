@@ -31,6 +31,7 @@ public abstract class Drive
 		rightFront = _rightFront;
 		rightBack = _rightBack;
 		zeroSpeed();
+		SmartDashboard.putNumber("Gyro Number", 0.1);
 	}
 	
 	double speedLimit = 0.75;

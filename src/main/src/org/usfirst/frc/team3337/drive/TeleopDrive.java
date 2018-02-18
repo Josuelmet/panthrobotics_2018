@@ -1,6 +1,7 @@
 //Our package
 package main.src.org.usfirst.frc.team3337.drive;
 
+import org.usfirst.frc.team3337.robot.Robot;
 //Our other classes
 import org.usfirst.frc.team3337.robot.RobotMap;
 import main.src.org.usfirst.frc.team3337.drive.ToggleButton;
@@ -74,8 +75,11 @@ public abstract class TeleopDrive extends Drive
 	//GTA Forwards Drive
 	private void gtaDriveForwards()
 	{
-		driveLeft(gtaForwardTrigger * speedLimit * -1);
-		driveRight(gtaForwardTrigger * speedLimit * -1);
+		double yaw = Robot.gyro.getYaw();
+		double gyroCoefficient = SmartDashboard.getNumber("Gyro Number", 0.1);
+	    double scaledAngleDifference = yaw * gyroCoefficient;
+		driveLeft((gtaForwardTrigger * speedLimit * -1) + scaledAngleDifference);
+		driveRight((gtaForwardTrigger * speedLimit * -1) - scaledAngleDifference);
 	}
 	
 	//GTA sdrawkcaB Drive

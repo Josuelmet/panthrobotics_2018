@@ -17,11 +17,13 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //3337 packages
 import main.src.org.usfirst.frc.team3337.drive.TeleopGameDrive;
@@ -30,13 +32,12 @@ import main.src.org.usfirst.frc.team3337.drive.TeleopGameDrive;
 public class Robot extends IterativeRobot {
 	
 	//Declaring Variables
-	//AHRS gyro; //Example code for the gyro is at C:\Users\Panthrobotics\navx-mxp\java\examples
-	Joystick driveController, auxController;
-	PigeonIMU pigeonGyro;
-	TalonSRX leftFront, leftBack, rightFront, rightBack, elevatorMotor, rightArm, leftArm;
-	Encoder leftEncoder, rightEncoder;
+	public static AHRS gyro; //Example code for the gyro is at C:\Users\Panthrobotics\navx-mxp\java\examples
+	public static Joystick driveController, auxController;
+	public static PigeonIMU pigeonGyro;
+	public static TalonSRX leftFront, leftBack, rightFront, rightBack, elevatorMotor, rightArm, leftArm;
+	public static Encoder leftEncoder, rightEncoder;
 	TeleopGameDrive teleopDrive;
-	//private AnalogGyro testGyro;
 	
     //IterativeRobot has functions like the one below, hence the @Override.
 	@Override
@@ -45,29 +46,26 @@ public class Robot extends IterativeRobot {
 		//Initialize motors
 		leftFront = new TalonSRX(RobotMap.LEFT_FRONT_TALON_SRX_CAN_DEVICE_ID);
 		leftBack = new TalonSRX(RobotMap.lEFT_BACK_TALON_SRX_CAN_DEVICE_ID);
-		leftBack.follow(leftFront);
+		leftBack.follow(leftFront); //leftBack will do what leftFront does.
 		
 		rightFront = new TalonSRX(RobotMap.RIGHT_FRONT_TALON_SRX_CAN_DEVICE_ID);
 		rightBack = new TalonSRX(RobotMap.RIGHT_BACK_TALON_SRX_CAN_DEVICE_ID);
-		rightBack.follow(rightFront);
+		rightBack.follow(rightFront); //rightBack will do what rightFront does.
 		
 		elevatorMotor = new TalonSRX(RobotMap.LIFT_MOTOR_1);
 		rightArm = new TalonSRX(RobotMap.RIGHT_ARM);
 		leftArm = new TalonSRX(RobotMap.LEFT_ARM);
 		
-		//Initialize Gyro
-		//testGyro = new AnalogGyro(1);
-		
 		//Initializing joystick
 		driveController = new Joystick(RobotMap.DRIVE_STICK_PORT);
 		auxController = new Joystick(RobotMap.AUX_STICK_PORT);
 		
-		/*Give pigeonGyro value.
-		pigeonGyro = new PigeonIMU(RobotMap.PIGEON_IMU_CAN_DEVICE_ID);*/
+		//Give pigeonGyro value.
+		//pigeonGyro = new PigeonIMU(rightFront); //the gyro is plugged into the rightFront motor controller.
 		teleopDrive = new TeleopGameDrive(leftFront, leftBack, rightFront, rightBack, driveController, auxController);
 		
-		//Initializing NavX gyro.
-		//gyro = new AHRS(SerialPort.Port.kMXP);
+		//Initializing NavX gyro. MAKE SURE IT'S ON!!
+		gyro = new AHRS(SPI.Port.kMXP); // It must be SPI or I2C instead of SerialPort because of communication issues.
 		
 		UsbCamera frontCamera = CameraServer.getInstance().startAutomaticCapture(0);
 		UsbCamera backCamera = CameraServer.getInstance().startAutomaticCapture(1);
@@ -102,9 +100,10 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic()
 	{
-		//SmartDashboard.putNumber("getYaw", gyro.getYaw());
-		//teleopDrive.periodic();
-
+		teleopDrive.periodic();
+		/*double [] ypr = new double[3];
+		pigeonGyro.getYawPitchRoll(ypr);*/
+		SmartDashboard.putNumber("Yaw", gyro.getYaw());
 	}
 
 	@Override
