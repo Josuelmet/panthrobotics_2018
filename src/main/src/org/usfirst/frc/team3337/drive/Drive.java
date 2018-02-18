@@ -19,7 +19,6 @@ public abstract class Drive
 
 	//Declaring Variables
 	double vL, vR, velocity;
-	
 	Encoder oneEncoder, twoEncoder;
 	TalonSRX leftFront, leftBack, rightFront, rightBack;
 	
@@ -31,7 +30,7 @@ public abstract class Drive
 		rightFront = _rightFront;
 		rightBack = _rightBack;
 		zeroSpeed();
-		SmartDashboard.putNumber("Gyro Number", 0.1);
+		SmartDashboard.putNumber("Gyro Number", 0.0001);
 	}
 	
 	double speedLimit = 0.75;
@@ -41,7 +40,7 @@ public abstract class Drive
 	void driveLeft(double leftInput) 
 	{
 		leftFront.set(ControlMode.PercentOutput, leftInput*speedLimit);
-		//leftBack.set(ControlMode.PercentOutput, leftInput*speedLimit);
+		leftBack.set(ControlMode.PercentOutput, leftInput*speedLimit);
 	}
 	
 	void driveRight(double rightInput) 
@@ -65,7 +64,7 @@ public abstract class Drive
 	void updateVelocities()
 	{
 		leftFront.set(ControlMode.PercentOutput, vL);
-		//leftBack.set(ControlMode.PercentOutput, vL);
+		leftBack.set(ControlMode.PercentOutput, vL);
 		rightFront.set(ControlMode.PercentOutput, vR);
 		//rightBack.set(ControlMode.PercentOutput, vR);
 	}	

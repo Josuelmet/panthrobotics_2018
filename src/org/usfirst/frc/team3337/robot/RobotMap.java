@@ -50,8 +50,8 @@ public class RobotMap
 	public final static int SWITCH_BUTTON = 4; //Y Button
 	
 	//Axes on Controller
-	public final static int GTA_FORWARD = 2; //Left Trigger
-	public final static int GTA_BACKWARD = 3; //Right Trigger
+	public final static int GTA_FORWARD = 3; //Left Trigger
+	public final static int GTA_BACKWARD = 2; //Right Trigger
 	
 	//Encoder 
 	public final static int LEFT_ENCODER = 1;

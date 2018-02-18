@@ -8,7 +8,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 //Cross the Road Electronics packages
 import com.ctre.phoenix.motorcontrol.can.TalonSRX; //CANTalon class
 import com.ctre.phoenix.sensors.PigeonIMU; //Pigeon gyro class
-import com.kauailabs.navx.frc.AHRS;
+//import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.AnalogGyro;
 
 //WPI Library packages
@@ -32,9 +32,9 @@ import main.src.org.usfirst.frc.team3337.drive.TeleopGameDrive;
 public class Robot extends IterativeRobot {
 	
 	//Declaring Variables
-	public static AHRS gyro; //Example code for the gyro is at C:\Users\Panthrobotics\navx-mxp\java\examples
+	//public static AHRS gyro; //Example code for the gyro is at C:\Users\Panthrobotics\navx-mxp\java\examples
 	public static Joystick driveController, auxController;
-	public static PigeonIMU pigeonGyro;
+	public static PigeonIMU gyro;
 	public static TalonSRX leftFront, leftBack, rightFront, rightBack, elevatorMotor, rightArm, leftArm;
 	public static Encoder leftEncoder, rightEncoder;
 	TeleopGameDrive teleopDrive;
@@ -61,11 +61,12 @@ public class Robot extends IterativeRobot {
 		auxController = new Joystick(RobotMap.AUX_STICK_PORT);
 		
 		//Give pigeonGyro value.
-		//pigeonGyro = new PigeonIMU(rightFront); //the gyro is plugged into the rightFront motor controller.
+		gyro = new PigeonIMU(rightFront); //the gyro is plugged into the rightFront motor controller.
 		teleopDrive = new TeleopGameDrive(leftFront, leftBack, rightFront, rightBack, driveController, auxController);
 		
 		//Initializing NavX gyro. MAKE SURE IT'S ON!!
-		gyro = new AHRS(SPI.Port.kMXP); // It must be SPI or I2C instead of SerialPort because of communication issues.
+		//gyro = new AHRS(SPI.Port.kMXP); // It must be SPI or I2C instead of SerialPort because of communication issues.
+		
 		
 		UsbCamera frontCamera = CameraServer.getInstance().startAutomaticCapture(0);
 		UsbCamera backCamera = CameraServer.getInstance().startAutomaticCapture(1);
@@ -97,13 +98,19 @@ public class Robot extends IterativeRobot {
 	{
 		teleopDrive.init();
 	}
+	
 	@Override
 	public void teleopPeriodic()
 	{
 		teleopDrive.periodic();
-		/*double [] ypr = new double[3];
-		pigeonGyro.getYawPitchRoll(ypr);*/
-		SmartDashboard.putNumber("Yaw", gyro.getYaw());
+		SmartDashboard.putNumber("Yaw", getYaw());
+	}
+	
+	public static double getYaw()
+	{
+		double [] ypr = new double[3];
+		gyro.getYawPitchRoll(ypr);
+		return ypr[0];
 	}
 
 	@Override

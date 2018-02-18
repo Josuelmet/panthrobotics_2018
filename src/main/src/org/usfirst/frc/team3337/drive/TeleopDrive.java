@@ -73,20 +73,20 @@ public abstract class TeleopDrive extends Drive
 	}
 	
 	//GTA Forwards Drive
-	private void gtaDriveForwards()
+	private void gtaDriveBackwards()
 	{
-		double yaw = Robot.gyro.getYaw();
+		double yaw = Robot.getYaw();
 		double gyroCoefficient = SmartDashboard.getNumber("Gyro Number", 0.1);
-	    double scaledAngleDifference = yaw * gyroCoefficient;
-		driveLeft((gtaForwardTrigger * speedLimit * -1) + scaledAngleDifference);
-		driveRight((gtaForwardTrigger * speedLimit * -1) - scaledAngleDifference);
+	    double scaledAngleDifference =  yaw * gyroCoefficient;
+		driveLeft((gtaForwardTrigger * speedLimit) + scaledAngleDifference);
+		driveRight((gtaForwardTrigger * speedLimit) - scaledAngleDifference);
 	}
 	
 	//GTA sdrawkcaB Drive
-	private void gtaDriveBackwards()
+	private void gtaDriveForwards()
 	{
-		driveLeft(gtaBackwardTrigger * speedLimit);
-		driveRight(gtaBackwardTrigger * speedLimit);
+		driveLeft(gtaBackwardTrigger * speedLimit * -1);
+		driveRight(gtaBackwardTrigger * speedLimit * -1);
 	}
 	
 	//This is a function that must be implemented by the child class.
@@ -115,10 +115,16 @@ public abstract class TeleopDrive extends Drive
 		 * 3) Arcade and Tank
 		 */
 		if (gtaForwardTrigger > 0) 
+		{
+			SmartDashboard.putString("status", "gtaForward");
 			gtaDriveForwards();
+		}
 		else if (gtaBackwardTrigger > 0)
+		{
 			gtaDriveBackwards();
-		else if (driveSwitchButton.get())
+			SmartDashboard.putString("status", "gtaBackward");
+		}
+			else if (driveSwitchButton.get())
 			arcadeDrive();
 		else
 			tankDrive();
