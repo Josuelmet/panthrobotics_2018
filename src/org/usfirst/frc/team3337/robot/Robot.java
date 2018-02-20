@@ -36,6 +36,7 @@ public class Robot extends IterativeRobot {
 	public static Joystick driveController, auxController;
 	public static PigeonIMU gyro;
 	public static TalonSRX leftFront, leftBack, rightFront, rightBack, elevatorMotor, rightArm, leftArm;
+	public static Timer time;
 	public static Encoder leftEncoder, rightEncoder;
 	TeleopGameDrive teleopDrive;
 	
@@ -67,6 +68,9 @@ public class Robot extends IterativeRobot {
 		//Initializing NavX gyro. MAKE SURE IT'S ON!!
 		//gyro = new AHRS(SPI.Port.kMXP); // It must be SPI or I2C instead of SerialPort because of communication issues.
 		
+		time = new Timer();
+		time.reset();
+		time.start();
 		
 		UsbCamera frontCamera = CameraServer.getInstance().startAutomaticCapture(0);
 		UsbCamera backCamera = CameraServer.getInstance().startAutomaticCapture(1);
@@ -85,12 +89,11 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic()
 	{
-		/*
-		 * How to read from the Pigeon Gyro:
-		 * double [] yawPitchRoll = new double[3];
-		 * pigeonGyro.getYawPitchRoll(yawPitchRoll);
-		 * double yaw = yawPitchRoll[0];
-		 */
+		leftFront.set(ControlMode.PercentOutput, -0.2);
+		leftBack.set(ControlMode.PercentOutput, -0.2);
+		rightFront.set(ControlMode.PercentOutput, -0.2);
+		System.out.println("Yaw" + getYaw() % 360);
+		Timer.delay(1);
 	}
 
 	@Override
@@ -104,13 +107,38 @@ public class Robot extends IterativeRobot {
 	{
 		teleopDrive.periodic();
 		SmartDashboard.putNumber("Yaw", getYaw());
+		if (time.get() % 1 < 0.01) //this isn't working, and it's returning values greater than 360.
+		{
+			System.out.println("Yaw" + getYaw() % 360);
+		}
 	}
 	
 	public static double getYaw()
 	{
+		/*
+		 * The yaw returned by the gyro goes negative when turning clockwise (right),
+		 * positive when turning counterclockwise (left).
+		 * However, the yaw returned does not return a value from -180 to +180.
+		 * Rather, the yaw returned continues to build past 180 and -180.
+		 * For example, if the robot turns 2 perfect revolutions,
+		 * the gyro does not return 0, but rather returns -720.
+		 * Not terribly useful.
+		 * As such, this function processes the yaw input to return a value
+		 * from -180 to +180, with negative being clockwise, and positive being counterclockwise.
+		 */
 		double [] ypr = new double[3];
 		gyro.getYawPitchRoll(ypr);
-		return ypr[0];
+		double rawYaw = ypr[0] % 360;
+		if ((rawYaw <= 0 && rawYaw > -180) || (rawYaw >= 0 && rawYaw <= 180))
+			return rawYaw;
+		else
+		{
+			if (rawYaw < 0)
+				return 360 - rawYaw;
+			else
+				return rawYaw - 360;
+		}
+			
 	}
 
 	@Override

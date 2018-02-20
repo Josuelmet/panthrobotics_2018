@@ -31,6 +31,8 @@ public abstract class TeleopDrive extends Drive
 	
 	double previousVelocity, reverse, velocity;	
 	double joyLY, joyLX, joyRY, joyRX, gtaForwardTrigger, gtaBackwardTrigger;
+	double originalForwardsAngle, originalBackwardsAngle;
+	boolean forwardsPressed, backwardsPressed;
 	
 	public static final double SLOW_SPEED = 0.5;
 	
@@ -54,6 +56,8 @@ public abstract class TeleopDrive extends Drive
 		//Put up acceleration input to dashboard
 		SmartDashboard.putNumber("a->", 0.1);
 		SmartDashboard.putNumber("a<-", 0.1);
+		backwardsPressed = false;
+		forwardsPressed = false;
 	}
 	
 	//Arcade Drive
@@ -73,20 +77,36 @@ public abstract class TeleopDrive extends Drive
 	}
 	
 	//GTA Forwards Drive
-	private void gtaDriveBackwards()
+	private void driveBackwards()
 	{
-		double yaw = Robot.getYaw();
+		if (!backwardsPressed) //if backwards GTA has not been pressed
+		{
+			originalBackwardsAngle = Robot.getYaw();
+			System.out.println("angle = " + originalBackwardsAngle);
+			backwardsPressed = true;
+		}
+		/*double yaw = Robot.getYaw();
 		double gyroCoefficient = SmartDashboard.getNumber("Gyro Number", 0.1);
 	    double scaledAngleDifference =  yaw * gyroCoefficient;
 		driveLeft((gtaForwardTrigger * speedLimit) + scaledAngleDifference);
-		driveRight((gtaForwardTrigger * speedLimit) - scaledAngleDifference);
+		driveRight((gtaForwardTrigger * speedLimit) - scaledAngleDifference);*/
+		driveLeft(-0.2);
+		driveRight(-0.2);
 	}
 	
 	//GTA sdrawkcaB Drive
-	private void gtaDriveForwards()
+	private void driveForwards()
 	{
-		driveLeft(gtaBackwardTrigger * speedLimit * -1);
-		driveRight(gtaBackwardTrigger * speedLimit * -1);
+		if (!forwardsPressed) //if backwards GTA has not been pressed
+		{
+			originalForwardsAngle = Robot.getYaw();
+			System.out.println("angle = " + originalForwardsAngle);
+			forwardsPressed = true;
+		}
+		driveLeft(0.2);
+		driveRight(0.2);
+		/*driveLeft(gtaBackwardTrigger * speedLimit * -1);
+		driveRight(gtaBackwardTrigger * speedLimit * -1);*/
 	}
 	
 	//This is a function that must be implemented by the child class.
@@ -116,18 +136,28 @@ public abstract class TeleopDrive extends Drive
 		 */
 		if (gtaForwardTrigger > 0) 
 		{
+			driveForwards();
 			SmartDashboard.putString("status", "gtaForward");
-			gtaDriveForwards();
+			backwardsPressed = false;
 		}
 		else if (gtaBackwardTrigger > 0)
 		{
-			gtaDriveBackwards();
+			driveBackwards();
 			SmartDashboard.putString("status", "gtaBackward");
+			forwardsPressed = false;
 		}
-			else if (driveSwitchButton.get())
+		else if (driveSwitchButton.get())
+		{
 			arcadeDrive();
+			backwardsPressed = false;
+			forwardsPressed = false;
+		}
 		else
+		{
 			tankDrive();
+			backwardsPressed = false;
+			forwardsPressed = false;
+		}
 		if (speedDecrease.get())
     	{
     		vL *= SLOW_SPEED;
