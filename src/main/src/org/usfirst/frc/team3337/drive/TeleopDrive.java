@@ -29,7 +29,7 @@ public abstract class TeleopDrive extends Drive
 	Button autoRaiseElevator, autoLowerElevator, switchButton, manualRaiseElevator, manualLowerElevator;
 	Timer tempTimer;
 	
-	double previousVelocity, reverse, velocity;	
+	double previousVelocity, reverse, velocity, previousAngle;	
 	double joyLY, joyLX, joyRY, joyRX, gtaForwardTrigger, gtaBackwardTrigger;
 	double originalForwardsAngle, originalBackwardsAngle;
 	boolean forwardsPressed, backwardsPressed;
@@ -81,17 +81,21 @@ public abstract class TeleopDrive extends Drive
 	{
 		if (!backwardsPressed) //if backwards GTA has not been pressed
 		{
-			originalBackwardsAngle = Robot.getYaw();
+			originalBackwardsAngle = Robot.getRawYaw();
 			System.out.println("angle = " + originalBackwardsAngle);
 			backwardsPressed = true;
 		}
-		/*double yaw = Robot.getYaw();
-		double gyroCoefficient = SmartDashboard.getNumber("Gyro Number", 0.1);
-	    double scaledAngleDifference =  yaw * gyroCoefficient;
-		driveLeft((gtaForwardTrigger * speedLimit) + scaledAngleDifference);
+        double scaledAngleDifference = (Robot.getRawYaw() - originalBackwardsAngle) * GYRO_COEFFICIENT;
+		/* The right side overpowers the left. This fixes that.
+		 * Since the right side is stronger than the left, the robot will turn left when going forwards.
+		 * As such, the expected change in angle since the robot started will be negative.
+		 * To decrease the power of the right side and increase that of the left,
+		 * we will subtract the angle difference to the left side and add it to the right side.
+		 */
+		driveLeft((-gtaBackwardTrigger + scaledAngleDifference) *speedLimit);
+		driveRight((-gtaBackwardTrigger - scaledAngleDifference) * speedLimit);
+		/*driveLeft((gtaForwardTrigger * speedLimit) + scaledAngleDifference);
 		driveRight((gtaForwardTrigger * speedLimit) - scaledAngleDifference);*/
-		driveLeft(-0.2);
-		driveRight(-0.2);
 	}
 	
 	//GTA sdrawkcaB Drive
@@ -99,12 +103,20 @@ public abstract class TeleopDrive extends Drive
 	{
 		if (!forwardsPressed) //if backwards GTA has not been pressed
 		{
-			originalForwardsAngle = Robot.getYaw();
+			originalForwardsAngle = Robot.getRawYaw();
 			System.out.println("angle = " + originalForwardsAngle);
 			forwardsPressed = true;
 		}
-		driveLeft(0.2);
-		driveRight(0.2);
+        double gyroCoefficient = 0.01;
+        double scaledAngleDifference = (Robot.getRawYaw() - originalForwardsAngle) * GYRO_COEFFICIENT;
+		/* The right side overpowers the left. This fixes that.
+		 * Since the right side is stronger than the left, the robot will turn left when going forwards.
+		 * As such, the expected change in angle since the robot started will be positive.
+		 * To decrease the power of the right side and increase that of the left,
+		 * we will add the angle difference to the left side and subtract it from the right side.
+		 */
+		driveLeft((gtaForwardTrigger + scaledAngleDifference) *speedLimit);
+		driveRight((gtaForwardTrigger - scaledAngleDifference) * speedLimit);
 		/*driveLeft(gtaBackwardTrigger * speedLimit * -1);
 		driveRight(gtaBackwardTrigger * speedLimit * -1);*/
 	}
@@ -124,23 +136,23 @@ public abstract class TeleopDrive extends Drive
 	public void periodic()
 	{
 		ToggleButton.updateToggleButtons();
-		
-		//double deltaT = changeTimer.get(); //deltaT is the change in time since this function was called.
 		updateControls(); //This gets the values for joystick inputs from the child class.
 		
+        //TODO: add turning (after autonomous)
+        double scaledAngleDifference = (Robot.getRawYaw() - previousAngle) * GYRO_COEFFICIENT;
 		/*
 		 * Priority of drive modes:
 		 * 1) GTA Forward
 		 * 2) GTA Backward
 		 * 3) Arcade and Tank
 		 */
-		if (gtaForwardTrigger > 0) 
+		if (gtaForwardTrigger > 0) //TODO: add turning (after autonomous)
 		{
 			driveForwards();
 			SmartDashboard.putString("status", "gtaForward");
 			backwardsPressed = false;
 		}
-		else if (gtaBackwardTrigger > 0)
+		else if (gtaBackwardTrigger > 0) //TODO: add turning (after autonomous)
 		{
 			driveBackwards();
 			SmartDashboard.putString("status", "gtaBackward");
@@ -163,6 +175,8 @@ public abstract class TeleopDrive extends Drive
     		vL *= SLOW_SPEED;
     		vR *= SLOW_SPEED;
     	}
+		
+		previousAngle = Robot.getRawYaw();
 	}
 	
 	double deadZone(double value)

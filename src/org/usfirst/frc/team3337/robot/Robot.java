@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //3337 packages
 import main.src.org.usfirst.frc.team3337.drive.TeleopGameDrive;
@@ -34,6 +35,7 @@ public class Robot extends IterativeRobot {
 	//Declaring Variables
 	//public static AHRS gyro; //Example code for the gyro is at C:\Users\Panthrobotics\navx-mxp\java\examples
 	public static Joystick driveController, auxController;
+	public static JoystickButton gyroButton;
 	public static PigeonIMU gyro;
 	public static TalonSRX leftFront, leftBack, rightFront, rightBack, elevatorMotor, rightArm, leftArm;
 	public static Timer time;
@@ -74,6 +76,8 @@ public class Robot extends IterativeRobot {
 		
 		UsbCamera frontCamera = CameraServer.getInstance().startAutomaticCapture(0);
 		UsbCamera backCamera = CameraServer.getInstance().startAutomaticCapture(1);
+		
+		gyroButton = new JoystickButton(driveController, 1);
 
 		//Intializing Encoders
 		//leftEncoder = new Encoder(RobotMap.LEFT_ENCODER);
@@ -107,10 +111,8 @@ public class Robot extends IterativeRobot {
 	{
 		teleopDrive.periodic();
 		SmartDashboard.putNumber("Yaw", getYaw());
-		if (time.get() % 1 < 0.01) //this isn't working, and it's returning values greater than 360.
-		{
-			System.out.println("Yaw" + getYaw() % 360);
-		}
+		if (gyroButton.get())
+			System.out.println("Yaw:::::" + getYaw());
 	}
 	
 	public static double getYaw()
@@ -126,19 +128,24 @@ public class Robot extends IterativeRobot {
 		 * As such, this function processes the yaw input to return a value
 		 * from -180 to +180, with negative being clockwise, and positive being counterclockwise.
 		 */
-		double [] ypr = new double[3];
-		gyro.getYawPitchRoll(ypr);
-		double rawYaw = ypr[0] % 360;
-		if ((rawYaw <= 0 && rawYaw > -180) || (rawYaw >= 0 && rawYaw <= 180))
+		double rawYaw = getRawYaw();
+		if (Math.abs(rawYaw) <= 180)
 			return rawYaw;
 		else
 		{
 			if (rawYaw < 0)
-				return 360 - rawYaw;
+				return 360 + rawYaw;
 			else
 				return rawYaw - 360;
 		}
 			
+	}
+	
+	public static double getRawYaw()
+	{
+		double [] ypr = new double[3];
+		gyro.getYawPitchRoll(ypr);
+		return ypr[0];
 	}
 
 	@Override

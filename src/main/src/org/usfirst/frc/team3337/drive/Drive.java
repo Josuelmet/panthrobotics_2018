@@ -19,6 +19,7 @@ public abstract class Drive
 
 	//Declaring Variables
 	double vL, vR, velocity;
+	public static final double GYRO_COEFFICIENT = 0.01;
 	Encoder oneEncoder, twoEncoder;
 	TalonSRX leftFront, leftBack, rightFront, rightBack;
 	
