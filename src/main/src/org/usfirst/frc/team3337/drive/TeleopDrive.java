@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.Solenoid;
 
 //This is the class TeleopDrive. It is a child of Drive. It is abstract.
 public abstract class TeleopDrive extends Drive
@@ -28,6 +29,7 @@ public abstract class TeleopDrive extends Drive
 	//make a RobotMap value for bumpers for auto buttons and triggers for manual buttons
 	Button autoRaiseElevator, autoLowerElevator, switchButton, manualRaiseElevator, manualLowerElevator;
 	Timer tempTimer;
+	Solenoid extendPistons, retractPistons, supportPiston;
 	
 	double previousVelocity, reverse, velocity, previousAngle;	
 	double joyLY, joyLX, joyRY, joyRX, gtaForwardTrigger, gtaBackwardTrigger;
@@ -52,6 +54,9 @@ public abstract class TeleopDrive extends Drive
 		autoLowerElevator = new JoystickButton(auxController, RobotMap.LOWER_ELEVATOR_AUTO);
 		manualRaiseElevator = new JoystickButton(auxController, RobotMap.RAISE_ELEVATOR_MANUAL);//unsure atm how to key in triggers, just basis stuff
 		manualLowerElevator = new JoystickButton(auxController, RobotMap.LOWER_ELEVATOR_MANUAL);//unsure atm how to key in triggers, just basis stuff
+		extendPistons = new Solenoid(RobotMap.EXTEND_PISTON);
+		retractPistons = new Solenoid(RobotMap.RETRACT_PISTON);
+		supportPiston = new Solenoid(RobotMap.SUPPORT_PISTON);
 		
 		//Put up acceleration input to dashboard
 		SmartDashboard.putNumber("a->", 0.1);
