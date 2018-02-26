@@ -27,7 +27,7 @@ public abstract class TeleopDrive extends Drive
 	Joystick driveController, auxController;
 	ToggleButton driveSwitchButton, speedDecrease;
 	//make a RobotMap value for bumpers for auto buttons and triggers for manual buttons
-	Button autoRaiseElevator, autoLowerElevator, switchButton, manualRaiseElevator, manualLowerElevator;
+	Button autoRaiseElevator, autoLowerElevator, switchButton, manualRaiseElevator, manualLowerElevator, elevatorMotorOneButton, elevatorMotorTwoButton;
 	Timer tempTimer;
 	Solenoid extendPistons, retractPistons, supportPiston;
 	
@@ -50,10 +50,15 @@ public abstract class TeleopDrive extends Drive
 		
 		driveSwitchButton = new ToggleButton(new JoystickButton(driveController, RobotMap.DRIVE_SWITCH_TOGGLE));
 		speedDecrease = new ToggleButton(new JoystickButton(driveController, RobotMap.SPEED_DECREASE));
-		autoRaiseElevator = new JoystickButton(auxController, RobotMap.RAISE_ELEVATOR_AUTO);
+		
+		/*autoRaiseElevator = new JoystickButton(auxController, RobotMap.RAISE_ELEVATOR_AUTO);
 		autoLowerElevator = new JoystickButton(auxController, RobotMap.LOWER_ELEVATOR_AUTO);
 		manualRaiseElevator = new JoystickButton(auxController, RobotMap.RAISE_ELEVATOR_MANUAL);//unsure atm how to key in triggers, just basis stuff
 		manualLowerElevator = new JoystickButton(auxController, RobotMap.LOWER_ELEVATOR_MANUAL);//unsure atm how to key in triggers, just basis stuff
+		*/
+		elevatorMotorOneButton = new JoystickButton(auxController, RobotMap.LIFT_MOTOR_1);
+		elevatorMotorTwoButton = new JoystickButton(auxController, RobotMap.LIFT_MOTOR_2);
+		
 		extendPistons = new Solenoid(RobotMap.EXTEND_PISTON);
 		retractPistons = new Solenoid(RobotMap.RETRACT_PISTON);
 		supportPiston = new Solenoid(RobotMap.SUPPORT_PISTON);

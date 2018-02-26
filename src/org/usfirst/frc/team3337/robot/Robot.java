@@ -37,7 +37,7 @@ public class Robot extends IterativeRobot {
 	public static Joystick driveController, auxController;
 	public static JoystickButton gyroButton;
 	public static PigeonIMU gyro;
-	public static TalonSRX leftFront, leftBack, rightFront, rightBack, elevatorMotor, rightArm, leftArm;
+	public static TalonSRX leftFront, leftBack, rightFront, rightBack, elevatorMotorOne, elevatorMotorTwo, rightArm, leftArm;
 	public static Timer time;
 	public static Encoder leftEncoder, rightEncoder;
 	TeleopGameDrive teleopDrive;
@@ -55,7 +55,9 @@ public class Robot extends IterativeRobot {
 		rightBack = new TalonSRX(RobotMap.RIGHT_BACK_TALON_SRX_CAN_DEVICE_ID);
 		rightBack.follow(rightFront); //rightBack will do what rightFront does.
 		
-		elevatorMotor = new TalonSRX(RobotMap.LIFT_MOTOR_1);
+		elevatorMotorOne = new TalonSRX(RobotMap.LIFT_MOTOR_1);
+		elevatorMotorTwo = new TalonSRX(RobotMap.LIFT_MOTOR_2);
+		
 		rightArm = new TalonSRX(RobotMap.RIGHT_ARM);
 		leftArm = new TalonSRX(RobotMap.LEFT_ARM);
 		
