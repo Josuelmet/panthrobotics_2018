@@ -30,7 +30,7 @@ public abstract class Drive
 		leftBack = _leftBack;
 		rightFront = _rightFront;
 		rightBack = _rightBack;
-		zeroSpeed();
+		zeroVelocities();
 		SmartDashboard.putNumber("Gyro Number", 0.0001);
 	}
 	
@@ -46,27 +46,13 @@ public abstract class Drive
 	
 	void driveRight(double rightInput) 
 	{
-		rightFront.set(ControlMode.PercentOutput, -rightInput*speedLimit);
-		//rightBack.set(ControlMode.PercentOutput, -rightInput*speedLimit);
-	}
-
-	void zeroSpeed()
-	{
-		driveLeft(0);
-		driveRight(0);
+		//rightFront.set(ControlMode.PercentOutput, -rightInput*speedLimit);
+		rightBack.set(ControlMode.PercentOutput, -rightInput*speedLimit);
 	}
 	
 	void zeroVelocities()
 	{
-		velocity = 0;
-		updateVelocities();
-	}
-	
-	void updateVelocities()
-	{
-		leftFront.set(ControlMode.PercentOutput, vL);
-		leftBack.set(ControlMode.PercentOutput, vL);
-		rightFront.set(ControlMode.PercentOutput, vR);
-		//rightBack.set(ControlMode.PercentOutput, vR);
+		driveLeft(0);
+		driveRight(0);
 	}	
 }
