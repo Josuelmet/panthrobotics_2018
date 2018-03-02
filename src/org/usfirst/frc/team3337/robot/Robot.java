@@ -192,11 +192,11 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic()
 	{
-		//teleopDrive.periodic();
+		teleopDrive.periodic();
 		
 		double leftYStick = -1.0 * driveController.getRawAxis(1);
 		
-		
+		/*
 		double rbMotorOutput = rightBack.getMotorOutputVoltage() / rightBack.getBusVoltage();
 		rbSB.append("\tRB_out:");
 		rbSB.append(rbMotorOutput);
@@ -306,7 +306,6 @@ public class Robot extends IterativeRobot {
 			rightArm.set(0);
 			leftArm.set(0);
 		}
-		
 		
 	}
 	
