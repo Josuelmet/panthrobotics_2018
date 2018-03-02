@@ -193,10 +193,9 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic()
 	{
 		teleopDrive.periodic();
-		
+		/*
 		double leftYStick = -1.0 * driveController.getRawAxis(1);
 		
-		/*
 		double rbMotorOutput = rightBack.getMotorOutputVoltage() / rightBack.getBusVoltage();
 		rbSB.append("\tRB_out:");
 		rbSB.append(rbMotorOutput);
@@ -209,30 +208,31 @@ public class Robot extends IterativeRobot {
 		lbSB.append("\tLB_spd:");
 		lbSB.append(leftBack.getSelectedSensorVelocity(pidIdx));
 		
-		/*double lfMotorOutput = leftFront.getMotorOutputVoltage() / leftFront.getBusVoltage();
+		double lfMotorOutput = leftFront.getMotorOutputVoltage() / leftFront.getBusVoltage();
 		lfSB.append("\tLF_out:");
 		lfSB.append(lfMotorOutput);
 		lfSB.append("\tLF_spd:");
-		lfSB.append(leftFront.getSelectedSensorVelocity(pidIdx));*/
+		lfSB.append(leftFront.getSelectedSensorVelocity(pidIdx));
+		
 		
 		if (driveController.getRawButton(1))
 		{
 			/* Motion Magic */
-			double targetPos = leftYStick * 10.0; /* 10 Rotations in either direction */
-			
+			//double targetPos = leftYStick * 10.0; /* 10 Rotations in either direction */
+			/*
 			rightBack.set(ControlMode.MotionMagic, targetPos);
 			/* append more signals to print when in speed mode. */
-			rbSB.append("\tRB_err:");
-			rbSB.append(rightBack.getClosedLoopError(pidIdx));
-			rbSB.append("\tRB_trg:");
-			rbSB.append(targetPos);
+			//rbSB.append("\tRB_err:");
+			//rbSB.append(rightBack.getClosedLoopError(pidIdx));
+			//rbSB.append("\tRB_trg:");
+			//rbSB.append(targetPos);
 
-			leftBack.set(ControlMode.MotionMagic, targetPos);
+			//leftBack.set(ControlMode.MotionMagic, targetPos);
 			/* append more signals to print when in speed mode. */
-			lbSB.append("\tLB_err:");
-			lbSB.append(leftBack.getClosedLoopError(pidIdx));
-			lbSB.append("\tLB_trg:");
-			lbSB.append(targetPos);
+			//lbSB.append("\tLB_err:");
+			//lbSB.append(leftBack.getClosedLoopError(pidIdx));
+			//lbSB.append("\tLB_trg:");
+			//lbSB.append(targetPos);
 			
 			/*leftFront.set(ControlMode.MotionMagic, targetPos);
 			/* append more signals to print when in speed mode. */
@@ -240,17 +240,20 @@ public class Robot extends IterativeRobot {
 			lfSB.append(leftFront.getClosedLoopError(pidIdx));
 			lfSB.append("\tLF_trg:");
 			lfSB.append(targetPos);*/
-		}
+		
+		//}
+		/*
 		else
 		{
 			/* Percent voltage/output mode (normal mode) */
-			rightBack.set(ControlMode.PercentOutput, leftYStick);
-			leftBack.set(ControlMode.PercentOutput, leftYStick);
+			//rightBack.set(ControlMode.PercentOutput, leftYStick);
+			//leftBack.set(ControlMode.PercentOutput, leftYStick);
 			//leftFront.set(ControlMode.PercentOutput, leftYStick);
-		}
+		//}
 		
 		/* PROCESSING DATA */
 		/* smart dash plots */
+		/*
 	    SmartDashboard.putNumber("RB_RPM", rightBack.getSelectedSensorVelocity(pidIdx));
 	    SmartDashboard.putNumber("RB_Pos",  rightBack.getSelectedSensorPosition(pidIdx));
 	    SmartDashboard.putNumber("RB_AppliedThrottle",  (rightBack.getMotorOutputVoltage()/rightBack.getBusVoltage())*1023);
@@ -260,7 +263,7 @@ public class Robot extends IterativeRobot {
 	    SmartDashboard.putNumber("LB_Pos",  leftBack.getSelectedSensorPosition(pidIdx));
 	    SmartDashboard.putNumber("LB_AppliedThrottle",  (leftBack.getMotorOutputVoltage()/leftBack.getBusVoltage())*1023);
 	    SmartDashboard.putNumber("LB_ClosedLoopError", leftBack.getClosedLoopError(pidIdx));
-	    
+	    */
 	    /*SmartDashboard.putNumber("LF_RPM", leftFront.getSelectedSensorVelocity(pidIdx));
 	    SmartDashboard.putNumber("LF_Pos",  leftFront.getSelectedSensorPosition(pidIdx));
 	    SmartDashboard.putNumber("LF_AppliedThrottle",  (leftFront.getMotorOutputVoltage()/leftFront.getBusVoltage())*1023);
@@ -274,7 +277,7 @@ public class Robot extends IterativeRobot {
 	    
 	    
 	    /* periodically print to console */
-	    if(++loops >= 10)
+	    /*if(++loops >= 10)
 	    {
 	        loops = 0;
 	        System.out.println(rbSB.toString());
@@ -282,11 +285,11 @@ public class Robot extends IterativeRobot {
 	        //System.out.println(lfSB.toString());
 	    }
 	    /* clear line cache */
-	    rbSB.setLength(0);
-	    lbSB.setLength(0);
+	    //rbSB.setLength(0);
+	    //lbSB.setLength(0);
 	    //lfSB.setLength(0);
 	        
-	        
+	    /*    
 		SmartDashboard.putNumber("Yaw", getYaw());
 		//if (gyroButton.get())
 			//System.out.println("Yaw:::::" + getYaw());
@@ -306,11 +309,11 @@ public class Robot extends IterativeRobot {
 			rightArm.set(0);
 			leftArm.set(0);
 		}
-		
+		*/
 	}
-	
-	public static double getYaw()
-	{
+	//getYaw() must return a double, unsure what the double is\/\/\/\/\/
+	//public static double getYaw()
+	//{
 		/*
 		 * The yaw returned by the gyro goes negative when turning clockwise (right),
 		 * positive when turning counterclockwise (left).
@@ -322,6 +325,7 @@ public class Robot extends IterativeRobot {
 		 * As such, this function processes the yaw input to return a value
 		 * from -180 to +180, with negative being clockwise, and positive being counterclockwise.
 		 */
+		/*
 		double rawYaw = getRawYaw();
 		rawYaw %= 360;
 		if (Math.abs(rawYaw) <= 180)
@@ -333,10 +337,10 @@ public class Robot extends IterativeRobot {
 			else
 				return rawYaw - 360;
 		}
-		
+		*/
 		
 			
-	}
+	//}
 	
 	public static double getRawYaw()
 	{
