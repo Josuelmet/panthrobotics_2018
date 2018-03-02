@@ -50,9 +50,13 @@ public class RobotMap
 	public final static int LOWER_ELEVATOR_AUTO = 5; //Left Bumper*/
 	public final static int SWITCH_BUTTON = 4; //Y Button
 	
-	//Axes on Controller
+	//Axes on Drive Controller
 	public final static int GTA_FORWARD = 3; //Left Trigger
 	public final static int GTA_BACKWARD = 2; //Right Trigger
+	
+	//Axes on Auxillary Controller
+	public final static int ELEVATOR_UP = 2;//Right Trigger
+	public final static int ELEVATOR_DOWN = 3;//Left Trigger
 	
 	//Encoder 
 	public final static int LEFT_ENCODER = 1;
