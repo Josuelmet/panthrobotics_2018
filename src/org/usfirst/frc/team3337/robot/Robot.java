@@ -30,6 +30,7 @@ import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import main.src.org.usfirst.frc.team3337.drive.AutoDrive;
 //3337 packages
 import main.src.org.usfirst.frc.team3337.drive.TeleopGameDrive;
 
@@ -45,6 +46,8 @@ public class Robot extends IterativeRobot {
 	public static Spark rightArm, leftArm;
 	public static Timer time;
 	public static Encoder leftEncoder, rightEncoder;
+	
+	AutoDrive autoDrive;
 	TeleopGameDrive teleopDrive;
 	
 	StringBuilder rbSB, lbSB, lfSB;
@@ -60,7 +63,7 @@ public class Robot extends IterativeRobot {
 	{
 		//Initialize motors
 		leftFront = new TalonSRX(RobotMap.LEFT_FRONT_TALON_SRX_CAN_DEVICE_ID);
-		leftBack = new TalonSRX(RobotMap.lEFT_BACK_TALON_SRX_CAN_DEVICE_ID);
+		leftBack = new TalonSRX(RobotMap.LEFT_BACK_TALON_SRX_CAN_DEVICE_ID);
 		//leftFront.follow(leftBack);
 		//leftFront.set(ControlMode.Follower, leftBack.getDeviceID());
 		

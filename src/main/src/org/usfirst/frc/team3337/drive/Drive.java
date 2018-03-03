@@ -21,16 +21,10 @@ public abstract class Drive
 	//Declaring Variables
 	double vL, vR, velocity;
 	public static final double GYRO_COEFFICIENT = 0.01;
-	Encoder oneEncoder, twoEncoder;
-	TalonSRX leftFront, leftBack, rightFront, rightBack, elevatorMotorOne, elevatorMotorTwo;
 	
 	//Constructor
-	public Drive(TalonSRX _leftFront, TalonSRX _leftBack, TalonSRX _rightFront, TalonSRX _rightBack)
+	public Drive()
 	{
-		leftFront = _leftFront;
-		leftBack = _leftBack;
-		rightFront = _rightFront;
-		rightBack = _rightBack;
 		zeroVelocities();
 		SmartDashboard.putNumber("Gyro Number", 0.0001);
 	}
@@ -41,8 +35,8 @@ public abstract class Drive
 	
 	void driveLeft(double leftInput) 
 	{
-		leftFront.set(ControlMode.PercentOutput, leftInput*speedLimit);
-		leftBack.set(ControlMode.PercentOutput, leftInput*speedLimit);
+		Robot.leftFront.set(ControlMode.PercentOutput, leftInput*speedLimit);
+		Robot.leftBack.set(ControlMode.PercentOutput, leftInput*speedLimit);
 	}
 	
 	//reference temp
@@ -51,7 +45,7 @@ public abstract class Drive
 	void driveRight(double rightInput) 
 	{
 		//rightFront.set(ControlMode.PercentOutput, -rightInput*speedLimit);
-		rightBack.set(ControlMode.PercentOutput, -rightInput*speedLimit);
+		Robot.rightBack.set(ControlMode.PercentOutput, -rightInput*speedLimit);
 	}
 	
 	void zeroVelocities()
@@ -62,7 +56,7 @@ public abstract class Drive
 	
 	void driveLift(double velocity)
 	{
-		elevatorMotorOne.set(ControlMode.PercentOutput, velocity);
-		elevatorMotorTwo.set(ControlMode.PercentOutput, velocity);
+		Robot.elevatorMotorOne.set(ControlMode.PercentOutput, velocity);
+		Robot.elevatorMotorTwo.set(ControlMode.PercentOutput, velocity);
 	}
 }

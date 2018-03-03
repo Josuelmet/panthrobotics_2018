@@ -13,7 +13,7 @@ public class RobotMap
 	
 	//CAN Motors
 	public final static int LEFT_FRONT_TALON_SRX_CAN_DEVICE_ID = 1; //Yellow
-	public final static int lEFT_BACK_TALON_SRX_CAN_DEVICE_ID = 2; //Purple; has encoder
+	public final static int LEFT_BACK_TALON_SRX_CAN_DEVICE_ID = 2; //Purple; has encoder
 	public final static int RIGHT_FRONT_TALON_SRX_CAN_DEVICE_ID = 3; //Orange
 	public final static int RIGHT_BACK_TALON_SRX_CAN_DEVICE_ID = 4; //Blue; has encoder
 	public final static int LIFT_MOTOR_1 = 5;

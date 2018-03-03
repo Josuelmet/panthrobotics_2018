@@ -5,15 +5,22 @@ package main.src.org.usfirst.frc.team3337.drive;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 
 //This class is AutoDrive and is a child of Drive.
 public class AutoDrive extends Drive
 {
+	
+	AutoChoice autoChoice;
+	AutoInitialPosition autoInitialPosition;
+	SendableChooser<AutoChoice> autoChooser;
+	SendableChooser<AutoInitialPosition> positionChooser;
+	
 	//Constructor for AutoDrive.
-	public AutoDrive(TalonSRX _leftFront, TalonSRX _leftBack, TalonSRX _rightFront, TalonSRX _rightBack, TalonSRX _swerveWheel)
+	public AutoDrive()
 	{
-		super(_leftFront, _leftBack, _rightFront, _rightBack);
+		super();
 	}
 	
 	//Method to be run in autonomousInit() in Robot.java
