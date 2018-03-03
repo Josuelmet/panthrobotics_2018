@@ -25,14 +25,12 @@ public abstract class Drive
 	TalonSRX leftFront, leftBack, rightFront, rightBack, elevatorMotorOne, elevatorMotorTwo;
 	
 	//Constructor
-	public Drive(TalonSRX _leftFront, TalonSRX _leftBack, TalonSRX _rightFront, TalonSRX _rightBack, TalonSRX _elevatorMotorOne, TalonSRX _elevatorMotorTwo)
+	public Drive(TalonSRX _leftFront, TalonSRX _leftBack, TalonSRX _rightFront, TalonSRX _rightBack)
 	{
 		leftFront = _leftFront;
 		leftBack = _leftBack;
 		rightFront = _rightFront;
 		rightBack = _rightBack;
-		elevatorMotorOne = _elevatorMotorOne;
-		elevatorMotorTwo = _elevatorMotorTwo;
 		zeroVelocities();
 		SmartDashboard.putNumber("Gyro Number", 0.0001);
 	}

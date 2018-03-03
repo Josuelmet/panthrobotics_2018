@@ -43,7 +43,7 @@ public abstract class TeleopDrive extends Drive
 		(TalonSRX _leftFront, TalonSRX _leftBack, TalonSRX _rightFront, TalonSRX _rightBack, Joystick _driveStick, Joystick _auxStick)
 	{
 		//Calling Drive's constructor
-		super(_leftFront, _leftBack, _rightFront, _rightBack, _elevatorMotorOne, _elevatorMotorTwo);
+		super(_leftFront, _leftBack, _rightFront, _rightBack);
 		driveController = _driveStick;
 		auxController = _auxStick;
 		tempTimer = new Timer();
