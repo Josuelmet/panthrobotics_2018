@@ -1,6 +1,7 @@
 //We're in the package below
 package main.src.org.usfirst.frc.team3337.drive;
 
+import org.usfirst.frc.team3337.robot.Robot;
 //We're using these other program files below for their functions.
 //WPILib imports
 import org.usfirst.frc.team3337.robot.RobotMap;
@@ -21,15 +22,17 @@ public abstract class Drive
 	double vL, vR, velocity;
 	public static final double GYRO_COEFFICIENT = 0.01;
 	Encoder oneEncoder, twoEncoder;
-	TalonSRX leftFront, leftBack, rightFront, rightBack;
+	TalonSRX leftFront, leftBack, rightFront, rightBack, elevatorMotorOne, elevatorMotorTwo;
 	
 	//Constructor
-	public Drive(TalonSRX _leftFront, TalonSRX _leftBack, TalonSRX _rightFront, TalonSRX _rightBack)
+	public Drive(TalonSRX _leftFront, TalonSRX _leftBack, TalonSRX _rightFront, TalonSRX _rightBack, TalonSRX _elevatorMotorOne, TalonSRX _elevatorMotorTwo)
 	{
 		leftFront = _leftFront;
 		leftBack = _leftBack;
 		rightFront = _rightFront;
 		rightBack = _rightBack;
+		elevatorMotorOne = _elevatorMotorOne;
+		elevatorMotorTwo = _elevatorMotorTwo;
 		zeroVelocities();
 		SmartDashboard.putNumber("Gyro Number", 0.0001);
 	}
@@ -44,6 +47,9 @@ public abstract class Drive
 		leftBack.set(ControlMode.PercentOutput, leftInput*speedLimit);
 	}
 	
+	//reference temp
+	//driveLeft((-gtaBackwardTrigger + scaledAngleDifference) *speedLimit);
+	
 	void driveRight(double rightInput) 
 	{
 		//rightFront.set(ControlMode.PercentOutput, -rightInput*speedLimit);
@@ -54,5 +60,11 @@ public abstract class Drive
 	{
 		driveLeft(0);
 		driveRight(0);
-	}	
+	}
+	
+	void driveLift(double velocity)
+	{
+		elevatorMotorOne.set(ControlMode.PercentOutput, velocity);
+		elevatorMotorTwo.set(ControlMode.PercentOutput, velocity);
+	}
 }

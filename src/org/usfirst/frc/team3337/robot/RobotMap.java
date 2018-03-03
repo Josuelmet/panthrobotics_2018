@@ -16,8 +16,7 @@ public class RobotMap
 	public final static int lEFT_BACK_TALON_SRX_CAN_DEVICE_ID = 2; //Purple; has encoder
 	public final static int RIGHT_FRONT_TALON_SRX_CAN_DEVICE_ID = 3; //Orange
 	public final static int RIGHT_BACK_TALON_SRX_CAN_DEVICE_ID = 4; //Blue; has encoder
-	
-	public final static int LIFT_MOTOR_1 = 5;//temp number for lift mechanism
+	public final static int LIFT_MOTOR_1 = 5;
 	public final static int LIFT_MOTOR_2 = 6;
 	
 	//public final static int CLIMB_MOTOR_1 = 7;

@@ -20,7 +20,8 @@ public class TeleopGameDrive extends TeleopDrive
 		joyRX = deadZone(driveController.getRawAxis(4));
 		gtaForwardTrigger = driveController.getRawAxis(RobotMap.GTA_FORWARD);
 		gtaBackwardTrigger = driveController.getRawAxis(RobotMap.GTA_BACKWARD);
+		elevatorUp = deadZone(auxController.getRawAxis(RobotMap.ELEVATOR_UP));
+		elevatorDown = deadZone(auxController.getRawAxis(RobotMap.ELEVATOR_DOWN));
 	}
-		
 	
 }

@@ -32,7 +32,7 @@ public abstract class TeleopDrive extends Drive
 	Solenoid extendPistons, retractPistons, supportPiston;
 	
 	double previousVelocity, reverse, velocity, previousAngle;	
-	double joyLY, joyLX, joyRY, joyRX, gtaForwardTrigger, gtaBackwardTrigger;
+	double joyLY, joyLX, joyRY, joyRX, gtaForwardTrigger, gtaBackwardTrigger, elevatorUp, elevatorDown;
 	double originalForwardsAngle, originalBackwardsAngle;
 	boolean forwardsPressed, backwardsPressed;
 	
@@ -43,7 +43,7 @@ public abstract class TeleopDrive extends Drive
 		(TalonSRX _leftFront, TalonSRX _leftBack, TalonSRX _rightFront, TalonSRX _rightBack, Joystick _driveStick, Joystick _auxStick)
 	{
 		//Calling Drive's constructor
-		super(_leftFront, _leftBack, _rightFront, _rightBack);
+		super(_leftFront, _leftBack, _rightFront, _rightBack, _elevatorMotorOne, _elevatorMotorTwo);
 		driveController = _driveStick;
 		auxController = _auxStick;
 		tempTimer = new Timer();
@@ -85,6 +85,10 @@ public abstract class TeleopDrive extends Drive
 		driveLeft(speedLimit * joyLY);
 		driveRight(speedLimit * joyRY);
 	}
+	
+	
+	
+	
 	
 	//GTA Forwards Drive
 	private void driveBackwards()
@@ -185,6 +189,11 @@ public abstract class TeleopDrive extends Drive
     		vL *= SLOW_SPEED;
     		vR *= SLOW_SPEED;
     	}
+		
+		if (elevatorUp > 0)
+			driveLift(elevatorUp);
+		else if (elevatorDown > 0)
+			driveLift(elevatorDown);
 		
 		previousAngle = Robot.getRawYaw();
 	}

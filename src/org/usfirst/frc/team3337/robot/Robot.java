@@ -311,9 +311,9 @@ public class Robot extends IterativeRobot {
 		}
 		*/
 	}
-	//getYaw() must return a double, unsure what the double is\/\/\/\/\/
-	//public static double getYaw()
-	//{
+	
+	public static double getYaw()
+	{
 		/*
 		 * The yaw returned by the gyro goes negative when turning clockwise (right),
 		 * positive when turning counterclockwise (left).
@@ -325,7 +325,7 @@ public class Robot extends IterativeRobot {
 		 * As such, this function processes the yaw input to return a value
 		 * from -180 to +180, with negative being clockwise, and positive being counterclockwise.
 		 */
-		/*
+		
 		double rawYaw = getRawYaw();
 		rawYaw %= 360;
 		if (Math.abs(rawYaw) <= 180)
@@ -337,10 +337,10 @@ public class Robot extends IterativeRobot {
 			else
 				return rawYaw - 360;
 		}
-		*/
+		
 		
 			
-	//}
+	}
 	
 	public static double getRawYaw()
 	{
