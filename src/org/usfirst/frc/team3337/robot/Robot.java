@@ -79,8 +79,10 @@ public class Robot extends IterativeRobot {
 	public static final String DYNAMIC_AUTONOMOUS_RECORDING_PATH_FOLDER =
 			"/home/lvuser/frc/dynamicauto/gostraight/v1";
 	public static final boolean PLAYING_DYNAMIC_AUTONOMOUS = false;
-	public static final String DYNAMIC_AUTONOMOUS_PLAYING_PATH_FOLDER = 
-			"/home/lvuser/frc/dynamicauto/gostraight/v1";
+	public static final String DYNAMIC_AUTONOMOUS_BASE_FOLDER = 
+			"/home/lvuser/frc/dynamicauto";
+	public static final String DYNAMIC_AUTONOMOUS_PLAY_VERSION =
+			"v1";
 	/**************************************************************/
 	//IMPORTANT CODE!!!! PAY ATTENTION!!!!
 	
@@ -197,12 +199,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic()
 	{
-		//leftFront.set(ControlMode.PercentOutput, -0.2);
-		//leftFront.set(ControlMode.PercentOutput, -0.2);
-		//rightFront.set(ControlMode.PercentOutput, -0.2);
-		//System.out.println("Yaw" + getYaw() % 360);
-		//Timer.delay(1);
-		if (getYaw() < 100 && getYaw() > 80)
+		/*if (getYaw() < 100 && getYaw() > 80)
 		{
 			leftFront.set(ControlMode.PercentOutput, 0);
 			leftBack.set(ControlMode.PercentOutput, 0);
@@ -213,7 +210,8 @@ public class Robot extends IterativeRobot {
 			leftFront.set(ControlMode.PercentOutput, 0.15);
 			leftBack.set(ControlMode.PercentOutput, 0.15);
 			rightFront.set(ControlMode.PercentOutput, 0.15);
-		}
+		}*/
+		autoDrive.periodic();
 	}
 
 	@Override
@@ -376,7 +374,7 @@ public class Robot extends IterativeRobot {
 	public static void addRightDriveData(double time, double input) { addData(dynamicAutonomousRightDrive, time, input); }
 	
 	
-	public static void recordData(HashMap<Double, Double> map, String filePath)
+	public static void recordData(LinkedHashMap<Double, Double> map, String filePath)
 	{
 	    try 
 	    {
@@ -395,14 +393,14 @@ public class Robot extends IterativeRobot {
 	public static void recordRightDriveData(String filePath) { recordData(dynamicAutonomousRightDrive, filePath); }
 	
 	
-	public static HashMap<Double, Double> readData(String filePath)
+	public static LinkedHashMap<Double, Double> readData(String filePath)
 	{
 		try
 		{
 			FileInputStream fileIn = //new FileInputStream("C:\\Users\\Josue\\eclipse-workspace\\Dynamic Autonomous Testing\\src\\data.ser");
 			new FileInputStream(filePath);
 	        ObjectInputStream in = new ObjectInputStream(fileIn);
-	        HashMap<Double, Double> data = (HashMap<Double, Double>) in.readObject();
+	        LinkedHashMap<Double, Double> data = (LinkedHashMap<Double, Double>) in.readObject();
 	        in.close();
 	        fileIn.close();
 	        return data;
