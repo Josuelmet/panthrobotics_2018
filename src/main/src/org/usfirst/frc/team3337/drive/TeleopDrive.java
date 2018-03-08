@@ -71,6 +71,8 @@ public abstract class TeleopDrive extends Drive
 	//Making function to be called during teleopInit().
 	public void init()
 	{
+		Robot.dynamicAutonomousTimer.reset();
+		Robot.dynamicAutonomousTimer.start();
 	}
 	
 	//Making function to be called during teleopPeriodic().
@@ -114,6 +116,28 @@ public abstract class TeleopDrive extends Drive
     		vL *= SLOW_SPEED;
     		vR *= SLOW_SPEED;
     	}
+		
+		/*
+		 * This is where recording of teleop is called.
+		 * Since the robot needs to record its data at some point during TeleOp,
+		 * and Autonomous only lasts 15 seconds,
+		 * the robot will record its teleop after 20 seconds have passed.
+		 */
+		if (Robot.RECORDING_DYNAMIC_AUTONOMOUS)
+		{
+			if (Robot.dynamicAutonomousTimer.get() < 20)
+			{
+				double roundedTime = Robot.dynamicAutonomousTimer.get() - (Robot.dynamicAutonomousTimer.get() % 0.01);
+				Robot.addLeftDriveData(roundedTime, Robot.leftBack.getMotorOutputPercent());
+				Robot.addRightDriveData(roundedTime, Robot.rightBack.getMotorOutputPercent());
+			}
+			else
+			{
+				Robot.recordLeftDriveData(Robot.DYNAMIC_AUTONOMOUS_RECORDING_PATH_FOLDER + Robot.DYNAMIC_AUTONOMOUS_LEFT_DRIVE_FILE);
+				Robot.recordRightDriveData(Robot.DYNAMIC_AUTONOMOUS_RECORDING_PATH_FOLDER + Robot.DYNAMIC_AUTONOMOUS_RIGHT_DRIVE_FILE);
+				Robot.RECORDING_DYNAMIC_AUTONOMOUS = false;
+			}
+		}
 		
 		previousAngle = Robot.getRawYaw();
 	}

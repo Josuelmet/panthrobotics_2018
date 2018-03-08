@@ -1,6 +1,14 @@
 //We're in the package below
 package org.usfirst.frc.team3337.robot;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
@@ -45,9 +53,12 @@ public class Robot extends IterativeRobot {
 	public static Joystick driveController, auxController;
 	public static PigeonIMU gyro;
 	public static TalonSRX leftFront, leftBack, rightFront, rightBack, elevatorMotorOne, elevatorMotorTwo;
+	public static Timer dynamicAutonomousTimer;
 	public static Spark rightArm, leftArm, intakeAngleMotor;
-	public static Timer time;
 	public static Encoder leftEncoder, rightEncoder;
+	
+	private static LinkedHashMap<Double, Double> dynamicAutonomousLeftDrive;
+	private static LinkedHashMap<Double, Double> dynamicAutonomousRightDrive;
 	
 	AutoDrive autoDrive;
 	TestMeasuring testMeasuring;
@@ -59,6 +70,24 @@ public class Robot extends IterativeRobot {
 	int slotIdx = 0;
 	int pidIdx = 1;
 	int loops = 0;
+	
+	
+	
+	//IMPORTANT CODE!!!! PAY ATTENTION!!!!
+	/**************************************************************/
+	public static boolean RECORDING_DYNAMIC_AUTONOMOUS = true; //It's not final because this value will change.
+	public static final String DYNAMIC_AUTONOMOUS_RECORDING_PATH_FOLDER =
+			"/home/lvuser/frc/dynamicauto/gostraight/v1";
+	public static final boolean PLAYING_DYNAMIC_AUTONOMOUS = false;
+	public static final String DYNAMIC_AUTONOMOUS_PLAYING_PATH_FOLDER = 
+			"/home/lvuser/frc/dynamicauto/gostraight/v1";
+	/**************************************************************/
+	//IMPORTANT CODE!!!! PAY ATTENTION!!!!
+	
+	public static final String DYNAMIC_AUTONOMOUS_LEFT_DRIVE_FILE = "/leftdrive";
+	public static final String DYNAMIC_AUTONOMOUS_RIGHT_DRIVE_FILE = "/rightdrive";
+	
+	
 	
     //IterativeRobot has functions like the one below, hence the @Override.
 	@Override
@@ -93,6 +122,10 @@ public class Robot extends IterativeRobot {
 		peripherals = new Actuators();
 		testMeasuring = new TestMeasuring();
 		
+		dynamicAutonomousTimer = new Timer();
+		dynamicAutonomousRightDrive = new LinkedHashMap<Double, Double>();
+		dynamicAutonomousLeftDrive = new LinkedHashMap<Double, Double>();
+		
 		UsbCamera frontCamera = CameraServer.getInstance().startAutomaticCapture(0);
 		UsbCamera backCamera = CameraServer.getInstance().startAutomaticCapture(1);
 		
@@ -102,16 +135,16 @@ public class Robot extends IterativeRobot {
 		lfSB = new StringBuilder();
 		
 		/* first choose the sensor */
-		rightBack.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, pidIdx, timeoutMs); //TODO: MAYBE CHANGE LAST TWO VALUES?
-		rightBack.setSelectedSensorPosition(0, pidIdx, timeoutMs);
-		rightBack.setInverted(false); //TODO: CHANGE?
+		/*rightBack.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, pidIdx, timeoutMs); //TODO: MAYBE CHANGE LAST TWO VALUES?
+		/rightBack.setSelectedSensorPosition(0, pidIdx, timeoutMs);
+		/rightBack.setInverted(false); //TODO: CHANGE?
 		/* set the peak and nominal outputs, 12V means full */
-		rightBack.configNominalOutputForward(0, timeoutMs);
+		/*rightBack.configNominalOutputForward(0, timeoutMs);
 		rightBack.configNominalOutputReverse(0, timeoutMs);
 		rightBack.configPeakOutputForward(1, timeoutMs);
 		rightBack.configPeakOutputReverse(-1, timeoutMs);
 		/* set closed loop gains in slot0 - see documentation */
-		rightBack.selectProfileSlot(slotIdx, pidIdx);
+		/*rightBack.selectProfileSlot(slotIdx, pidIdx);
 		rightBack.config_kF(slotIdx, 0, timeoutMs);
 		rightBack.config_kP(slotIdx, 0, timeoutMs);
 		rightBack.config_kI(slotIdx, 0, timeoutMs);
@@ -120,16 +153,16 @@ public class Robot extends IterativeRobot {
 		rightBack.configMotionAcceleration(0, timeoutMs);
 		
 		/* first choose the sensor */
-		leftBack.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, pidIdx, timeoutMs); //TODO: MAYBE CHANGE LAST TWO VALUES?
+		/*leftBack.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, pidIdx, timeoutMs); //TODO: MAYBE CHANGE LAST TWO VALUES?
 		leftBack.setSelectedSensorPosition(0, pidIdx, timeoutMs);
 		leftBack.setInverted(false); //TODO: CHANGE?
 		/* set the peak and nominal outputs, 12V means full */
-		leftBack.configNominalOutputForward(0, timeoutMs);
+		/*leftBack.configNominalOutputForward(0, timeoutMs);
 		leftBack.configNominalOutputReverse(0, timeoutMs);
 		leftBack.configPeakOutputForward(1, timeoutMs);
 		leftBack.configPeakOutputReverse(-1, timeoutMs);
 		/* set closed loop gains in slot0 - see documentation */
-		leftBack.selectProfileSlot(0, 0);
+		/*leftBack.selectProfileSlot(0, 0);
 		leftBack.config_kF(slotIdx, 0, timeoutMs);
 		leftBack.config_kP(slotIdx, 0, timeoutMs);
 		leftBack.config_kI(slotIdx, 0, timeoutMs);
@@ -333,7 +366,62 @@ public class Robot extends IterativeRobot {
 		gyro.getYawPitchRoll(ypr);
 		return ypr[0];
 	}
+	
+	private static void addData(HashMap<Double, Double> map, double time, double input)
+	{
+		//TODO: This could mess up (if ifAbsent doesn't work, as the new Double() procedure may cause different addresses with the same value.
+		map.putIfAbsent(new Double(time), new Double(input));
+	}
+	public static void addLeftDriveData(double time, double input) { addData(dynamicAutonomousLeftDrive, time, input); }
+	public static void addRightDriveData(double time, double input) { addData(dynamicAutonomousRightDrive, time, input); }
+	
+	
+	public static void recordData(HashMap<Double, Double> map, String filePath)
+	{
+	    try 
+	    {
+	    	FileOutputStream fileOut =
+	    	//new FileOutputStream("C:\\Users\\Josue\\eclipse-workspace\\Dynamic Autonomous Testing\\src\\data.ser");
+	    	new FileOutputStream(filePath);
+	        ObjectOutputStream out = new ObjectOutputStream(fileOut);
+	        out.writeObject(map);
+	        out.close();
+	        fileOut.close();
+	        System.out.printf("Serialized data is saved.");
+	    }
+	    catch (IOException i)  { i.printStackTrace(); }
+	}
+	public static void recordLeftDriveData(String filePath) { recordData(dynamicAutonomousLeftDrive, filePath); }
+	public static void recordRightDriveData(String filePath) { recordData(dynamicAutonomousRightDrive, filePath); }
+	
+	
+	public static HashMap<Double, Double> readData(String filePath)
+	{
+		try
+		{
+			FileInputStream fileIn = //new FileInputStream("C:\\Users\\Josue\\eclipse-workspace\\Dynamic Autonomous Testing\\src\\data.ser");
+			new FileInputStream(filePath);
+	        ObjectInputStream in = new ObjectInputStream(fileIn);
+	        HashMap<Double, Double> data = (HashMap<Double, Double>) in.readObject();
+	        in.close();
+	        fileIn.close();
+	        return data;
+	    }
+		catch (IOException i)
+		{
+	        i.printStackTrace();
+	        return null;
+	    } 
+		catch (ClassNotFoundException c)
+		{
+	        System.out.println("Employee class not found");
+	        c.printStackTrace();
+	        return null;
+	    }
+	}
 
+	
+	
 	@Override
 	public void testPeriodic()
 	{
