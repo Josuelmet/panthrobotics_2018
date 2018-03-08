@@ -1,6 +1,8 @@
 //The package this file is in.
 package main.src.org.usfirst.frc.team3337.drive;
 
+import org.usfirst.frc.team3337.robot.Robot;
+
 //Importing the classes below to use them.
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
@@ -74,6 +76,10 @@ public class AutoDrive extends Drive
 		{
 		case GO_STRAIGHT:
 		default:
+			if (Robot.PLAYING_DYNAMIC_AUTONOMOUS)
+			{
+				
+			}
 			break;
 		case OUR_SWITCH:
 			switch (autoInitialPosition)
