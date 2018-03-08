@@ -28,12 +28,14 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -56,6 +58,8 @@ public class Robot extends IterativeRobot {
 	public static Timer dynamicAutonomousTimer;
 	public static Spark rightArm, leftArm, intakeAngleMotor;
 	public static Encoder leftEncoder, rightEncoder;
+	public static Solenoid supportPiston;
+	public static DoubleSolenoid mainPistons;
 	
 	private static LinkedHashMap<Double, Double> dynamicAutonomousLeftDrive;
 	private static LinkedHashMap<Double, Double> dynamicAutonomousRightDrive;
@@ -110,6 +114,9 @@ public class Robot extends IterativeRobot {
 		leftArm = new Spark(RobotMap.LEFT_ARM);
 		
 		intakeAngleMotor = new Spark(RobotMap.INTAKE_ANGLE_MOTOR);
+		
+		supportPiston = new Solenoid(RobotMap.PCM_MODULE, RobotMap.SUPPORT_PISTON);
+		mainPistons = new DoubleSolenoid(RobotMap.PCM_MODULE, RobotMap.FORWARD_PISTON_PORT, RobotMap.REVERSE_PISTON_PORT);
 		
 		//Initializing joystick
 		driveController = new Joystick(RobotMap.DRIVE_STICK_PORT);

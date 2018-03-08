@@ -31,9 +31,10 @@ public class RobotMap
 	//public final static int INTAKE_MOTOR_2 = 4;
 	
 	//Pneumatics Components
-	public final static int EXTEND_PISTON = 0;
-	public final static int RETRACT_PISTON = 1;
-	public final static int SUPPORT_PISTON = 2;
+	public final static int PCM_MODULE = 0;
+	public final static int SUPPORT_PISTON = 0;
+	public final static int FORWARD_PISTON_PORT = 1;
+	public final static int REVERSE_PISTON_PORT = 2;
 	
 	public final static int DRIVE_STICK_PORT = 0;
 	public final static int AUX_STICK_PORT = 1;

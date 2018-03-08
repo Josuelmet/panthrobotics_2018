@@ -5,6 +5,8 @@ import org.usfirst.frc.team3337.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import edu.wpi.first.wpilibj.Solenoid;
@@ -13,11 +15,24 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Actuators
 {
+	public enum SolenoidStage
+	{
+		NONE, SUPPORT_PISTON_RISE, MAIN_PISTONS_RISE, MAIN_PISTONS_LOWER;
+		
+	    public SolenoidStage getNext() {
+	        if (ordinal() + 1 == values().length)
+	            return values()[0];
+	        return values()[ordinal() + 1];
+	    }
+	}
+	
 	
 	JoystickButton aButton, bButton, xButton, yButton, leftBumper, rightBumper;
-	//Solenoid extendPistons, retractPistons, supportPiston;
+	SolenoidStage pneumaticStage;
 	
+	private boolean solenoidButtonPressed;
 	public static final double ROTATIONS_TO_REACH_SWITCH = 7000;
+	
 	
 	public Actuators()
 	{
@@ -28,7 +43,10 @@ public class Actuators
 		leftBumper = new JoystickButton(Robot.auxController, 5);
 		rightBumper = new JoystickButton(Robot.auxController, 6);
 		
+		pneumaticStage = SolenoidStage.NONE;
 		//Conversion Stuff
+		
+		solenoidButtonPressed = false;
 		
 		double inchConversion = SmartDashboard.getNumber("Inches Measured", 0);
 		 
@@ -60,6 +78,7 @@ public class Actuators
 		
 		Robot.intakeAngleMotor.set(Math.max(0, -Robot.auxController.getRawAxis(1)));
 		
+		
 		if (rightBumper.get())
 		{
 			if (elevatorPosition < ROTATIONS_TO_REACH_SWITCH)
@@ -79,8 +98,29 @@ public class Actuators
 		else 
 			driveLift(-Robot.auxController.getRawAxis(RobotMap.ELEVATOR_DOWN));
 		
-		//extendPistons = new Solenoid(RobotMap.EXTEND_PISTON);
-		//retractPistons = new Solenoid(RobotMap.RETRACT_PISTON);
-		//supportPiston = new Solenoid(RobotMap.SUPPORT_PISTON);
+		if (yButton.get())
+		{
+			if (!solenoidButtonPressed)
+				pneumaticStage = pneumaticStage.getNext();
+			solenoidButtonPressed = true;
+		}
+		else
+			solenoidButtonPressed = false;
+		
+		switch(pneumaticStage)
+		{
+		case NONE:
+		default:
+			break;
+		case SUPPORT_PISTON_RISE:
+			Robot.supportPiston.set(true);
+			break;
+		case MAIN_PISTONS_RISE:
+			Robot.mainPistons.set(DoubleSolenoid.Value.kForward); //TODO: Is this value correct????
+			break;
+		case MAIN_PISTONS_LOWER:
+			Robot.mainPistons.set(DoubleSolenoid.Value.kReverse); //TODO: Correct???
+			break;
+		}
 	}
 }
