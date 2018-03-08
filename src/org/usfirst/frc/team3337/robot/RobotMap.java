@@ -16,7 +16,7 @@ public class RobotMap
 	public final static int LEFT_BACK_TALON_SRX_CAN_DEVICE_ID = 2; //Purple; has encoder
 	public final static int RIGHT_FRONT_TALON_SRX_CAN_DEVICE_ID = 3; //Orange
 	public final static int RIGHT_BACK_TALON_SRX_CAN_DEVICE_ID = 4; //Blue; has encoder
-	public final static int LIFT_MOTOR_1 = 5;
+	public final static int LIFT_MOTOR_1 = 5; //has encoder
 	public final static int LIFT_MOTOR_2 = 6;
 	
 	//public final static int CLIMB_MOTOR_1 = 7;
@@ -25,6 +25,7 @@ public class RobotMap
 	//PWM Motors
 	public final static int LEFT_ARM = 0; //PWM
 	public final static int RIGHT_ARM = 1; //PWM
+	public final static int INTAKE_ANGLE_MOTOR = 2; //PWM
 	
 	//public final static int INTAKE_MOTOR_1 = 3;
 	//public final static int INTAKE_MOTOR_2 = 4;
@@ -50,12 +51,12 @@ public class RobotMap
 	public final static int SWITCH_BUTTON = 4; //Y Button
 	
 	//Axes on Drive Controller
-	public final static int GTA_FORWARD = 3; //Left Trigger
-	public final static int GTA_BACKWARD = 2; //Right Trigger
+	public final static int GTA_FORWARD = 3; //Right Trigger
+	public final static int GTA_BACKWARD = 2; //Left Trigger
 	
 	//Axes on Auxillary Controller
-	public final static int ELEVATOR_UP = 2;//Right Trigger
-	public final static int ELEVATOR_DOWN = 3;//Left Trigger
+	public final static int ELEVATOR_UP = 3;//Right Trigger
+	public final static int ELEVATOR_DOWN = 2;//Left Trigger
 	
 	//Encoder 
 	public final static int LEFT_ENCODER = 1;

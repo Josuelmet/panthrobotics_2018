@@ -6,6 +6,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 //This class is AutoDrive and is a child of Drive.
@@ -17,16 +18,33 @@ public class AutoDrive extends Drive
 	SendableChooser<AutoChoice> autoChooser;
 	SendableChooser<AutoInitialPosition> positionChooser;
 	
+	boolean ourSwitchIsLeft, scaleIsLeft, otherSwitchIsLeft;
+	
 	//Constructor for AutoDrive.
 	public AutoDrive()
 	{
 		super();
+		
+        autoChooser = new SendableChooser<AutoChoice>();
+        autoChooser.addDefault(AutoChoice.GO_STRAIGHT.toString(), AutoChoice.GO_STRAIGHT);
+        for (AutoChoice d: AutoChoice.possibleOptions())
+            autoChooser.addObject(d.toString(), d);
+        SmartDashboard.putData("Autonomous Mode autoChoice", autoChooser);	
+        
+        positionChooser = new SendableChooser<AutoInitialPosition>();
+        positionChooser.addDefault(AutoInitialPosition.MIDDLE.toString(), AutoInitialPosition.MIDDLE);
+        for (AutoInitialPosition d: AutoInitialPosition.possibleOptions())
+            positionChooser.addObject(d.toString(), d);
+        SmartDashboard.putData("Autonomous Position autoInitialPosition", positionChooser);
+        
+        forwardsStarted = false;
+        backwardsStarted = false;
 	}
 	
 	//Method to be run in autonomousInit() in Robot.java
 	public void init()
 	{
-		
+
 	}
 	
 	//Method to be run in autonomousPeriodic() in Robot.java
@@ -45,28 +63,51 @@ public class AutoDrive extends Drive
 		 */
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
 		
-		if(gameData.charAt(0) == 'L')
-		{
-			System.out.println("---Our switch is on the left---");
-		} else
-		{
-			System.out.println("---Our switch is on the right---");
-		}
+		ourSwitchIsLeft = gameData.charAt(0) == 'L';
+		scaleIsLeft = gameData.charAt(1) == 'L';
+		otherSwitchIsLeft = gameData.charAt(2) == 'L';
 		
-		if (gameData.charAt(1) == 'L')
+		//TODO: figure out why left encoder isn't working
+		//TODO: figure out why left side won't follow
+		//TODO: configure PID with driving
+		switch (autoChoice)
 		{
-			System.out.println("---Our scale is on the left---");
-		} else
-		{
-			System.out.println("---Our scale is on the right---");
-		}
-		
-		if (gameData.charAt(2) == 'L')
-		{
-			System.out.println("---Our side of the other switch is on the left---");
-		} else
-		{
-			System.out.println("---Our side of the other switch is on the right---");
+		case GO_STRAIGHT:
+		default:
+			break;
+		case OUR_SWITCH:
+			switch (autoInitialPosition)
+			{
+			case LEFT:
+				break;
+			case MIDDLE:
+				break;
+			case RIGHT:
+				break;
+			}
+			break;
+		case SCALE:
+			switch (autoInitialPosition)
+			{
+			case LEFT:
+				break;
+			case MIDDLE:
+				break;
+			case RIGHT:
+				break;
+			}
+			break;
+		case OTHER_SWITCH:
+			switch (autoInitialPosition)
+			{
+			case LEFT:
+				break;
+			case MIDDLE:
+				break;
+			case RIGHT:
+				break;
+			}
+			break;
 		}
 		
 	}

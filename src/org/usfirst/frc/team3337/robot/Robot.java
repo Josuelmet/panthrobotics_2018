@@ -30,24 +30,27 @@ import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import main.src.org.usfirst.frc.team3337.drive.Actuators;
 import main.src.org.usfirst.frc.team3337.drive.AutoDrive;
 //3337 packages
 import main.src.org.usfirst.frc.team3337.drive.TeleopGameDrive;
+import main.src.org.usfirst.frc.team3337.drive.TestMeasuring;
 
 //This is our class name. It is a child of IterativeRobot.
 public class Robot extends IterativeRobot {
 	
 	//Declaring Variables
 	//public static AHRS gyro; //Example code for the gyro is at C:\Users\Panthrobotics\navx-mxp\java\examples
+	public static Actuators peripherals;
 	public static Joystick driveController, auxController;
-	public static JoystickButton gyroButton, aButton, bButton, xButton, yButton;
 	public static PigeonIMU gyro;
 	public static TalonSRX leftFront, leftBack, rightFront, rightBack, elevatorMotorOne, elevatorMotorTwo;
-	public static Spark rightArm, leftArm;
+	public static Spark rightArm, leftArm, intakeAngleMotor;
 	public static Timer time;
 	public static Encoder leftEncoder, rightEncoder;
 	
 	AutoDrive autoDrive;
+	TestMeasuring testMeasuring;
 	TeleopGameDrive teleopDrive;
 	
 	StringBuilder rbSB, lbSB, lfSB;
@@ -66,16 +69,16 @@ public class Robot extends IterativeRobot {
 		leftBack = new TalonSRX(RobotMap.LEFT_BACK_TALON_SRX_CAN_DEVICE_ID);
 		//leftFront.follow(leftBack);
 		//leftFront.set(ControlMode.Follower, leftBack.getDeviceID());
-		
 		rightFront = new TalonSRX(RobotMap.RIGHT_FRONT_TALON_SRX_CAN_DEVICE_ID);
 		rightBack = new TalonSRX(RobotMap.RIGHT_BACK_TALON_SRX_CAN_DEVICE_ID);
 		rightFront.follow(rightBack); //rightFront will do what rightBack does, since rightBack has an encoder.
-		
 		elevatorMotorOne = new TalonSRX(RobotMap.LIFT_MOTOR_1);
 		elevatorMotorTwo = new TalonSRX(RobotMap.LIFT_MOTOR_2);
 		
 		rightArm = new Spark(RobotMap.RIGHT_ARM);
 		leftArm = new Spark(RobotMap.LEFT_ARM);
+		
+		intakeAngleMotor = new Spark(RobotMap.INTAKE_ANGLE_MOTOR);
 		
 		//Initializing joystick
 		driveController = new Joystick(RobotMap.DRIVE_STICK_PORT);
@@ -83,22 +86,16 @@ public class Robot extends IterativeRobot {
 		
 		//Give pigeonGyro value.
 		gyro = new PigeonIMU(rightFront); //the gyro is plugged into the rightFront motor controller.
-		teleopDrive = new TeleopGameDrive(leftFront, leftBack, rightFront, rightBack, driveController, auxController);
 		
-		//Initializing NavX gyro. MAKE SURE IT'S ON!!
-		//gyro = new AHRS(SPI.Port.kMXP); // It must be SPI or I2C instead of SerialPort because of communication issues.
 		
-		time = new Timer();
-		time.reset();
-		time.start();
+		teleopDrive = new TeleopGameDrive();
+		autoDrive = new AutoDrive();
+		peripherals = new Actuators();
+		testMeasuring = new TestMeasuring();
 		
 		UsbCamera frontCamera = CameraServer.getInstance().startAutomaticCapture(0);
 		UsbCamera backCamera = CameraServer.getInstance().startAutomaticCapture(1);
 		
-		gyroButton = new JoystickButton(driveController, 1);
-		bButton = new JoystickButton(driveController, 2);
-		xButton = new JoystickButton(driveController, 3);
-		yButton = new JoystickButton(driveController, 4);
 
 		rbSB = new StringBuilder();
 		lbSB = new StringBuilder();
@@ -161,7 +158,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit()
 	{
-		
+		autoDrive.init();
 	}
 
 	@Override
@@ -196,6 +193,12 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic()
 	{
 		teleopDrive.periodic();
+		peripherals.periodic();
+		
+		SmartDashboard.putNumber("elevatorMotorQuadPos", Robot.elevatorMotorOne.getSensorCollection().getQuadraturePosition());
+		SmartDashboard.putNumber("rightDriveQuadPos", Robot.rightBack.getSensorCollection().getQuadraturePosition());
+		SmartDashboard.putNumber("leftDriveQuadPos", Robot.leftBack.getSensorCollection().getQuadraturePosition());
+		
 		/*
 		double leftYStick = -1.0 * driveController.getRawAxis(1);
 		
@@ -291,28 +294,7 @@ public class Robot extends IterativeRobot {
 	    //rbSB.setLength(0);
 	    //lbSB.setLength(0);
 	    //lfSB.setLength(0);
-	        
-	    /*    
-		SmartDashboard.putNumber("Yaw", getYaw());
-		//if (gyroButton.get())
-			//System.out.println("Yaw:::::" + getYaw());
 		
-		if (bButton.get())
-		{
-			rightArm.set(1);
-			leftArm.set(1);
-		}
-		else if (xButton.get())
-		{
-			rightArm.set(-1);
-			leftArm.set(-1);
-		}
-		else
-		{
-			rightArm.set(0);
-			leftArm.set(0);
-		}
-		*/
 	}
 	
 	public static double getYaw()
@@ -355,6 +337,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic()
 	{
-		
+		testMeasuring.periodic();
 	}
 }

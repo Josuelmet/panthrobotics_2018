@@ -20,13 +20,14 @@ public abstract class Drive
 
 	//Declaring Variables
 	double vL, vR, velocity;
+	double originalForwardsAngle, originalBackwardsAngle;
+	protected boolean forwardsStarted, backwardsStarted;
 	public static final double GYRO_COEFFICIENT = 0.01;
 	
 	//Constructor
 	public Drive()
 	{
 		zeroVelocities();
-		SmartDashboard.putNumber("Gyro Number", 0.0001);
 	}
 	
 	double speedLimit = 0.75;
@@ -54,9 +55,45 @@ public abstract class Drive
 		driveRight(0);
 	}
 	
-	void driveLift(double velocity)
+	//GTA Forwards Drive
+	protected void driveBackwards(double velocity)
 	{
-		Robot.elevatorMotorOne.set(ControlMode.PercentOutput, velocity);
-		Robot.elevatorMotorTwo.set(ControlMode.PercentOutput, velocity);
+		if (!backwardsStarted) //if backwards GTA has not been pressed
+		{
+			originalBackwardsAngle = Robot.getRawYaw();
+			backwardsStarted = true;
+		}
+        double scaledAngleDifference = (Robot.getRawYaw() - originalBackwardsAngle) * GYRO_COEFFICIENT;
+		/* The right side overpowers the left. This fixes that.
+		 * Since the right side is stronger than the left, the robot will turn left when going forwards.
+		 * As such, the expected change in angle since the robot started will be negative.
+		 * To decrease the power of the right side and increase that of the left,
+		 * we will subtract the angle difference to the left side and add it to the right side.
+		 */
+		driveLeft((-velocity + scaledAngleDifference) *speedLimit);
+		driveRight((-velocity - scaledAngleDifference) * speedLimit);
+		/*driveLeft((gtaForwardTrigger * speedLimit) + scaledAngleDifference);
+		driveRight((gtaForwardTrigger * speedLimit) - scaledAngleDifference);*/
+	}
+	
+	//GTA sdrawkcaB Drive
+	protected void driveForwards(double velocity)
+	{
+		if (!forwardsStarted) //if backwards GTA has not been pressed
+		{
+			originalForwardsAngle = Robot.getRawYaw();
+			forwardsStarted = true;
+		}
+        double scaledAngleDifference = (Robot.getRawYaw() - originalForwardsAngle) * GYRO_COEFFICIENT;
+		/* The right side overpowers the left. This fixes that.
+		 * Since the right side is stronger than the left, the robot will turn left when going forwards.
+		 * As such, the expected change in angle since the robot started will be positive.
+		 * To decrease the power of the right side and increase that of the left,
+		 * we will add the angle difference to the left side and subtract it from the right side.
+		 */
+		driveLeft((velocity + scaledAngleDifference) *speedLimit);
+		driveRight((velocity - scaledAngleDifference) * speedLimit);
+		/*driveLeft(gtaBackwardTrigger * speedLimit * -1);
+		driveRight(gtaBackwardTrigger * speedLimit * -1);*/
 	}
 }
