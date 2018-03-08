@@ -412,7 +412,7 @@ public class Robot extends IterativeRobot {
 	    } 
 		catch (ClassNotFoundException c)
 		{
-	        System.out.println("Employee class not found");
+	        System.out.println("Class not found");
 	        c.printStackTrace();
 	        return null;
 	    }

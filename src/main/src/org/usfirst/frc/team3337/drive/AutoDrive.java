@@ -24,7 +24,7 @@ public class AutoDrive extends Drive
 	AutoInitialPosition autoInitialPosition;
 	SendableChooser<AutoChoice> autoChooser;
 	SendableChooser<AutoInitialPosition> positionChooser;
-	LinkedHashMap<Double, Double> dynamicAutonomous;
+	LinkedHashMap<Double, Double> leftDriveDynamicAutonomous, rightDriveDynamicAutonomous;
 	
 	double previousTime;
 	boolean ourSwitchIsLeft, scaleIsLeft, otherSwitchIsLeft;
@@ -101,18 +101,19 @@ public class AutoDrive extends Drive
 				 */
 				if (roundedTime != previousTime) //This saves memory consumption from constantly checking the Map.
 				{
-					driveLeft(dynamicAutonomous.get(new Double(roundedTime)));
-					driveRight(dynamicAutonomous.get(new Double(roundedTime)));
+					driveLeft(leftDriveDynamicAutonomous.get(new Double(roundedTime)));
+					driveRight(rightDriveDynamicAutonomous.get(new Double(roundedTime)));
 				}
 				if (!dataWasRead)
 				{
-					dynamicAutonomous = Robot.readData(dynamicAutonomousPath);
+					leftDriveDynamicAutonomous = Robot.readData(dynamicAutonomousPath + Robot.DYNAMIC_AUTONOMOUS_LEFT_DRIVE_FILE);
+					rightDriveDynamicAutonomous = Robot.readData(dynamicAutonomousPath + Robot.DYNAMIC_AUTONOMOUS_RIGHT_DRIVE_FILE);
 					dataWasRead = true;
 				}
 			}
 			else
 			{
-				if (Robot.dynamicAutonomousTimer.get() < 5)
+				if (roundedTime < 5)
 				{
 					driveLeft(0.4);
 					driveRight(0.4);
