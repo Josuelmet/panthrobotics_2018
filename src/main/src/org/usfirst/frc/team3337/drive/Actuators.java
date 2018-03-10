@@ -87,7 +87,7 @@ public class Actuators
 			setIntake(0);
 		
 		
-		Robot.intakeAngleMotor.set(ControlMode.PercentOutput, -0.35 * Robot.auxController.getRawAxis(1)); //joyLY
+		Robot.intakeAngleMotor.set(ControlMode.PercentOutput, -0.5 * Robot.auxController.getRawAxis(1)); //joyLY
 		
 		/*
 		 * if (aToggle.justPressed())
