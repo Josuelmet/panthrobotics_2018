@@ -29,17 +29,19 @@ public class Actuators
 	
 	
 	DigitalInput limitSwitch;
-	JoystickButton aButton, bButton, xButton, yButton, leftBumper, rightBumper;
+	JoystickButton bButton, xButton, yButton, leftBumper, rightBumper/*triggerButton, thumbButton*/;
 	SolenoidStage pneumaticStage;
+	ToggleButton aToggle;
 	
 	private boolean solenoidButtonPressed;
+	private double intakeAngleHoldValue;
 	public static final double ROTATIONS_TO_REACH_SWITCH = 7000;
 	public static final double MAX_ROTATIONS = 1000;
 	
 	
 	public Actuators()
 	{
-		aButton = new JoystickButton(Robot.auxController, 1);
+		//aToggle =  new ToggleButton(new JoystickButton(Robot.auxController, 1));
 		bButton = new JoystickButton(Robot.auxController, 2);
 		xButton = new JoystickButton(Robot.auxController, 3);
 		yButton = new JoystickButton(Robot.auxController, 4);
@@ -54,6 +56,8 @@ public class Actuators
 		solenoidButtonPressed = false;
 		
 		double inchConversion = SmartDashboard.getNumber("Inches Measured", 0);
+		
+		intakeAngleHoldValue = 0;
 		 
 	}
 	
@@ -82,7 +86,40 @@ public class Actuators
 		else
 			setIntake(0);
 		
+		
 		Robot.intakeAngleMotor.set(ControlMode.PercentOutput, -0.35 * Robot.auxController.getRawAxis(1)); //joyLY
+		
+		/*
+		 * if (aToggle.justPressed())
+		 *     intakeAngleHoldValue = -0.35 * Robot.auxController.getRawAxis(1);
+		 * if (aToggle.get())
+		 *     Robot.intakeAngleMotor.set(ControlMode.PercentOutput, -0.35 * Robot.auxController.getRawAxis(1));
+		 * else
+		 *     Robot.intakeAngleMotor.set(ControlMode.PercentOutput, -0.35 * Robot.auxController.getRawAxis(1));S
+		 */
+		
+		/*Single Joystick Controls Potentially, where auxController is a singular joystick.
+		 * zScalar = ((Robot.auxController.getRawAxis(2) + 1) / 2);
+		 * intakeInput = Robot.auxController.getRawAxis(1);
+		 * Robot.intakeAngleMotor.set(ControlMode.PercentOutput, (zScalar * intakeInput));
+		 * TODO: Create a loop where it when a button is pressed it locks the value of the motors that are inputted from the joystick.
+		 * if (thumbButton.get() = true)
+		 * {
+		 * 		Robot.rightArm.set(velocity);
+		 * 		Robot.lefttArm.set(velocity);
+		 * }
+		 * else if (thumbButton.get() = true)
+		 * {
+		 * 		Robot.rightArm.set(-velocity);
+		 * 		Robot.lefttArm.set(-velocity);
+		 * }	
+		 * else
+		 * {
+		 * 		Robot.rightArm.set(0);
+		 * 		Robot.lefttArm.set(0);
+		 * }
+		 * }
+		 */
 		
 		
 		if (elevatorUpTrigger > 0)

@@ -226,7 +226,7 @@ public class Robot extends IterativeRobot {
 			rightFront.set(ControlMode.PercentOutput, 0.15);
 		}*/
 		//autoDrive.periodic();
-		if (time.get() < 2.45)
+		if (time.get() < 1.5)
 		{
 			leftFront.set(ControlMode.PercentOutput, 0.5);
 			leftBack.set(ControlMode.PercentOutput, 0.5);
