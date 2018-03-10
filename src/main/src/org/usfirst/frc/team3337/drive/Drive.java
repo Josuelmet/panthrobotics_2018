@@ -21,6 +21,8 @@ public abstract class Drive
 	//Declaring Variables
 	double vL, vR, velocity;
 	double originalForwardsAngle, originalBackwardsAngle;
+	public static final double speedLimit = 1;
+	
 	protected boolean forwardsStarted, backwardsStarted;
 	public static final double GYRO_COEFFICIENT = 0.01;
 	
@@ -30,7 +32,6 @@ public abstract class Drive
 		zeroVelocities();
 	}
 	
-	double speedLimit = 0.75;
 	//oneEncoder = new Encoder(int channelA, int channelB, boolean reverseDirection);
 	//oneEncoder = new Encoder(int channelA, int channelB, boolean reverseDirection);
 	
@@ -45,7 +46,7 @@ public abstract class Drive
 	
 	void driveRight(double rightInput) 
 	{
-		//rightFront.set(ControlMode.PercentOutput, -rightInput*speedLimit);
+		Robot.rightFront.set(ControlMode.PercentOutput, -rightInput*speedLimit);
 		Robot.rightBack.set(ControlMode.PercentOutput, -rightInput*speedLimit);
 	}
 	
@@ -56,7 +57,7 @@ public abstract class Drive
 	}
 	
 	//GTA Forwards Drive
-	protected void driveBackwards(double velocity)
+	/*protected void driveBackwards(double velocity)
 	{
 		if (!backwardsStarted) //if backwards GTA has not been pressed
 		{
@@ -70,11 +71,11 @@ public abstract class Drive
 		 * To decrease the power of the right side and increase that of the left,
 		 * we will subtract the angle difference to the left side and add it to the right side.
 		 */
-		driveLeft((-velocity + scaledAngleDifference) *speedLimit);
+		/*driveLeft((-velocity + scaledAngleDifference) *speedLimit);
 		driveRight((-velocity - scaledAngleDifference) * speedLimit);
 		/*driveLeft((gtaForwardTrigger * speedLimit) + scaledAngleDifference);
 		driveRight((gtaForwardTrigger * speedLimit) - scaledAngleDifference);*/
-	}
+	/*}
 	
 	//GTA sdrawkcaB Drive
 	protected void driveForwards(double velocity)
@@ -91,9 +92,9 @@ public abstract class Drive
 		 * To decrease the power of the right side and increase that of the left,
 		 * we will add the angle difference to the left side and subtract it from the right side.
 		 */
-		driveLeft((velocity + scaledAngleDifference) *speedLimit);
+		/*driveLeft((velocity + scaledAngleDifference) *speedLimit);
 		driveRight((velocity - scaledAngleDifference) * speedLimit);
 		/*driveLeft(gtaBackwardTrigger * speedLimit * -1);
-		driveRight(gtaBackwardTrigger * speedLimit * -1);*/
-	}
+		driveRight(gtaBackwardTrigger * speedLimit * -1);
+	}*/
 }

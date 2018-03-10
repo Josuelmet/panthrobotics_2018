@@ -5,6 +5,7 @@ import org.usfirst.frc.team3337.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -27,11 +28,13 @@ public class Actuators
 	}
 	
 	
+	DigitalInput limitSwitch;
 	JoystickButton aButton, bButton, xButton, yButton, leftBumper, rightBumper;
 	SolenoidStage pneumaticStage;
 	
 	private boolean solenoidButtonPressed;
 	public static final double ROTATIONS_TO_REACH_SWITCH = 7000;
+	public static final double MAX_ROTATIONS = 1000;
 	
 	
 	public Actuators()
@@ -44,6 +47,8 @@ public class Actuators
 		rightBumper = new JoystickButton(Robot.auxController, 6);
 		
 		pneumaticStage = SolenoidStage.NONE;
+		
+		limitSwitch = new DigitalInput(RobotMap.LIMIT_SWITCH);
 		//Conversion Stuff
 		
 		solenoidButtonPressed = false;
@@ -60,14 +65,15 @@ public class Actuators
 	
 	public void driveLift(double velocity)
 	{
-		Robot.elevatorMotorOne.set(ControlMode.PercentOutput, velocity);
-		Robot.elevatorMotorTwo.set(ControlMode.PercentOutput, velocity);
+		Robot.elevatorMotorOne.set(ControlMode.PercentOutput, -velocity);
+		Robot.elevatorMotorTwo.set(ControlMode.PercentOutput, -velocity);
 	}
 	
 	public void periodic()
 	{
-		//We multiply by -1 because the encoder gives negative values as the elevator goes up.
-		int elevatorPosition = -Robot.elevatorMotorOne.getSensorCollection().getQuadraturePosition();
+		double elevatorUpTrigger = Robot.auxController.getRawAxis(RobotMap.ELEVATOR_UP);
+		double elevatorDownTrigger = Robot.auxController.getRawAxis(RobotMap.ELEVATOR_DOWN);
+		int elevatorPosition = Robot.elevatorMotorOne.getSensorCollection().getQuadraturePosition();
 		
 		if (bButton.get())
 			setIntake(1);
@@ -76,27 +82,27 @@ public class Actuators
 		else
 			setIntake(0);
 		
-		Robot.intakeAngleMotor.set(Math.max(0, -Robot.auxController.getRawAxis(1)));
+		Robot.intakeAngleMotor.set(ControlMode.PercentOutput, -0.35 * Robot.auxController.getRawAxis(1)); //joyLY
 		
 		
-		if (rightBumper.get())
+		if (elevatorUpTrigger > 0)
 		{
-			if (elevatorPosition < ROTATIONS_TO_REACH_SWITCH)
-				driveLift(0.7);
+			if (elevatorPosition < MAX_ROTATIONS)
+				driveLift(elevatorUpTrigger);
 			else
 				driveLift(0);
 		}
-		else if (leftBumper.get())
+		else
 		{
-			if (elevatorPosition > ROTATIONS_TO_REACH_SWITCH - 3000)
-				driveLift(-0.6);
+			if (elevatorPosition > 100)
+				driveLift(-elevatorDownTrigger);
 			else
 				driveLift(0);
 		}
-		else if (Robot.auxController.getRawAxis(RobotMap.ELEVATOR_UP) > 0)
+		/*else if (Robot.auxController.getRawAxis(RobotMap.ELEVATOR_UP) > 0)
 			driveLift(Robot.auxController.getRawAxis(RobotMap.ELEVATOR_UP));
 		else 
-			driveLift(-Robot.auxController.getRawAxis(RobotMap.ELEVATOR_DOWN));
+			driveLift(-Robot.auxController.getRawAxis(RobotMap.ELEVATOR_DOWN));*/
 		
 		if (yButton.get())
 		{

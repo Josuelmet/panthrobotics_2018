@@ -23,7 +23,7 @@ public abstract class TeleopDrive extends Drive
 {
 
 	//Class variables
-	ToggleButton driveSwitchButton, speedDecrease;
+	ToggleButton driveSwitchButton, speedDecrease, reverseButton;
 	//make a RobotMap value for bumpers for auto buttons and triggers for manual buttons
 	Button autoRaiseElevator, autoLowerElevator, switchButton, manualRaiseElevator, manualLowerElevator, elevatorMotorOneButton, elevatorMotorTwoButton;
 	Timer tempTimer;
@@ -41,6 +41,7 @@ public abstract class TeleopDrive extends Drive
 		
 		driveSwitchButton = new ToggleButton(new JoystickButton(Robot.driveController, RobotMap.DRIVE_SWITCH_TOGGLE));
 		speedDecrease = new ToggleButton(new JoystickButton(Robot.driveController, RobotMap.SPEED_DECREASE));
+		reverseButton = new ToggleButton(new JoystickButton(Robot.driveController, RobotMap.REVERSE));
 		
 		elevatorMotorOneButton = new JoystickButton(Robot.auxController, RobotMap.LIFT_MOTOR_1);
 		elevatorMotorTwoButton = new JoystickButton(Robot.auxController, RobotMap.LIFT_MOTOR_2);
@@ -50,19 +51,35 @@ public abstract class TeleopDrive extends Drive
 	}
 	
 	//Arcade Drive
-	private void arcadeDrive()
+	private void arcadeDrive(boolean reverse)
 	{
-		vL = joyLY + joyLX/2;
-		vR = joyLY - joyLX/2;
-		driveLeft(vL * speedLimit);
-		driveRight(vR * speedLimit);
+		vL = (joyRY + joyRX/2) * speedLimit;
+		vR = (joyRY - joyRX/2) * speedLimit;
+		if (reverse)
+		{
+			driveLeft(-vL);
+			driveRight(-vR);
+		}
+		else
+		{
+			driveLeft(vL * speedLimit);
+			driveRight(vR * speedLimit);
+		}
 	}
 	
 	//Tank Drive
-	private void tankDrive()
+	private void tankDrive(boolean reverse)
 	{
-		driveLeft(speedLimit * joyLY);
-		driveRight(speedLimit * joyRY);
+		if (reverse)
+		{
+			driveLeft(-(speedLimit * joyLY));
+			driveRight(-(speedLimit * joyRY));
+		}
+		else
+		{
+			driveLeft(speedLimit * joyLY);
+			driveRight(speedLimit * joyRY);
+		}
 	}
 	
 	//This is a function that must be implemented by the child class.
@@ -81,36 +98,44 @@ public abstract class TeleopDrive extends Drive
 		ToggleButton.updateToggleButtons();
 		updateControls(); //This gets the values for joystick inputs from the child class.
 		
+		boolean isReverse = reverseButton.get();
 		/*
 		 * Priority of drive modes:
 		 * 1) GTA Forward
 		 * 2) GTA Backward
 		 * 3) Arcade and Tank
 		 */
-		if (gtaForwardTrigger > 0) //TODO: add turning (after autonomous)
+		/*if (gtaForwardTrigger > 0 || (gtaBackwardTrigger > 0 && isReverse)) //TODO: add turning (after autonomous)
 		{
-			driveForwards(gtaForwardTrigger);
+			if (isReverse)
+				driveForwards(gtaBackwardTrigger);
+			else
+				driveForwards(gtaForwardTrigger);
 			SmartDashboard.putString("status", "gtaForward");
 			backwardsStarted = false;
 		}
-		else if (gtaBackwardTrigger > 0) //TODO: add turning (after autonomous)
+		else if (gtaBackwardTrigger > 0 || (gtaForwardTrigger > 0 && isReverse)) //TODO: add turning (after autonomous)
 		{
-			driveBackwards(gtaBackwardTrigger);
+			if (isReverse)
+				driveBackwards(gtaForwardTrigger);
+			else
+				driveBackwards(gtaBackwardTrigger);
 			SmartDashboard.putString("status", "gtaBackward");
 			forwardsStarted = false;
 		}
-		else if (driveSwitchButton.get())
+		else*/ if (driveSwitchButton.get())
 		{
-			arcadeDrive();
+			arcadeDrive(isReverse);
 			backwardsStarted = false;
 			forwardsStarted = false;
 		}
 		else
 		{
-			tankDrive();
+			tankDrive(isReverse);
 			backwardsStarted = false;
 			forwardsStarted = false;
 		}
+		
 		if (speedDecrease.get())
     	{
     		vL *= SLOW_SPEED;
@@ -128,8 +153,8 @@ public abstract class TeleopDrive extends Drive
 			if (Robot.dynamicAutonomousTimer.get() < 20)
 			{
 				double roundedTime = Robot.dynamicAutonomousTimer.get() - (Robot.dynamicAutonomousTimer.get() % 0.01);
-				Robot.addLeftDriveData(roundedTime, Robot.leftBack.getMotorOutputPercent());
-				Robot.addRightDriveData(roundedTime, Robot.rightBack.getMotorOutputPercent());
+				Robot.addLeftDriveData(roundedTime, Robot.leftFront.getMotorOutputPercent());
+				Robot.addRightDriveData(roundedTime, Robot.rightFront.getMotorOutputPercent());
 			}
 			else
 			{
@@ -139,7 +164,7 @@ public abstract class TeleopDrive extends Drive
 			}
 		}
 		
-		previousAngle = Robot.getRawYaw();
+		//previousAngle = Robot.getRawYaw();
 	}
 	
 	double deadZone(double value)

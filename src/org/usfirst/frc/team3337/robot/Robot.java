@@ -28,6 +28,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
@@ -53,10 +54,10 @@ public class Robot extends IterativeRobot {
 	//public static AHRS gyro; //Example code for the gyro is at C:\Users\Panthrobotics\navx-mxp\java\examples
 	public static Actuators peripherals;
 	public static Joystick driveController, auxController;
-	public static PigeonIMU gyro;
-	public static TalonSRX leftFront, leftBack, rightFront, rightBack, elevatorMotorOne, elevatorMotorTwo;
-	public static Timer dynamicAutonomousTimer;
-	public static Spark rightArm, leftArm, intakeAngleMotor;
+	//public static PigeonIMU gyro;
+	public static TalonSRX leftFront, leftBack, rightFront, rightBack, elevatorMotorOne, elevatorMotorTwo, intakeAngleMotor;
+	public static Timer dynamicAutonomousTimer, time;
+	public static Spark rightArm, leftArm;
 	public static Encoder leftEncoder, rightEncoder;
 	public static Solenoid supportPiston;
 	public static DoubleSolenoid mainPistons;
@@ -79,7 +80,7 @@ public class Robot extends IterativeRobot {
 	
 	//IMPORTANT CODE!!!! PAY ATTENTION!!!!
 	/**************************************************************/
-	public static boolean RECORDING_DYNAMIC_AUTONOMOUS = true; //It's not final because this value will change.
+	public static boolean RECORDING_DYNAMIC_AUTONOMOUS = false; //It's not final because this value will change.
 	public static final String DYNAMIC_AUTONOMOUS_RECORDING_PATH_FOLDER =
 			"/home/lvuser/frc/dynamicauto/gostraight/v1";
 	public static final boolean PLAYING_DYNAMIC_AUTONOMOUS = false;
@@ -102,28 +103,30 @@ public class Robot extends IterativeRobot {
 		//Initialize motors
 		leftFront = new TalonSRX(RobotMap.LEFT_FRONT_TALON_SRX_CAN_DEVICE_ID);
 		leftBack = new TalonSRX(RobotMap.LEFT_BACK_TALON_SRX_CAN_DEVICE_ID);
-		//leftFront.follow(leftBack);
-		//leftFront.set(ControlMode.Follower, leftBack.getDeviceID());
+		//leftBack.follow(leftFront); //leftFront has an encoder
+		
 		rightFront = new TalonSRX(RobotMap.RIGHT_FRONT_TALON_SRX_CAN_DEVICE_ID);
 		rightBack = new TalonSRX(RobotMap.RIGHT_BACK_TALON_SRX_CAN_DEVICE_ID);
-		rightFront.follow(rightBack); //rightFront will do what rightBack does, since rightBack has an encoder.
+		//rightBack.follow(rightFront); //rightFront has an encoder
 		elevatorMotorOne = new TalonSRX(RobotMap.LIFT_MOTOR_1);
 		elevatorMotorTwo = new TalonSRX(RobotMap.LIFT_MOTOR_2);
 		
 		rightArm = new Spark(RobotMap.RIGHT_ARM);
 		leftArm = new Spark(RobotMap.LEFT_ARM);
 		
-		intakeAngleMotor = new Spark(RobotMap.INTAKE_ANGLE_MOTOR);
+		intakeAngleMotor = new TalonSRX(RobotMap.INTAKE_ANGLE_MOTOR);
 		
 		supportPiston = new Solenoid(RobotMap.PCM_MODULE, RobotMap.SUPPORT_PISTON);
 		mainPistons = new DoubleSolenoid(RobotMap.PCM_MODULE, RobotMap.FORWARD_PISTON_PORT, RobotMap.REVERSE_PISTON_PORT);
-		
+		Compressor compressor =  new Compressor(RobotMap.PCM_MODULE);
+		compressor.start();
+		 
 		//Initializing joystick
 		driveController = new Joystick(RobotMap.DRIVE_STICK_PORT);
 		auxController = new Joystick(RobotMap.AUX_STICK_PORT);
 		
 		//Give pigeonGyro value.
-		gyro = new PigeonIMU(rightFront); //the gyro is plugged into the rightFront motor controller.
+		//gyro = new PigeonIMU(rightBack); //the gyro is plugged into the rightBack motor controller.
 		
 		
 		teleopDrive = new TeleopGameDrive();
@@ -134,6 +137,8 @@ public class Robot extends IterativeRobot {
 		dynamicAutonomousTimer = new Timer();
 		dynamicAutonomousRightDrive = new LinkedHashMap<Double, Double>();
 		dynamicAutonomousLeftDrive = new LinkedHashMap<Double, Double>();
+		
+		time = new Timer();
 		
 		UsbCamera frontCamera = CameraServer.getInstance().startAutomaticCapture(0);
 		UsbCamera backCamera = CameraServer.getInstance().startAutomaticCapture(1);
@@ -201,6 +206,8 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit()
 	{
 		autoDrive.init();
+		time.reset();
+		time.start();
 	}
 
 	@Override
@@ -218,7 +225,21 @@ public class Robot extends IterativeRobot {
 			leftBack.set(ControlMode.PercentOutput, 0.15);
 			rightFront.set(ControlMode.PercentOutput, 0.15);
 		}*/
-		autoDrive.periodic();
+		//autoDrive.periodic();
+		if (time.get() < 2.45)
+		{
+			leftFront.set(ControlMode.PercentOutput, 0.5);
+			leftBack.set(ControlMode.PercentOutput, 0.5);
+			rightFront.set(ControlMode.PercentOutput, -0.5);
+			rightBack.set(ControlMode.PercentOutput, -0.5);
+		}
+		else
+		{
+			leftFront.set(ControlMode.PercentOutput, 0);
+			leftBack.set(ControlMode.PercentOutput, 0);
+			rightFront.set(ControlMode.PercentOutput, 0);
+			rightBack.set(ControlMode.PercentOutput, 0);
+		}
 	}
 
 	@Override
@@ -234,9 +255,10 @@ public class Robot extends IterativeRobot {
 		peripherals.periodic();
 		
 		SmartDashboard.putNumber("elevatorMotorQuadPos", Robot.elevatorMotorOne.getSensorCollection().getQuadraturePosition());
-		SmartDashboard.putNumber("rightDriveQuadPos", Robot.rightBack.getSensorCollection().getQuadraturePosition());
-		SmartDashboard.putNumber("leftDriveQuadPos", Robot.leftBack.getSensorCollection().getQuadraturePosition());
-		
+		SmartDashboard.putNumber("rightDriveQuadPos", Robot.rightFront.getSensorCollection().getQuadraturePosition());
+		SmartDashboard.putNumber("leftDriveQuadPos", Robot.leftFront.getSensorCollection().getQuadraturePosition());
+		SmartDashboard.putNumber("intakeAngleMotorQuadPos", Robot.intakeAngleMotor.getSensorCollection().getQuadraturePosition());
+		//SmartDashboard.putNumber("gyro", getRawYaw());
 		/*
 		double leftYStick = -1.0 * driveController.getRawAxis(1);
 		
@@ -335,7 +357,7 @@ public class Robot extends IterativeRobot {
 		
 	}
 	
-	public static double getYaw()
+	/*public static double getYaw()
 	{
 		/*
 		 * The yaw returned by the gyro goes negative when turning clockwise (right),
@@ -349,7 +371,7 @@ public class Robot extends IterativeRobot {
 		 * from -180 to +180, with negative being clockwise, and positive being counterclockwise.
 		 */
 		
-		double rawYaw = getRawYaw();
+		/*double rawYaw = getRawYaw();
 		rawYaw %= 360;
 		if (Math.abs(rawYaw) <= 180)
 			return rawYaw;
@@ -363,14 +385,14 @@ public class Robot extends IterativeRobot {
 		
 		
 			
-	}
+	}*/
 	
-	public static double getRawYaw()
+	/*public static double getRawYaw()
 	{
 		double [] ypr = new double[3];
 		gyro.getYawPitchRoll(ypr);
 		return ypr[0];
-	}
+	}*/
 	
 	private static void addData(HashMap<Double, Double> map, double time, double input)
 	{
