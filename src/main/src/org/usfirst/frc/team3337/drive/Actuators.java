@@ -29,7 +29,8 @@ public class Actuators
 	
 	
 	DigitalInput limitSwitch;
-	JoystickButton bButton, xButton, yButton, leftBumper, rightBumper/*triggerButton, thumbButton*/;
+	//JoystickButton bButton, xButton, yButton, leftBumper, rightBumper/*triggerButton, thumbButton*/;
+	JoystickButton intakeInButton, intakeOutButton, solenoidButton;
 	SolenoidStage pneumaticStage;
 	ToggleButton aToggle;
 	
@@ -42,11 +43,16 @@ public class Actuators
 	public Actuators()
 	{
 		//aToggle =  new ToggleButton(new JoystickButton(Robot.auxController, 1));
-		bButton = new JoystickButton(Robot.auxController, 2);
+		/*bButton = new JoystickButton(Robot.auxController, 2);
 		xButton = new JoystickButton(Robot.auxController, 3);
 		yButton = new JoystickButton(Robot.auxController, 4);
 		leftBumper = new JoystickButton(Robot.auxController, 5);
-		rightBumper = new JoystickButton(Robot.auxController, 6);
+		rightBumper = new JoystickButton(Robot.auxController, 6);*/
+		
+		intakeInButton = new JoystickButton(Robot.auxController, 3);
+		intakeOutButton = new JoystickButton(Robot.auxController, 1);
+		solenoidButton = new JoystickButton(Robot.auxController, 2);
+		
 		
 		pneumaticStage = SolenoidStage.NONE;
 		
@@ -75,19 +81,22 @@ public class Actuators
 	
 	public void periodic()
 	{
-		double elevatorUpTrigger = Robot.auxController.getRawAxis(RobotMap.ELEVATOR_UP);
-		double elevatorDownTrigger = Robot.auxController.getRawAxis(RobotMap.ELEVATOR_DOWN);
+		//double elevatorUpTrigger = Robot.auxController.getRawAxis(RobotMap.ELEVATOR_UP);
+		//double elevatorDownTrigger = Robot.auxController.getRawAxis(RobotMap.ELEVATOR_DOWN);
+		//double elevatorUpTrigger = Robot.auxController.getRawAxis();
+		//double elevatorDownTrigger = Robot.auxController.getRawAxis();
 		int elevatorPosition = Robot.elevatorMotorOne.getSensorCollection().getQuadraturePosition();
 		
-		if (bButton.get())
+		if (intakeInButton.get()) //Formerly the B Button
 			setIntake(1);
-		else if (xButton.get())
+		else if (intakeOutButton.get()) //Formerly the X Button
 			setIntake(-1);
 		else
 			setIntake(0);
 		
 		
-		Robot.intakeAngleMotor.set(ControlMode.PercentOutput, -0.5 * Robot.auxController.getRawAxis(1)); //joyLY
+		//Robot.intakeAngleMotor.set(ControlMode.PercentOutput, -0.5 * Robot.auxController.getRawAxis(1)); //joyLY
+		Robot.intakeAngleMotor.set(ControlMode.PercentOutput, 0.5 * Robot.auxController.getRawAxis(1));
 		
 		/*
 		 * if (aToggle.justPressed())
@@ -122,7 +131,7 @@ public class Actuators
 		 */
 		
 		
-		if (elevatorUpTrigger > 0)
+		/*if (elevatorUpTrigger > 0)
 		{
 			if (elevatorPosition < MAX_ROTATIONS)
 				driveLift(elevatorUpTrigger);
@@ -135,13 +144,14 @@ public class Actuators
 				driveLift(-elevatorDownTrigger);
 			else
 				driveLift(0);
-		}
+		}*/
 		/*else if (Robot.auxController.getRawAxis(RobotMap.ELEVATOR_UP) > 0)
 			driveLift(Robot.auxController.getRawAxis(RobotMap.ELEVATOR_UP));
 		else 
 			driveLift(-Robot.auxController.getRawAxis(RobotMap.ELEVATOR_DOWN));*/
 		
-		if (yButton.get())
+		//if (yButton.get())
+		if (solenoidButton.get())
 		{
 			if (!solenoidButtonPressed)
 				pneumaticStage = pneumaticStage.getNext();

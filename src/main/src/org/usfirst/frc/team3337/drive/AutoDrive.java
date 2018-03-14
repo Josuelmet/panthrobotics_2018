@@ -24,11 +24,11 @@ public class AutoDrive extends Drive
 	AutoInitialPosition autoInitialPosition;
 	SendableChooser<AutoChoice> autoChooser;
 	SendableChooser<AutoInitialPosition> positionChooser;
-	//LinkedHashMap<Double, Double> leftDriveDynamicAutonomous, rightDriveDynamicAutonomous;
+	LinkedHashMap<Double, Double> leftDriveDynamicAutonomous, rightDriveDynamicAutonomous;
 	
 	double previousTime;
 	boolean ourSwitchIsLeft, scaleIsLeft, otherSwitchIsLeft;
-	//boolean dataWasRead;
+	boolean dataWasRead;
 	
 	//Constructor for AutoDrive.
 	public AutoDrive()
@@ -66,10 +66,8 @@ public class AutoDrive extends Drive
 	//Method to be run in autonomousPeriodic() in Robot.java
 	public void periodic()
 	{
-		//String dynamicAutonomousPath = "" + Robot.DYNAMIC_AUTONOMOUS_BASE_FOLDER;
-		String gameData;
-		
-		//double roundedTime = Robot.dynamicAutonomousTimer.get() - (Robot.dynamicAutonomousTimer.get() % 0.01);
+		String dynamicAutonomousPath = "" + Robot.DYNAMIC_AUTONOMOUS_BASE_FOLDER;
+		double roundedTime = Robot.dynamicAutonomousTimer.get() - (Robot.dynamicAutonomousTimer.get() % 0.01);
 		
 		/*The method below returns a string of three characters decided by the competition management system.
 		 *The three characters represent where our alliance's switch/scale ports are.
@@ -79,27 +77,29 @@ public class AutoDrive extends Drive
 		 *	Third character = other alliance's switch
 		 *If a character is 'L', the component referenced is to the left; if 'R', to the right.
 		 */
+		
+		autoChoice = autoChooser.getSelected();
+		autoInitialPosition = positionChooser.getSelected();
+		
+		String gameData;
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
 		
-		ourSwitchIsLeft = gameData.charAt(0) == 'L';
-		scaleIsLeft = gameData.charAt(1) == 'L';
-		otherSwitchIsLeft = gameData.charAt(2) == 'L';
+		ourSwitchIsLeft = true; //gameData.charAt(0) == 'L';
+		scaleIsLeft = true; //gameData.charAt(1) == 'L';
+		otherSwitchIsLeft = true; //gameData.charAt(2) == 'L';
 		
-		//TODO: figure out why left encoder isn't working
-		//TODO: figure out why left side won't follow
-		//TODO: configure PID with driving
 		switch (autoChoice)
 		{
 		case GO_STRAIGHT:
 		default:
-			/*if (Robot.PLAYING_DYNAMIC_AUTONOMOUS)
+			if (Robot.PLAYING_DYNAMIC_AUTONOMOUS)
 			{
 				dynamicAutonomousPath += "/gostraight" + Robot.DYNAMIC_AUTONOMOUS_PLAY_VERSION;
 				/*
 				 * 1) Gather data ONCE
 				 * 2) At every time t, get the input from the data and apply it.
 				 */
-				/*if (roundedTime != previousTime) //This saves memory consumption from constantly checking the Map.
+				if (roundedTime != previousTime) //This saves memory consumption from constantly checking the Map.
 				{
 					driveLeft(leftDriveDynamicAutonomous.get(new Double(roundedTime)));
 					driveRight(rightDriveDynamicAutonomous.get(new Double(roundedTime)));
@@ -112,13 +112,18 @@ public class AutoDrive extends Drive
 				}
 			}
 			else
-			{*/
+			{
 				if (Robot.dynamicAutonomousTimer.get() < 5)
 				{
-					driveLeft(0.4);
-					driveRight(0.4);
+					//Competition code
+					//driveLeft(0.4);
+					//driveRight(0.4);
+					
+					Robot.rightFront.set(ControlMode.PercentOutput, 0.4);
 				}
-			//}
+				else
+					Robot.rightFront.set(ControlMode.PercentOutput, 0);
+			}
 			break;
 		case OUR_SWITCH:
 			switch (autoInitialPosition)

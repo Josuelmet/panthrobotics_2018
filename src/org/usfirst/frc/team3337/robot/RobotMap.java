@@ -12,10 +12,10 @@ public class RobotMap
 	public final static int PIGEON_IMU_CAN_DEVICE_ID = 2; //Pigeon Gyro CAN ID.
 	
 	//CAN Motors
-	public final static int LEFT_FRONT_TALON_SRX_CAN_DEVICE_ID = 1; //Yellow; has encoder
-	public final static int LEFT_BACK_TALON_SRX_CAN_DEVICE_ID = 2; //Purple
-	public final static int RIGHT_FRONT_TALON_SRX_CAN_DEVICE_ID = 3; //Orange; has encoder
-	public final static int RIGHT_BACK_TALON_SRX_CAN_DEVICE_ID = 4; //Blue; has gyro
+	public final static int LEFT_FRONT_TALON_SRX_CAN_DEVICE_ID = 1; //Yellow; Competition bot has encoder
+	public final static int LEFT_BACK_TALON_SRX_CAN_DEVICE_ID = 2; //Purple; Practice bot has encoder
+	public final static int RIGHT_FRONT_TALON_SRX_CAN_DEVICE_ID = 3; //Orange; Competition bot has encoder
+	public final static int RIGHT_BACK_TALON_SRX_CAN_DEVICE_ID = 4; //Blue; Practice bot has encoder; Competition bot has gyro
 	public final static int LIFT_MOTOR_1 = 5; //has encoder
 	public final static int LIFT_MOTOR_2 = 6;
 	public final static int INTAKE_ANGLE_MOTOR = 7;

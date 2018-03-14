@@ -11,6 +11,7 @@ import java.util.LinkedHashMap;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 
 //We're using these other program files below for their functions.
 
@@ -71,16 +72,16 @@ public class Robot extends IterativeRobot {
 	
 	StringBuilder rbSB, lbSB, lfSB;
 	
-	int timeoutMs = 100;
-	int slotIdx = 0;
-	int pidIdx = 1;
+	int kTimeoutMs = 100;
+	int kSlotIdx = 0;
+	int kPIDLoopIdx = 1;
 	int loops = 0;
 	
 	
 	
 	//IMPORTANT CODE!!!! PAY ATTENTION!!!!
 	/**************************************************************/
-	public static boolean RECORDING_DYNAMIC_AUTONOMOUS = false; //It's not final because this value will change.
+	public static boolean RECORDING_DYNAMIC_AUTONOMOUS = true; //It's not final because this value will change.
 	public static final String DYNAMIC_AUTONOMOUS_RECORDING_PATH_FOLDER =
 			"/home/lvuser/frc/dynamicauto/gostraight/v1";
 	public static final boolean PLAYING_DYNAMIC_AUTONOMOUS = false;
@@ -105,12 +106,19 @@ public class Robot extends IterativeRobot {
 		leftBack = new TalonSRX(RobotMap.LEFT_BACK_TALON_SRX_CAN_DEVICE_ID);
 		//leftBack.follow(leftFront); //leftFront has an encoder
 		
-		rightFront = new TalonSRX(RobotMap.RIGHT_FRONT_TALON_SRX_CAN_DEVICE_ID);
-		rightBack = new TalonSRX(RobotMap.RIGHT_BACK_TALON_SRX_CAN_DEVICE_ID);
+		//rightFront = new TalonSRX(RobotMap.RIGHT_FRONT_TALON_SRX_CAN_DEVICE_ID);
+		//rightBack = new TalonSRX(RobotMap.RIGHT_BACK_TALON_SRX_CAN_DEVICE_ID);
 		//rightBack.follow(rightFront); //rightFront has an encoder
-		elevatorMotorOne = new TalonSRX(RobotMap.LIFT_MOTOR_1);
-		elevatorMotorTwo = new TalonSRX(RobotMap.LIFT_MOTOR_2);
+		//elevatorMotorOne = new TalonSRX(RobotMap.LIFT_MOTOR_1);
+		//elevatorMotorTwo = new TalonSRX(RobotMap.LIFT_MOTOR_2);
 		
+		/* Practice bot code */
+		rightFront = new TalonSRX(RobotMap.LIFT_MOTOR_1);
+	    rightBack = new TalonSRX(RobotMap.LIFT_MOTOR_2);
+	    rightBack.follow(rightFront);
+	    rightFront.setInverted(true);
+	    /*Practice bot code*/
+	    
 		rightArm = new Spark(RobotMap.RIGHT_ARM);
 		leftArm = new Spark(RobotMap.LEFT_ARM);
 		
@@ -147,6 +155,37 @@ public class Robot extends IterativeRobot {
 		rbSB = new StringBuilder();
 		lbSB = new StringBuilder();
 		lfSB = new StringBuilder();
+		
+		
+		//Motion magic things: works as of Wednesday, 3/14
+		/* first choose the sensor */
+		//rightFront.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,
+		//kPIDLoopIdx, kTimeoutMs);
+		//rightFront.setSensorPhase(true);
+		/* Set relevant frame periods to be at least as fast as periodic rate*/
+		//rightFront.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10,
+		//kTimeoutMs);
+		//rightFront.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10,
+		//kTimeoutMs);
+		/* set the peak and nominal outputs */
+		/*rightFront.configNominalOutputForward(0, kTimeoutMs);
+		rightFront.configNominalOutputReverse(0, kTimeoutMs);
+		rightFront.configPeakOutputForward(0.5, kTimeoutMs);
+		rightFront.configPeakOutputReverse(-0.5, kTimeoutMs);*/
+		/* set closed loop gains in slot0 - see documentation */
+		/*rightFront.selectProfileSlot(kSlotIdx, kPIDLoopIdx);
+		rightFront.config_kF(0, 0.2, kTimeoutMs);
+		rightFront.config_kP(0, 0.2, kTimeoutMs);
+		rightFront.config_kI(0, 0, kTimeoutMs);
+		rightFront.config_kD(0, 0, kTimeoutMs);*/
+		/* set acceleration and vcruise velocity - see documentation */
+		/*rightFront.configMotionCruiseVelocity(15000, kTimeoutMs);
+		rightFront.configMotionAcceleration(6000, kTimeoutMs);*/
+		/* zero the sensor */
+		//rightFront.setSelectedSensorPosition(0, kPIDLoopIdx, kTimeoutMs);
+
+		
+		
 		
 		/* first choose the sensor */
 		/*rightBack.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, pidIdx, timeoutMs); //TODO: MAYBE CHANGE LAST TWO VALUES?
@@ -226,7 +265,10 @@ public class Robot extends IterativeRobot {
 			rightFront.set(ControlMode.PercentOutput, 0.15);
 		}*/
 		//autoDrive.periodic();
-		if (time.get() < 1.5)
+		rightFront.set(ControlMode.PercentOutput, 0.5);
+		
+		//Competition autonomous
+		/*if (time.get() < 1.5)
 		{
 			leftFront.set(ControlMode.PercentOutput, 0.5);
 			leftBack.set(ControlMode.PercentOutput, 0.5);
@@ -239,7 +281,24 @@ public class Robot extends IterativeRobot {
 			leftBack.set(ControlMode.PercentOutput, 0);
 			rightFront.set(ControlMode.PercentOutput, 0);
 			rightBack.set(ControlMode.PercentOutput, 0);
+		}*/
+		
+		//Motion magic testing: works as of Wednesday, 3/14
+		/*int pos = rightFront.getSensorCollection().getQuadraturePosition();
+		if (false)
+		{
+			if (pos > 1000)
+				rightFront.set(ControlMode.PercentOutput, -0.5);
+			else if (pos < -1000)
+				rightFront.set(ControlMode.PercentOutput, 0.5);
+			else
+				rightFront.set(ControlMode.PercentOutput, 0);
 		}
+		else
+			rightFront.set(ControlMode.MotionMagic, 10000);
+		System.out.println(pos);*/
+		
+		
 	}
 
 	@Override

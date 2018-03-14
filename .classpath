@@ -20,6 +20,5 @@
 	<classpathentry kind="var" path="navx-mxp"/>
 	<classpathentry kind="lib" path="C:/Users/Panthrobotics/wpilib/user/java/lib/CTRE_Phoenix.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Panthrobotics/wpilib/user/java/lib/CTRE_Phoenix-sources.jar"/>
-	<classpathentry kind="var" path="USERLIBS_DIR/navx_frc.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
