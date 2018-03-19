@@ -88,7 +88,7 @@ public class Actuators
 		int elevatorPosition = Robot.elevatorMotorOne.getSensorCollection().getQuadraturePosition();
 		
 		if (intakeInButton.get()) //Formerly the B Button
-			setIntake(1);
+			setIntake(0.75);
 		else if (intakeOutButton.get()) //Formerly the X Button
 			setIntake(-1);
 		else
