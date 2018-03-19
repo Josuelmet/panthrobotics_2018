@@ -186,6 +186,26 @@ public class Robot extends IterativeRobot {
 
 		
 		
+		//Position control things
+		/* first choose the sensor */
+		rightFront.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, kPIDLoopIdx, kTimeoutMs);
+		rightFront.setSensorPhase(true);
+		/* set the peak and nominal outputs */
+		rightFront.configNominalOutputForward(0, kTimeoutMs);
+		rightFront.configNominalOutputReverse(0, kTimeoutMs);
+		rightFront.configPeakOutputForward(1, kTimeoutMs);
+		rightFront.configPeakOutputReverse(-1, kTimeoutMs);
+		
+		rightFront.config_kF(0, 0.1, kTimeoutMs);
+		rightFront.config_kP(0, 0.1, kTimeoutMs);
+		rightFront.config_kI(0, 0, kTimeoutMs);
+		rightFront.config_kD(0, 0, kTimeoutMs);
+		/* zero the sensor */
+		rightFront.setSelectedSensorPosition(0, kPIDLoopIdx, kTimeoutMs);
+		
+		
+		
+		
 		
 		/* first choose the sensor */
 		/*rightBack.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, pidIdx, timeoutMs); //TODO: MAYBE CHANGE LAST TWO VALUES?
@@ -297,6 +317,22 @@ public class Robot extends IterativeRobot {
 		else
 			rightFront.set(ControlMode.MotionMagic, 10000);
 		System.out.println(pos);*/
+		
+		
+		//Position control testing:
+		int pos = rightFront.getSensorCollection().getQuadraturePosition();
+		if (false)
+		{
+			if (pos > 1000)
+				rightFront.set(ControlMode.PercentOutput, -0.5);
+			else if (pos < -1000)
+				rightFront.set(ControlMode.PercentOutput, 0.5);
+			else
+				rightFront.set(ControlMode.PercentOutput, 0);
+		}
+		else
+			rightFront.set(ControlMode.Position, 10000);
+		System.out.println(pos);	
 		
 		
 	}
