@@ -46,7 +46,6 @@ import main.src.org.usfirst.frc.team3337.drive.Actuators;
 import main.src.org.usfirst.frc.team3337.drive.AutoDrive;
 //3337 packages
 import main.src.org.usfirst.frc.team3337.drive.TeleopGameDrive;
-import main.src.org.usfirst.frc.team3337.drive.TestMeasuring;
 
 //This is our class name. It is a child of IterativeRobot.
 public class Robot extends IterativeRobot {
@@ -56,9 +55,9 @@ public class Robot extends IterativeRobot {
 	public static Actuators peripherals;
 	public static Joystick driveController, auxController;
 	//public static PigeonIMU gyro;
-	public static TalonSRX leftFront, leftBack, rightFront, rightBack, elevatorMotorOne, elevatorMotorTwo, intakeAngleMotor;
+	public static TalonSRX leftFront, leftBack, rightFront, rightBack;//, elevatorMotorOne, elevatorMotorTwo;//, intakeAngleMotor;
 	public static Timer dynamicAutonomousTimer, time;
-	public static Spark rightArm, leftArm;
+	public static Spark rightArm, leftArm, intakeAngleMotor;
 	public static Encoder leftEncoder, rightEncoder;
 	public static Solenoid supportPiston;
 	public static DoubleSolenoid mainPistons;
@@ -67,7 +66,6 @@ public class Robot extends IterativeRobot {
 	private static LinkedHashMap<Double, Double> dynamicAutonomousRightDrive;
 	
 	AutoDrive autoDrive;
-	TestMeasuring testMeasuring;
 	TeleopGameDrive teleopDrive;
 	
 	StringBuilder rbSB, lbSB, lfSB;
@@ -113,16 +111,17 @@ public class Robot extends IterativeRobot {
 		//elevatorMotorTwo = new TalonSRX(RobotMap.LIFT_MOTOR_2);
 		
 		/* Practice bot code */
-		rightFront = new TalonSRX(RobotMap.LIFT_MOTOR_1);
-	    rightBack = new TalonSRX(RobotMap.LIFT_MOTOR_2);
-	    rightBack.follow(rightFront);
-	    rightFront.setInverted(true);
+		rightFront = new TalonSRX(RobotMap.RIGHT_FRONT_TALON_SRX_CAN_DEVICE_ID);
+	    rightBack = new TalonSRX(RobotMap.RIGHT_BACK_TALON_SRX_CAN_DEVICE_ID);
+	    //rightBack.follow(rightFront);
+	    //rightFront.setInverted(true);
 	    /*Practice bot code*/
 	    
 		rightArm = new Spark(RobotMap.RIGHT_ARM);
 		leftArm = new Spark(RobotMap.LEFT_ARM);
 		
-		intakeAngleMotor = new TalonSRX(RobotMap.INTAKE_ANGLE_MOTOR);
+		//intakeAngleMotor = new TalonSRX(RobotMap.INTAKE_ANGLE_MOTOR);
+		intakeAngleMotor = new Spark(RobotMap.INTAKE_ANGLE_MOTOR);
 		
 		supportPiston = new Solenoid(RobotMap.PCM_MODULE, RobotMap.SUPPORT_PISTON);
 		mainPistons = new DoubleSolenoid(RobotMap.PCM_MODULE, RobotMap.FORWARD_PISTON_PORT, RobotMap.REVERSE_PISTON_PORT);
@@ -140,7 +139,6 @@ public class Robot extends IterativeRobot {
 		teleopDrive = new TeleopGameDrive();
 		autoDrive = new AutoDrive();
 		peripherals = new Actuators();
-		testMeasuring = new TestMeasuring();
 		
 		dynamicAutonomousTimer = new Timer();
 		dynamicAutonomousRightDrive = new LinkedHashMap<Double, Double>();
@@ -188,20 +186,20 @@ public class Robot extends IterativeRobot {
 		
 		//Position control things
 		/* first choose the sensor */
-		rightFront.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, kPIDLoopIdx, kTimeoutMs);
-		rightFront.setSensorPhase(true);
+		//rightFront.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, kPIDLoopIdx, kTimeoutMs);
+		//rightFront.setSensorPhase(true);
 		/* set the peak and nominal outputs */
-		rightFront.configNominalOutputForward(0, kTimeoutMs);
-		rightFront.configNominalOutputReverse(0, kTimeoutMs);
-		rightFront.configPeakOutputForward(1, kTimeoutMs);
-		rightFront.configPeakOutputReverse(-1, kTimeoutMs);
+		//rightFront.configNominalOutputForward(0, kTimeoutMs);
+		//rightFront.configNominalOutputReverse(0, kTimeoutMs);
+		//rightFront.configPeakOutputForward(1, kTimeoutMs);
+		//rightFront.configPeakOutputReverse(-1, kTimeoutMs);
 		
-		rightFront.config_kF(0, 0.1, kTimeoutMs);
-		rightFront.config_kP(0, 0.1, kTimeoutMs);
-		rightFront.config_kI(0, 0, kTimeoutMs);
-		rightFront.config_kD(0, 0, kTimeoutMs);
+		//rightFront.config_kF(0, 0.1, kTimeoutMs);
+		//rightFront.config_kP(0, 0.1, kTimeoutMs);
+		//rightFront.config_kI(0, 0, kTimeoutMs);
+		//rightFront.config_kD(0, 0, kTimeoutMs);
 		/* zero the sensor */
-		rightFront.setSelectedSensorPosition(0, kPIDLoopIdx, kTimeoutMs);
+		//rightFront.setSelectedSensorPosition(0, kPIDLoopIdx, kTimeoutMs);
 		
 		
 		
@@ -321,7 +319,7 @@ public class Robot extends IterativeRobot {
 		
 		//Position control testing:
 		int pos = rightFront.getSensorCollection().getQuadraturePosition();
-		if (false)
+		if (true)
 		{
 			if (pos > 1000)
 				rightFront.set(ControlMode.PercentOutput, -0.5);
@@ -349,10 +347,10 @@ public class Robot extends IterativeRobot {
 		teleopDrive.periodic();
 		peripherals.periodic();
 		
-		SmartDashboard.putNumber("elevatorMotorQuadPos", Robot.elevatorMotorOne.getSensorCollection().getQuadraturePosition());
+		//SmartDashboard.putNumber("elevatorMotorQuadPos", Robot.elevatorMotorOne.getSensorCollection().getQuadraturePosition());
 		SmartDashboard.putNumber("rightDriveQuadPos", Robot.rightFront.getSensorCollection().getQuadraturePosition());
 		SmartDashboard.putNumber("leftDriveQuadPos", Robot.leftFront.getSensorCollection().getQuadraturePosition());
-		SmartDashboard.putNumber("intakeAngleMotorQuadPos", Robot.intakeAngleMotor.getSensorCollection().getQuadraturePosition());
+		//SmartDashboard.putNumber("intakeAngleMotorQuadPos", Robot.intakeAngleMotor.getSensorCollection().getQuadraturePosition());
 		//SmartDashboard.putNumber("gyro", getRawYaw());
 		/*
 		double leftYStick = -1.0 * driveController.getRawAxis(1);
@@ -547,6 +545,5 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic()
 	{
-		testMeasuring.periodic();
 	}
 }

@@ -73,11 +73,11 @@ public class Actuators
 		Robot.leftArm.set(velocity);
 	}
 	
-	public void driveLift(double velocity)
+	/*public void driveLift(double velocity)
 	{
 		Robot.elevatorMotorOne.set(ControlMode.PercentOutput, -velocity);
 		Robot.elevatorMotorTwo.set(ControlMode.PercentOutput, -velocity);
-	}
+	}*/
 	
 	public void periodic()
 	{
@@ -85,10 +85,10 @@ public class Actuators
 		//double elevatorDownTrigger = Robot.auxController.getRawAxis(RobotMap.ELEVATOR_DOWN);
 		//double elevatorUpTrigger = Robot.auxController.getRawAxis();
 		//double elevatorDownTrigger = Robot.auxController.getRawAxis();
-		int elevatorPosition = Robot.elevatorMotorOne.getSensorCollection().getQuadraturePosition();
+		//int elevatorPosition = Robot.elevatorMotorOne.getSensorCollection().getQuadraturePosition();
 		
 		if (intakeInButton.get()) //Formerly the B Button
-			setIntake(1);
+			setIntake(0.6);
 		else if (intakeOutButton.get()) //Formerly the X Button
 			setIntake(-1);
 		else
@@ -96,7 +96,8 @@ public class Actuators
 		
 		
 		//Robot.intakeAngleMotor.set(ControlMode.PercentOutput, -0.5 * Robot.auxController.getRawAxis(1)); //joyLY
-		Robot.intakeAngleMotor.set(ControlMode.PercentOutput, 0.5 * Robot.auxController.getRawAxis(1));
+		Robot.intakeAngleMotor.set(0.5 * Robot.auxController.getRawAxis(1));
+		//Robot.intakeAngleMotor.set(0.6);// * Robot.auxController.getRawAxis(1));
 		
 		/*
 		 * if (aToggle.justPressed())
